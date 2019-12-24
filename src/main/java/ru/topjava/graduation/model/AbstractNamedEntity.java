@@ -4,6 +4,13 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     private String name;
 
+    protected AbstractNamedEntity() {
+    }
+
+    protected AbstractNamedEntity(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

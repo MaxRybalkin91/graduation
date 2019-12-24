@@ -1,9 +1,18 @@
 package ru.topjava.graduation.model;
 
-import java.util.Date;
-import java.util.Set;
+import org.springframework.util.CollectionUtils;
 
+import javax.persistence.*;
+import java.util.*;
+
+@Entity
+@Table(name = "users")
 public class User extends AbstractNamedEntity {
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     private String email;
 
@@ -13,7 +22,8 @@ public class User extends AbstractNamedEntity {
 
     private Date registered;
 
-    private Set<Role> roles;
+    public User() {
+    }
 
     public String getEmail() {
         return email;
@@ -51,7 +61,11 @@ public class User extends AbstractNamedEntity {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Role... roles) {
+        setRoles(Arrays.asList(roles));
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 }

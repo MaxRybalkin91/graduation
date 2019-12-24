@@ -1,8 +1,15 @@
 package ru.topjava.graduation.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
+@Entity
+@Table(name = "restaurant_meals")
 public class Meal extends AbstractNamedEntity {
+
+    public Meal() {
+    }
 
     private Integer price;
 
