@@ -16,8 +16,8 @@ public class MealController {
     private MealRepo repository;
 
     @GetMapping
-    public String getAll(Map<String, Object> model) {
-        Iterable<Meal> meals = repository.findAll();
+    public String getAll(@RequestParam Integer id, Map<String, Object> model) {
+        Iterable<Meal> meals = repository.findByRestaurantId(id);
         model.put("meals", meals);
         return "meals";
     }
@@ -29,7 +29,7 @@ public class MealController {
                        Map<String, Object> model) {
         Meal meal = new Meal(description, price, restaurant);
         repository.save(meal);
-        getAll(model);
+        getAll(restaurant.getId(), model);
     }
 
     @PutMapping
@@ -40,8 +40,10 @@ public class MealController {
     }
 
     @DeleteMapping
-    public void delete(@RequestParam Integer id, Map<String, Object> model) {
+    public void delete(@RequestParam Integer id,
+                       @RequestParam Restaurant restaurant,
+                       Map<String, Object> model) {
         repository.deleteById(id);
-        getAll(model);
+        getAll(restaurant.getId(), model);
     }
 }

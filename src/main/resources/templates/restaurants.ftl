@@ -1,18 +1,23 @@
+<#include "parts/security.ftl">
 <#import "parts/common.ftl" as c>
-<#import "parts/login.ftl" as l>
 
 <@c.page>
-    <div>
-        <@l.logout />
+    <div class="card-columns">
+        <#list restaurants as restaurant>
+            <div class="card my-3">
+                <div class="m-2">
+                    <input type="hidden" id="${restaurant.id}" name="id">
+                    <span>${restaurant.name}</span>
+                    <i>${restaurant.address}</i>
+                    <i>${restaurant.votes}</i>
+                    <#if isAdmin>
+                        <td><a href="/restaurants/${restaurant.id}">edit</a></td>
+                        <td><a href="/restaurants/${restaurant.id}">delete</a></td>
+                    </#if>
+                </div>
+            </div>
+        <#else>
+            No message
+        </#list>
     </div>
-    <div>Список ресторанов</div>
-    <#list restaurants as restaurant>
-        <div>
-            <b>${restaurant.id}</b>
-            <span>${restaurant.name}</span>
-            <span>${restaurant.address}</span>
-        </div>
-    <#else>
-        No message
-    </#list>
 </@c.page>
