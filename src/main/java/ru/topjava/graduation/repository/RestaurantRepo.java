@@ -5,9 +5,10 @@ import ru.topjava.graduation.model.Restaurant;
 
 import java.util.List;
 
-public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {
+public interface RestaurantRepo extends CrudRepository<Restaurant, Long> {
+
+    List<Restaurant> findByName(String name);
 
     List<Restaurant> findByAddress(String address);
 
-    List<Restaurant> findByName(String name);
 }

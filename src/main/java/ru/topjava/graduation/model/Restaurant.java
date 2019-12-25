@@ -1,27 +1,43 @@
 package ru.topjava.graduation.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "restaurants")
-public class Restaurant extends AbstractNamedEntity {
+public class Restaurant {
 
-    private Integer votes = 0;
-    private Date registered;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private String name;
     private String address;
+    private LocalDateTime registered = LocalDateTime.now();
+    private Integer votes;
 
     public Restaurant() {
     }
 
     public Restaurant(String name, String address) {
-        super(name);
+        this.name = name;
         this.address = address;
     }
 
-    private Date voteDate;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getAddress() {
         return address;
@@ -31,27 +47,15 @@ public class Restaurant extends AbstractNamedEntity {
         this.address = address;
     }
 
+    public LocalDateTime getRegistered() {
+        return registered;
+    }
+
     public Integer getVotes() {
         return votes;
     }
 
-    public void setVotes(Integer votes) {
-        this.votes = votes;
-    }
-
-    public Date getRegistered() {
-        return registered;
-    }
-
-    public void setRegistered(Date registered) {
-        this.registered = registered;
-    }
-
-    public Date getVoteDate() {
-        return voteDate;
-    }
-
-    public void setVoteDate(Date voteDate) {
-        this.voteDate = voteDate;
+    public void increaseVote() {
+        this.votes++;
     }
 }

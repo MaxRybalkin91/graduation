@@ -1,36 +1,41 @@
 package ru.topjava.graduation.model;
 
-import org.springframework.util.CollectionUtils;
-
 import javax.persistence.*;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends AbstractNamedEntity {
-
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String username;
+    private String password;
+    private boolean isEnabled = true;
+    private LocalDateTime registered = LocalDateTime.now();
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-
-    private String email;
-
-    private String password;
-
-    private boolean enabled = true;
-
-    private Date registered;
 
     public User() {
     }
 
-    public String getEmail() {
-        return email;
+    public Long getId() {
+        return id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -42,30 +47,22 @@ public class User extends AbstractNamedEntity {
     }
 
     public boolean isEnabled() {
-        return enabled;
+        return isEnabled;
     }
 
     public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Date getRegistered() {
-        return registered;
-    }
-
-    public void setRegistered(Date registered) {
-        this.registered = registered;
+        this.isEnabled = enabled;
     }
 
     public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Role... roles) {
-        setRoles(Arrays.asList(roles));
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    public LocalDateTime getRegistered() {
+        return registered;
     }
 }

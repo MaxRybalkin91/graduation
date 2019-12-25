@@ -1,40 +1,41 @@
-package ru.topjava.graduation.web.user;
+package ru.topjava.graduation.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 import ru.topjava.graduation.model.Role;
 import ru.topjava.graduation.model.User;
-import ru.topjava.graduation.repository.UserRepository;
+import ru.topjava.graduation.repository.UserRepo;
 import ru.topjava.graduation.util.ErrorMessageUtil;
 
+import java.util.Collections;
 import java.util.Map;
 
-@RestController
-public class ProfileController {
+@Controller
+public class RegistrationController {
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private ErrorMessageUtil messageUtil;
 
-    @Autowired
-    private UserRepository repository;
-
     @GetMapping("/registration")
-    public String register() {
+    public String registration() {
         return "registration";
     }
 
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
-        if (repository.findByName(user.getName()) != null) {
+        User userFromDb = userRepo.findByUsername(user.getUsername());
+
+        if (userFromDb != null) {
             model.put("message", messageUtil.getExistedUserName());
             return "registration";
         }
 
-        user.setRoles(Role.ROLE_USER);
-        repository.save(user);
-
+        user.setRoles(Collections.singleton(Role.USER));
+        userRepo.save(user);
         return "redirect:/login";
     }
 }
