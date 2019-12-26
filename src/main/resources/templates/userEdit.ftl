@@ -3,8 +3,7 @@
 <@c.page>
     User editor
 
-    <form action="/user" method="post">
-        <input type="text" name="username" value="${user.username}">
+    <form action="/users" method="post">
         <input type="text" name="username" value="${user.username}">
         <#list roles as role>
             <div>
@@ -16,4 +15,5 @@
         <input type="hidden" value="${_csrf.token}" name="_csrf">
         <button type="submit">Save</button>
     </form>
+    <button type="submit"><a href="/users/delete/${user.id}"/>Delete</button>
 </@c.page>

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.topjava.graduation.model.Role;
 import ru.topjava.graduation.model.User;
-import ru.topjava.graduation.repository.UserRepo;
+import ru.topjava.graduation.repository.UserRepository;
 
 import java.util.Collections;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepo;
 
     @GetMapping("/registration")
     public String registration(@ModelAttribute("message") String message) {
