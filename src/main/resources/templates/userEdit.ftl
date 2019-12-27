@@ -15,5 +15,4 @@
         <input type="hidden" value="${_csrf.token}" name="_csrf">
         <button type="submit">Save</button>
     </form>
-    <button type="submit"><a href="/users/delete/${user.id}"/>Delete</button>
 </@c.page>

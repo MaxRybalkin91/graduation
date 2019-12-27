@@ -2,7 +2,6 @@
 
 <@c.page>
     List of users
-
     <table>
         <thead>
         <tr>
@@ -16,7 +15,7 @@
             <tr>
                 <td>${user.username}</td>
                 <td><#list user.roles as role>${role}<#sep>, </#list></td>
-                <td><#if !user.isAdmin()><a href="/users/${user.id}">edit</a></#if></td>
+                <td><#if !user.isAdmin()><a href="/users/${user.id?c}">edit</a></#if></td>
             </tr>
         </#list>
         </tbody>

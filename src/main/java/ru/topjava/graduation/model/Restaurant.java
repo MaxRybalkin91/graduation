@@ -16,9 +16,11 @@ public class Restaurant {
 
     private String address;
 
-    private LocalDateTime registered = LocalDateTime.now();
+    private LocalDateTime registered;
 
     private Integer votes;
+
+    private boolean isEnabled;
 
     public Restaurant() {
     }
@@ -78,5 +80,13 @@ public class Restaurant {
 
     public void setMeals(List<Meal> meals) {
         this.meals = meals;
+    }
+
+    public boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }

@@ -61,4 +61,8 @@ public class UserService implements UserDetailsService {
         }
         userRepo.save(user);
     }
+
+    public User get(int user_id) {
+        return userRepo.getOne(user_id);
+    }
 }
