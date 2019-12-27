@@ -20,16 +20,16 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public String getAll(Model model) {
+    public String userList(Model model) {
         model.addAttribute("users", userService.findAll());
         return "userList";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{user}")
-    public String editForm(@PathVariable User user, Model model) {
+    public String userEditForm(@PathVariable User user, Model model) {
         if (user.isAdmin()) {
-            return "redirect:/users";
+            return "redirect:/user";
         }
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
@@ -37,20 +37,14 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("delete/{userId}")
-    public String delete(@PathVariable int userId) {
-        userService.deleteById(userId);
-        return "redirect:/users";
-    }
-
     @PostMapping
-    public String save(
+    public String userSave(
             @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
     ) {
-        userService.addUser(username, user, form);
-        return "redirect:/users";
+        userService.save(username, user, form);
+        return "redirect:/user";
     }
 
     @GetMapping("profile")

@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
         userRepo.deleteById(userId);
     }
 
-    public void addUser(String username, User user, Map<String, String> form) {
+    public void save(String username, User user, Map<String, String> form) {
         user.setUsername(username);
 
         Set<String> roles = Arrays.stream(Role.values())
@@ -48,6 +48,11 @@ public class UserService implements UserDetailsService {
                 user.getRoles().add(Role.valueOf(key));
             }
         }
+        userRepo.save(user);
+    }
+
+    public void enable(User user, boolean enabled) {
+        user.setEnabled(enabled);
         userRepo.save(user);
     }
 

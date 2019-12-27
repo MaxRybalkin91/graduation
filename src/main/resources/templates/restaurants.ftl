@@ -12,7 +12,6 @@
                     <i>${restaurant.votes}</i>
                     <#if isAdmin>
                         <td><a href="/restaurants/${restaurant.id}">edit</a></td>
-                        <td><a href="/restaurants/${restaurant.id}">delete</a></td>
                     </#if>
                 </div>
             </div>
