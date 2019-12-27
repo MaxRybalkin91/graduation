@@ -19,11 +19,13 @@ public class User implements UserDetails {
 
     private String email;
 
+    private String activationCode;
+
     private String password;
 
     private boolean isEnabled;
 
-    private LocalDateTime registered;
+    private LocalDateTime registered = LocalDateTime.now();
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -91,6 +93,14 @@ public class User implements UserDetails {
 
     public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     @Override

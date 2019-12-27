@@ -8,15 +8,17 @@ create sequence hibernate_sequence start with 100000;
 
 create table users
 (
-    id         integer            default nextval('hibernate_sequence'),
-    email      varchar   not null,
-    username   varchar   not null,
-    password   varchar   not null,
-    registered timestamp not null default now(),
-    is_enabled boolean   not null default true,
+    id              integer            default nextval('hibernate_sequence'),
+    email           varchar   not null,
+    activation_code varchar            default null,
+    username        varchar   not null,
+    password        varchar   not null,
+    registered      timestamp not null default now(),
+    is_enabled      boolean   not null default true,
     primary key (id)
 );
 create unique index users_unique_email_idx on users (email);
+create unique index users_unique_activation_code_idx on users (email, activation_code);
 
 create table user_role
 (

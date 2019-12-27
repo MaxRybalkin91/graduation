@@ -1,7 +1,7 @@
-insert into users (email, username, password)
-values ('admin@gmail.com', 'admin', 'admin'),
-       ('user@gmail.com', 'user', 'password'),
-       ('user2@gmail.com', 'user2', 'password');
+insert into users (email, username, password, is_enabled)
+values ('admin@gmail.com', 'admin', 'admin', true),
+       ('user@gmail.com', 'user', 'password', true),
+       ('user2@gmail.com', 'user2', 'password', true);
 
 insert into user_role (user_id, roles)
 values (100000, 'ADMIN'),
