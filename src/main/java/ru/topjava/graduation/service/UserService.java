@@ -30,21 +30,20 @@ public class UserService implements UserDetailsService {
         User userFromDb = userRepo.findByUsername(user.getUsername());
         if (userFromDb == null) {
             user.setRoles(Collections.singleton(Role.USER));
-            sendMail(user);
-            userRepo.save(user);
+            sendActivationCode(user);
+            userFromDb = userRepo.save(user);
         }
-        return user;
+        return userFromDb;
     }
 
     public User activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
-
         if (user != null) {
             user.setActivationCode(null);
-            userRepo.save(user);
+            sendLoginAndPassword(user);
+            return userRepo.save(user);
         }
-
-        return user;
+        return null;
     }
 
     public List<User> findAll() {
@@ -77,7 +76,7 @@ public class UserService implements UserDetailsService {
 
         if (isEmailChanged && !StringUtils.isEmpty(email)) {
             user.setEmail(email);
-            sendMail(user);
+            sendActivationCode(user);
         }
 
         if (!StringUtils.isEmpty(password)) {
@@ -87,7 +86,7 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
     }
 
-    private void sendMail(User user) {
+    private void sendActivationCode(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String activationCode = UUID.randomUUID().toString();
             user.setActivationCode(activationCode);
@@ -102,5 +101,18 @@ public class UserService implements UserDetailsService {
 
             mailSender.send(user.getEmail(), "Activation code", message);
         }
+    }
+
+    private void sendLoginAndPassword(User user) {
+        String message = String.format(
+                "You have successfully activated your account! "
+                        + "Here is your settings:\n"
+                        + "Login: " + "%s\n"
+                        + "Password: " + "%s\n",
+                user.getUsername(),
+                user.getPassword()
+        );
+
+        mailSender.send(user.getEmail(), "Information of your account", message);
     }
 }
