@@ -28,7 +28,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model) {
-        if (user.isAdmin()) {
+        if (user.getUsername().equals("admin")) {
             return "redirect:/user";
         }
         model.addAttribute("user", user);
