@@ -27,7 +27,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+        if (Objects.isNull(user)) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
     }
 
     public User addUser(User user) {
@@ -36,7 +40,7 @@ public class UserService implements UserDetailsService {
             user.setRoles(Collections.singleton(Role.USER));
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             sendActivationCode(user);
-            userFromDb = userRepo.save(user);
+            userRepo.save(user);
         }
         return userFromDb;
     }
@@ -45,10 +49,9 @@ public class UserService implements UserDetailsService {
         User user = userRepo.findByActivationCode(code);
         if (user != null) {
             user.setActivationCode(null);
-            sendLoginAndPassword(user);
-            return userRepo.save(user);
+            userRepo.save(user);
         }
-        return null;
+        return user;
     }
 
     public List<User> findAll() {
@@ -106,18 +109,5 @@ public class UserService implements UserDetailsService {
 
             mailSender.send(user.getEmail(), "Activation code", message);
         }
-    }
-
-    private void sendLoginAndPassword(User user) {
-        String message = String.format(
-                "You have successfully activated your account! "
-                        + "Here is your settings:\n"
-                        + "Login: " + "%s\n"
-                        + "Password: " + "%s\n",
-                user.getUsername(),
-                user.getPassword()
-        );
-
-        mailSender.send(user.getEmail(), "Information of your account", message);
     }
 }

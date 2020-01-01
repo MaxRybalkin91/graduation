@@ -1,6 +1,7 @@
 package ru.topjava.graduation.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,15 +13,17 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank(message = "Please fill the name")
     private String name;
 
+    @NotBlank(message = "Please fill the address")
     private String address;
 
-    private LocalDateTime registered;
+    private LocalDateTime registered = LocalDateTime.now();
 
-    private Integer votes;
+    private Integer votes = 0;
 
-    private boolean isEnabled;
+    private boolean isEnabled = true;
 
     public Restaurant() {
     }
