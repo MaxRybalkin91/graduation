@@ -6,12 +6,14 @@
         <#list restaurants as restaurant>
             <div class="card my-3">
                 <div class="m-2">
-                    <input type="hidden" id="${restaurant.id}" name="id">
+                    <#assign rest_id = "${restaurant.id?c}">
+                    <input type="hidden" id="${rest_id}" name="id">
                     <span>${restaurant.name}</span>
                     <i>${restaurant.address}</i>
                     <i>${restaurant.votes}</i>
+                    <td><a href="/restaurants/${rest_id}/vote">Vote</a></td>
                     <#if isAdmin>
-                        <td><a href="/restaurants/${restaurant.id}">edit</a></td>
+                        <td><a href="/restaurants/${rest_id}">Edit</a></td>
                     </#if>
                 </div>
             </div>

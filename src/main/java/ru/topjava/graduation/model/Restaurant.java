@@ -28,7 +28,7 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     private List<Meal> meals;
 
     public Restaurant(String name, String address, List<Meal> meals) {

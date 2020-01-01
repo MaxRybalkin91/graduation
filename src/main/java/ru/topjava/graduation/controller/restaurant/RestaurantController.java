@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.repository.RestaurantRepo;
+import ru.topjava.graduation.service.RestaurantService;
 
 import java.util.Map;
 
@@ -14,11 +14,11 @@ import java.util.Map;
 @RequestMapping(value = "/restaurants")
 public class RestaurantController {
     @Autowired
-    private RestaurantRepo repository;
+    private RestaurantService restaurantService;
 
     @GetMapping
     public String getAll(Map<String, Object> model) {
-        model.put("restaurants", repository.findAll());
+        model.put("restaurants", restaurantService.findAll());
         return "restaurants";
     }
 
@@ -30,10 +30,15 @@ public class RestaurantController {
         return "restaurantEdit";
     }
 
+    @GetMapping("{restaurant}/vote")
+    public String voteForRestaurant(@PathVariable Restaurant restaurant, Model model) {
+        restaurantService.vote(restaurant);
+        return "redirect:/restaurants";
+    }
+
     @PostMapping
     public String restaurantSave(
             @RequestParam String name,
-            @RequestParam Map<String, String> form,
             @RequestParam("restaurantId") Restaurant restaurant
     ) {
         restaurant.setName(name);
