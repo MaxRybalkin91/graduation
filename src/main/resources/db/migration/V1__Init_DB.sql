@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS meals;
 DROP TABLE IF EXISTS restaurants;
 DROP TABLE IF EXISTS user_role;
@@ -16,8 +17,9 @@ CREATE TABLE users
     registered      TIMESTAMP    DEFAULT now() NOT NULL,
     is_enabled      BOOLEAN      DEFAULT TRUE  NOT NULL
 );
-CREATE UNIQUE INDEX users_unique_username_email_idx ON users (username, email);
-CREATE UNIQUE INDEX users_unique_activation_code_idx ON users (email, activation_code);
+CREATE UNIQUE INDEX users_unique_username_idx ON users (username);
+CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
+CREATE UNIQUE INDEX users_unique_activation_code_idx ON users (activation_code);
 
 CREATE TABLE user_role
 (

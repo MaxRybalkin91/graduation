@@ -29,9 +29,9 @@ public class UserController {
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model) {
         if (user.getUsername().equals("admin")) {
-            return "redirect:/user";
+            return "redirect:/users";
         }
-        model.addAttribute("user", user);
+        model.addAttribute("users", user);
         model.addAttribute("roles", Role.values());
         return "userEdit";
     }
@@ -44,7 +44,7 @@ public class UserController {
             @RequestParam("userId") User user
     ) {
         userService.saveUser(user, username, form);
-        return "redirect:/user";
+        return "redirect:/users";
     }
 
     @GetMapping("profile")
@@ -54,13 +54,13 @@ public class UserController {
         return "profile";
     }
 
-    @PutMapping("profile")
+    @PostMapping("profile")
     public String updateProfile(
             @AuthenticationPrincipal User user,
             @RequestParam String password,
             @RequestParam String email
     ) {
         userService.updateProfile(user, password, email);
-        return "redirect:/user/profile";
+        return "redirect:/users/profile";
     }
 }

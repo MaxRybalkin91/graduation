@@ -23,7 +23,7 @@
             </#if>
             <#if user??>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/profile">Edit my profile</a>
+                    <a class="nav-link" href="/users/profile">Edit my profile</a>
                 </li>
             </#if>
         </ul>
