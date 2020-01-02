@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.repository.MealRepo;
+import ru.topjava.graduation.repository.MealRepository;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 @RequestMapping(value = "/meals")
 public class MealController {
     @Autowired
-    private MealRepo repository;
+    private MealRepository repository;
 
     @GetMapping
     public String getAll(@RequestParam Integer id, Map<String, Object> model) {

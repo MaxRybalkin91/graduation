@@ -3,6 +3,7 @@ package ru.topjava.graduation.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,15 +22,16 @@ public class Restaurant {
 
     private LocalDateTime registered = LocalDateTime.now();
 
-    private Integer votes = 0;
-
     private boolean isEnabled = true;
 
     public Restaurant() {
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Meal> meals;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    private List<Vote> voteList;
 
     public Restaurant(String name, String address, List<Meal> meals) {
         this.name = name;
@@ -69,16 +71,20 @@ public class Restaurant {
         this.registered = registered;
     }
 
-    public Integer getVotes() {
-        return votes;
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
-    public void setVotes(Integer votes) {
-        this.votes = votes;
+    public List<Vote> getVoteList() {
+        return new ArrayList<>(voteList);
+    }
+
+    public void setVoteList(List<Vote> voteList) {
+        this.voteList = voteList;
     }
 
     public List<Meal> getMeals() {
-        return meals;
+        return new ArrayList<>(meals);
     }
 
     public void setMeals(List<Meal> meals) {

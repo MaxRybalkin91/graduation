@@ -1,23 +1,31 @@
 package ru.topjava.graduation.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
 @Table(name = "votes")
 public class Vote {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     private LocalDate date = LocalDate.now();
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Vote() {
+    }
+
+    public Vote(Restaurant restaurant, User user) {
+        this.restaurant = restaurant;
+        this.user = user;
     }
 
     public LocalDate getDate() {
@@ -42,5 +50,13 @@ public class Vote {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

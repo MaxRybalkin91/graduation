@@ -7,8 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -37,6 +36,9 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Vote> votes;
 
     public User() {
     }
@@ -78,7 +80,7 @@ public class User implements UserDetails {
     }
 
     public Set<Role> getRoles() {
-        return roles;
+        return new HashSet<>(roles);
     }
 
     public void setRoles(Set<Role> roles) {
@@ -107,6 +109,14 @@ public class User implements UserDetails {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public List<Vote> getVotes() {
+        return new ArrayList<>(votes);
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 
     @Override

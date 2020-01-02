@@ -3,6 +3,11 @@
 
 <@c.page>
     <div class="card-columns">
+        <#if message??>
+            <div class="alert alert-danger" role="alert">
+                ${message}
+            </div>
+        </#if>
         <#list restaurants as restaurant>
             <div class="card my-3">
                 <div class="m-2">
@@ -10,7 +15,7 @@
                     <input type="hidden" id="${rest_id}" name="id">
                     <span>${restaurant.name}</span>
                     <i>${restaurant.address}</i>
-                    <i>${restaurant.votes}</i>
+                    <i>${restaurant.getVoteList()?size}</i>
                     <td><a href="/restaurants/${rest_id}/vote">Vote</a></td>
                     <#if isAdmin>
                         <td><a href="/restaurants/${rest_id}">Edit</a></td>
@@ -18,7 +23,7 @@
                 </div>
             </div>
         <#else>
-            No message
+            No restaurants available
         </#list>
     </div>
 </@c.page>

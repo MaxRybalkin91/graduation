@@ -42,9 +42,10 @@ CREATE UNIQUE INDEX restaurants_unique_name_address_idx ON restaurants (name, ad
 
 CREATE TABLE votes
 (
-    user_id       INTEGER            NOT NULL,
-    restaurant_id INTEGER            NOT NULL,
-    date          DATE DEFAULT now() NOT NULL,
+    id            INTEGER DEFAULT nextval('hibernate_sequence') PRIMARY KEY,
+    user_id       INTEGER               NOT NULL,
+    restaurant_id INTEGER               NOT NULL,
+    date          DATE    DEFAULT now() NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
