@@ -1,5 +1,7 @@
 package ru.topjava.graduation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -15,8 +17,9 @@ public class Meal {
 
     private Integer price;
 
-    private LocalDate date = LocalDate.now();
+    private LocalDate date;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;

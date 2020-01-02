@@ -2,17 +2,13 @@ package ru.topjava.graduation.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ru.topjava.graduation.model.User;
-import ru.topjava.graduation.model.to.CaptchaResponseDto;
+import ru.topjava.graduation.model.dto.CaptchaResponseDto;
 import ru.topjava.graduation.service.UserService;
 import ru.topjava.graduation.util.ControllerUtil;
 
@@ -21,7 +17,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
-@Controller
+@RestController
 public class RegistrationController {
     private final static String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
 

@@ -1,49 +1,34 @@
 package ru.topjava.graduation.controller.meal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.topjava.graduation.model.Meal;
-import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.repository.MealRepository;
+import ru.topjava.graduation.service.MealService;
 
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.List;
 
-@Controller
-@RequestMapping(value = "/meals")
+@RestController
+@RequestMapping(value = MealController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealController {
+    static final String REST_URL = "/meals";
+
     @Autowired
-    private MealRepository repository;
+    private MealService mealService;
 
-    @GetMapping
-    public String getAll(@RequestParam Integer id, Map<String, Object> model) {
-        Iterable<Meal> meals = repository.findByRestaurantId(id);
-        model.put("meals", meals);
-        return "meals";
+    @GetMapping("/{restaurantId}")
+    public List<Meal> getToday(@PathVariable Integer restaurantId) {
+        return mealService.findByRestaurantIdAndDate(restaurantId, LocalDate.now());
     }
 
-    @PostMapping
-    public void create(@RequestParam String description,
-                       @RequestParam Integer price,
-                       @RequestParam Restaurant restaurant,
-                       Map<String, Object> model) {
-        Meal meal = new Meal(description, price, restaurant);
-        repository.save(meal);
-        getAll(restaurant.getId(), model);
-    }
-
-    @PutMapping
-    public void update(@RequestParam String description,
-                       @RequestParam Integer price,
-                       @RequestParam Integer id,
-                       Map<String, Object> model) {
-    }
-
-    @DeleteMapping
-    public void delete(@RequestParam Integer id,
-                       @RequestParam Restaurant restaurant,
-                       Map<String, Object> model) {
-        repository.deleteById(id);
-        getAll(restaurant.getId(), model);
+    @GetMapping("/{restaurantId}_all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Meal> getAll(@PathVariable Integer restaurantId) {
+        return mealService.findByRestaurantId(restaurantId);
     }
 }

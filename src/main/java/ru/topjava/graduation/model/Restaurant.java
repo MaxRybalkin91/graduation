@@ -20,18 +20,18 @@ public class Restaurant {
     @NotBlank(message = "Please fill the address")
     private String address;
 
-    private LocalDateTime registered = LocalDateTime.now();
+    private LocalDateTime registered;
 
     private boolean isEnabled = true;
-
-    public Restaurant() {
-    }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Meal> meals;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     private List<Vote> voteList;
+
+    public Restaurant() {
+    }
 
     public Restaurant(String name, String address, List<Meal> meals) {
         this.name = name;

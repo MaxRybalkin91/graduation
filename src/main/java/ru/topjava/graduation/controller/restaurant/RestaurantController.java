@@ -1,23 +1,21 @@
 package ru.topjava.graduation.controller.restaurant;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.service.RestaurantService;
 import ru.topjava.graduation.service.VoteService;
 
-import java.util.Map;
+import java.util.List;
 
-import static ru.topjava.graduation.util.CurrentTimeUtil.isTimeOver;
-
-@Controller
-@RequestMapping(value = "/restaurants")
+@RestController
+@RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
+    static final String REST_URL = "/restaurants";
+
     @Autowired
     private RestaurantService restaurantService;
 
@@ -25,38 +23,20 @@ public class RestaurantController {
     private VoteService voteService;
 
     @GetMapping
-    public String getAll(Map<String, Object> model) {
-        model.put("restaurants", restaurantService.findAll());
-        return "restaurants";
+    public List<Restaurant> getAll() {
+        return restaurantService.findAll();
     }
 
-    @GetMapping("{restaurant}")
+    @GetMapping("/{restaurant}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String restaurantEditForm(@PathVariable Restaurant restaurant, Model model) {
-        model.addAttribute("restaurant", restaurant);
-        model.addAttribute("meals", restaurant.getMeals());
-        return "restaurantEdit";
+    public Restaurant restaurantEditForm(@PathVariable("restaurant") Integer id) {
+        return restaurantService.findById(id);
     }
 
-    @GetMapping("{restaurant}/vote")
-    public String voteForRestaurant(@PathVariable Restaurant restaurant,
-                                    @AuthenticationPrincipal User user,
-                                    Map<String, Object> model) {
-        if (voteService.isUserVoted(user) && isTimeOver()) {
-            model.put("message", "You have already voted today!");
-            model.put("restaurants", restaurantService.findAll());
-            return "restaurants";
-        }
-        voteService.vote(restaurant, user);
-        return "redirect:/restaurants";
-    }
-
-    @PostMapping
-    public String restaurantSave(
-            @RequestParam String name,
-            @RequestParam("restaurantId") Restaurant restaurant
-    ) {
-        restaurant.setName(name);
-        return "redirect:/restaurants";
+    @DeleteMapping("/{restaurant}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("restaurant") Integer id) {
+        restaurantService.deleteById(id);
     }
 }

@@ -1,5 +1,7 @@
 package ru.topjava.graduation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -10,12 +12,14 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private LocalDate date = LocalDate.now();
+    private LocalDate date;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

@@ -1,4 +1,4 @@
-package ru.topjava.graduation.model.to;
+package ru.topjava.graduation.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

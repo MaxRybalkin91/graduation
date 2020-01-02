@@ -3,16 +3,16 @@ package ru.topjava.graduation.controller.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.graduation.model.Role;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.service.UserService;
 
+import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
@@ -20,9 +20,8 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public String userList(Model model) {
-        model.addAttribute("users", userService.findAll());
-        return "userList";
+    public List<User> userList() {
+        return userService.findAll();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

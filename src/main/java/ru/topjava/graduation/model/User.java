@@ -30,7 +30,7 @@ public class User implements UserDetails {
 
     private boolean isEnabled = true;
 
-    private LocalDateTime registered = LocalDateTime.now();
+    private LocalDateTime registered;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
