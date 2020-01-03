@@ -10,25 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.service.MealService;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @RestController
-@RequestMapping(value = MealController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class MealController {
-    static final String REST_URL = "/meals";
+@PreAuthorize("hasAuthority('ADMIN')")
+@RequestMapping(value = AdminMealController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminMealController {
+    static final String REST_URL = "/meal";
 
     @Autowired
     private MealService mealService;
 
-    @GetMapping("/{restaurantId}")
-    public List<Meal> getToday(@PathVariable Integer restaurantId) {
-        return mealService.findByRestaurantIdAndDate(restaurantId, LocalDate.now());
-    }
-
-    @GetMapping("/{restaurantId}_all")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Meal> getAll(@PathVariable Integer restaurantId) {
-        return mealService.findByRestaurantId(restaurantId);
+    @GetMapping("{mealId}")
+    public Meal get(@PathVariable Integer mealId) {
+        return mealService.findById(mealId);
     }
 }

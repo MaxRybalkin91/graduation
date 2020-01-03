@@ -20,9 +20,6 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepo;
 
     @Autowired
-    private MailSenderService mailSenderService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -39,7 +36,6 @@ public class UserService implements UserDetailsService {
         if (userFromDb == null) {
             user.setRoles(Collections.singleton(Role.USER));
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            sendActivationCode(user);
             userRepo.save(user);
         }
         return userFromDb;
@@ -84,7 +80,6 @@ public class UserService implements UserDetailsService {
 
         if (isEmailChanged && !StringUtils.isEmpty(email)) {
             user.setEmail(email);
-            sendActivationCode(user);
         }
 
         if (!StringUtils.isEmpty(password)) {
@@ -92,22 +87,5 @@ public class UserService implements UserDetailsService {
         }
 
         userRepo.save(user);
-    }
-
-    private void sendActivationCode(User user) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String activationCode = UUID.randomUUID().toString();
-            user.setActivationCode(activationCode);
-            String message = String.format(
-                    "Hello, "
-                            + "%s! \n"
-                            + "To activate your account click here: "
-                            + " http://localhost:8080/activate/%s",
-                    user.getUsername(),
-                    activationCode
-            );
-
-            mailSenderService.send(user.getEmail(), "Activation code", message);
-        }
     }
 }
