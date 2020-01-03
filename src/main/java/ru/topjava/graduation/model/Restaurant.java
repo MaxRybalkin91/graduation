@@ -1,9 +1,13 @@
 package ru.topjava.graduation.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,19 +19,25 @@ public class Restaurant {
     private Integer id;
 
     @NotBlank
+    @Size(min = 2, max = 50)
     private String name;
 
     @NotBlank
+    @Size(min = 5, max = 50)
     private String address;
 
-    private LocalDateTime registered;
+    @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Date registered;
 
     private boolean isEnabled = true;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OrderBy("description DESC")
     private List<Meal> meals;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OrderBy("date DESC")
     private List<Vote> voteList;
 
     public Restaurant() {
@@ -63,11 +73,11 @@ public class Restaurant {
         this.address = address;
     }
 
-    public LocalDateTime getRegistered() {
+    public Date getRegistered() {
         return registered;
     }
 
-    public void setRegistered(LocalDateTime registered) {
+    public void setRegistered(Date registered) {
         this.registered = registered;
     }
 

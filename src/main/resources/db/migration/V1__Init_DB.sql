@@ -11,7 +11,6 @@ CREATE TABLE users
 (
     id              INTEGER      DEFAULT nextval('hibernate_sequence') PRIMARY KEY,
     email           VARCHAR(255)               NOT NULL,
-    activation_code VARCHAR(255) DEFAULT NULL,
     username        VARCHAR(255)               NOT NULL,
     password        VARCHAR(255)               NOT NULL,
     registered      TIMESTAMP    DEFAULT now() NOT NULL,
@@ -19,7 +18,6 @@ CREATE TABLE users
 );
 CREATE UNIQUE INDEX users_unique_username_idx ON users (username);
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
-CREATE UNIQUE INDEX users_unique_activation_code_idx ON users (activation_code);
 
 CREATE TABLE user_role
 (
@@ -46,7 +44,7 @@ CREATE TABLE votes
     user_id       INTEGER               NOT NULL,
     restaurant_id INTEGER               NOT NULL,
     date          DATE    DEFAULT now() NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX unique_vote_idx ON votes (user_id, restaurant_id, date);
