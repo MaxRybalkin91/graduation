@@ -16,16 +16,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotBlank(message = "Username can't be empty")
+    @NotBlank
     private String username;
 
-    @NotBlank(message = "Email can't be empty")
-    @Email(message = "Email is not correct")
+    @NotBlank
+    @Email
     private String email;
 
     private String activationCode;
 
-    @NotBlank(message = "Password can't be empty")
+    @NotBlank
     private String password;
 
     private boolean isEnabled = true;

@@ -1,11 +1,11 @@
 package ru.topjava.graduation.controller.restaurant;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import ru.topjava.graduation.model.Restaurant;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.service.RestaurantService;
 import ru.topjava.graduation.service.VoteService;
 
@@ -17,26 +17,13 @@ public class RestaurantController {
     static final String REST_URL = "/restaurants";
 
     @Autowired
-    private RestaurantService restaurantService;
+    RestaurantService restaurantService;
 
     @Autowired
-    private VoteService voteService;
+    VoteService voteService;
 
     @GetMapping
-    public List<Restaurant> getAll() {
-        return restaurantService.findAll();
-    }
-
-    @GetMapping("/{restaurant}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public Restaurant restaurantEditForm(@PathVariable("restaurant") Integer id) {
-        return restaurantService.findById(id);
-    }
-
-    @DeleteMapping("/{restaurant}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("restaurant") Integer id) {
-        restaurantService.deleteById(id);
+    public List<RestaurantTo> getForToday() {
+        return restaurantService.getForToday();
     }
 }

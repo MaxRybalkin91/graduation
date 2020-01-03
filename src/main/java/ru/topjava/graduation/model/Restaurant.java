@@ -14,10 +14,10 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotBlank(message = "Please fill the name")
+    @NotBlank
     private String name;
 
-    @NotBlank(message = "Please fill the address")
+    @NotBlank
     private String address;
 
     private LocalDateTime registered;

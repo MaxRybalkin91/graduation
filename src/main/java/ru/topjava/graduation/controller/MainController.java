@@ -1,15 +1,13 @@
 package ru.topjava.graduation.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
-@RestController
+@Controller
 public class MainController {
 
     @GetMapping("/")
-    public String main(Map<String, Object> model) {
-        return "main";
+    public String main() {
+        return "restaurants";
     }
 }
