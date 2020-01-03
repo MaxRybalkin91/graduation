@@ -33,11 +33,9 @@ public class Restaurant {
     private boolean isEnabled = true;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @OrderBy("description DESC")
     private List<Meal> meals;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
-    @OrderBy("date DESC")
     private List<Vote> voteList;
 
     public Restaurant() {

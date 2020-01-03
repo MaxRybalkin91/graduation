@@ -41,15 +41,6 @@ public class UserService implements UserDetailsService {
         return userFromDb;
     }
 
-    public User activateUser(String code) {
-        User user = userRepo.findByActivationCode(code);
-        if (user != null) {
-            user.setActivationCode(null);
-            userRepo.save(user);
-        }
-        return user;
-    }
-
     public List<User> findAll() {
         return userRepo.findAll();
     }
