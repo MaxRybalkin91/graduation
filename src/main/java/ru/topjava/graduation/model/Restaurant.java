@@ -35,7 +35,7 @@ public class Restaurant {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Meal> meals;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Vote> voteList;
 
     public Restaurant() {

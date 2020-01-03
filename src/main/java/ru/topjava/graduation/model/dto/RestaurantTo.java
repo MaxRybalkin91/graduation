@@ -1,7 +1,6 @@
 package ru.topjava.graduation.model.dto;
 
 import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.model.Vote;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +15,7 @@ public class RestaurantTo {
 
     private String address;
 
-    private List<Vote> voteList;
+    private Integer votes;
 
     private List<MealTo> mealList;
 
@@ -24,7 +23,7 @@ public class RestaurantTo {
         this.id = r.getId();
         this.name = r.getName();
         this.address = r.getAddress();
-        this.voteList = r.getVoteList();
+        this.votes = r.getVoteList().size();
         this.mealList = mealTos(r.getMeals());
     }
 
@@ -52,12 +51,12 @@ public class RestaurantTo {
         this.address = address;
     }
 
-    public List<Vote> getVoteList() {
-        return voteList;
+    public Integer getVotes() {
+        return votes;
     }
 
-    public void setVoteList(List<Vote> voteList) {
-        this.voteList = voteList;
+    public void setVotes(Integer votes) {
+        this.votes = votes;
     }
 
     public List<MealTo> getMealList() {
@@ -76,13 +75,13 @@ public class RestaurantTo {
         return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(address, that.address) &&
-                Objects.equals(voteList, that.voteList) &&
+                Objects.equals(votes, that.votes) &&
                 Objects.equals(mealList, that.mealList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, voteList, mealList);
+        return Objects.hash(id, name, address, votes, mealList);
     }
 
     @Override
@@ -91,7 +90,7 @@ public class RestaurantTo {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", voteList=" + voteList +
+                ", votes=" + votes +
                 ", mealList=" + mealList +
                 '}';
     }
