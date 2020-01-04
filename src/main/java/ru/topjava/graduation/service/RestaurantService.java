@@ -33,4 +33,8 @@ public class RestaurantService {
     public void deleteById(Integer id) {
         restaurantRepository.deleteById(id);
     }
+
+    public RestaurantTo create(Restaurant restaurant) {
+        return new RestaurantTo(restaurantRepository.save(restaurant));
+    }
 }

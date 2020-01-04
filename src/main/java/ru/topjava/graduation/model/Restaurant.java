@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +40,10 @@ public class Restaurant {
     private List<Vote> voteList;
 
     public Restaurant() {
+    }
+
+    public Restaurant(String name, String address) {
+        this(name, address, Collections.EMPTY_LIST);
     }
 
     public Restaurant(String name, String address, List<Meal> meals) {
