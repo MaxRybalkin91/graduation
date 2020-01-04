@@ -7,20 +7,21 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.graduation.model.Restaurant;
+import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.service.RestaurantService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @PreAuthorize("hasAuthority('ADMIN')")
+@RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestaurantController {
 
     @Autowired
     RestaurantService restaurantService;
 
     @GetMapping("/all")
-    public List<Restaurant> getAll() {
+    public List<RestaurantTo> getAll() {
         return restaurantService.getAll();
     }
 

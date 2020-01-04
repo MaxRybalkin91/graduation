@@ -22,8 +22,8 @@ public class RestaurantService {
         return restaurantTos(restaurantRepository.findByRestaurantMealDate(LocalDate.now()));
     }
 
-    public List<Restaurant> getAll() {
-        return restaurantRepository.findAll();
+    public List<RestaurantTo> getAll() {
+        return restaurantTos(restaurantRepository.findAll());
     }
 
     public Restaurant findById(Integer id) {
