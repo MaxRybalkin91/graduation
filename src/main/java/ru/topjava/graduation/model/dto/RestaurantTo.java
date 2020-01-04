@@ -5,7 +5,7 @@ import ru.topjava.graduation.model.Restaurant;
 import java.util.List;
 import java.util.Objects;
 
-import static ru.topjava.graduation.util.restaurant.MealUtil.mealTos;
+import static ru.topjava.graduation.util.converter.MealUtil.mealTos;
 
 public class RestaurantTo {
 

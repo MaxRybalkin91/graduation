@@ -10,7 +10,7 @@ import ru.topjava.graduation.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.topjava.graduation.util.restaurant.RestaurantUtil.restaurantTos;
+import static ru.topjava.graduation.util.converter.RestaurantUtil.restaurantTos;
 
 @Service
 public class RestaurantService {

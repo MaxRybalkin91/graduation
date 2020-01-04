@@ -11,11 +11,12 @@ import ru.topjava.graduation.repository.VoteRepository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.topjava.graduation.util.CurrentTimeUtil.isTimeOver;
-import static ru.topjava.graduation.util.restaurant.VoteUtil.voteTos;
+import static ru.topjava.graduation.util.ValidationUtil.checkVote;
+import static ru.topjava.graduation.util.converter.VoteUtil.voteTos;
 
 @Service
 public class VoteService {
+
     @Autowired
     private VoteRepository voteRepository;
 
@@ -25,9 +26,11 @@ public class VoteService {
 
     public Vote vote(Restaurant restaurant, User user) {
         Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), LocalDate.now());
-        if (voteFromRepo == null || (voteFromRepo != null && !isTimeOver())) {
-            return voteRepository.save(new Vote(restaurant, user));
-        }
-        return null;
+        checkVote(voteFromRepo);
+        return voteRepository.save(new Vote(restaurant, user));
+    }
+
+    public void deleteById(Integer id) {
+        voteRepository.deleteById(id);
     }
 }

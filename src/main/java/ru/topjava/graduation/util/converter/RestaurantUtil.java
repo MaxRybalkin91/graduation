@@ -1,4 +1,4 @@
-package ru.topjava.graduation.util.restaurant;
+package ru.topjava.graduation.util.converter;
 
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.dto.RestaurantTo;
