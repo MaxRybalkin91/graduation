@@ -5,14 +5,12 @@ import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.Vote;
-import ru.topjava.graduation.model.dto.VoteTo;
 import ru.topjava.graduation.repository.VoteRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.topjava.graduation.util.ValidationUtil.checkVote;
-import static ru.topjava.graduation.util.converter.VoteUtil.voteTos;
+import static ru.topjava.graduation.util.VoteValidationUtil.checkVote;
 
 @Service
 public class VoteService {
@@ -20,8 +18,8 @@ public class VoteService {
     @Autowired
     private VoteRepository voteRepository;
 
-    public List<VoteTo> findForRestaurant(Integer id) {
-        return voteTos(voteRepository.findByRestaurantId(id));
+    public List<Vote> findForRestaurant(Integer id) {
+        return voteRepository.findByRestaurantId(id);
     }
 
     public Vote vote(Restaurant restaurant, User user) {

@@ -1,11 +1,10 @@
 package ru.topjava.graduation.model.dto;
 
+import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.model.Restaurant;
 
 import java.util.List;
 import java.util.Objects;
-
-import static ru.topjava.graduation.util.converter.MealUtil.mealTos;
 
 public class RestaurantTo {
 
@@ -17,16 +16,16 @@ public class RestaurantTo {
 
     private Integer votes;
 
-    private List<MealTo> mealList;
+    private List<Meal> mealList;
 
     public RestaurantTo(Restaurant r) {
         this(r.getId(), r.getName(),
                 r.getAddress(),
                 r.getVoteList().size(),
-                mealTos(r.getMeals()));
+                r.getMeals());
     }
 
-    public RestaurantTo(Integer id, String name, String address, Integer votes, List<MealTo> mealList) {
+    public RestaurantTo(Integer id, String name, String address, Integer votes, List<Meal> mealList) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -66,11 +65,11 @@ public class RestaurantTo {
         this.votes = votes;
     }
 
-    public List<MealTo> getMealList() {
+    public List<Meal> getMealList() {
         return mealList;
     }
 
-    public void setMealList(List<MealTo> mealList) {
+    public void setMealList(List<Meal> mealList) {
         this.mealList = mealList;
     }
 

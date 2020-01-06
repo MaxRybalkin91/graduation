@@ -1,6 +1,10 @@
 package ru.topjava.graduation.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -27,9 +31,12 @@ public class Meal {
 
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDate date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate date = LocalDate.now();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
@@ -37,10 +44,15 @@ public class Meal {
     public Meal() {
     }
 
-    public Meal(String description, Integer price, Restaurant restaurant) {
+    public Meal(String description, Integer price) {
         this.description = description;
         this.price = price;
-        this.restaurant = restaurant;
+    }
+
+    public Meal(Integer id, String description, Integer price) {
+        this.id = id;
+        this.description = description;
+        this.price = price;
     }
 
     public Integer getId() {

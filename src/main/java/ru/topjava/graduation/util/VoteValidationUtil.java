@@ -5,7 +5,7 @@ import ru.topjava.graduation.util.exception.VoteDenyException;
 
 import static ru.topjava.graduation.util.CurrentTimeUtil.isTimeOver;
 
-public class ValidationUtil {
+public class VoteValidationUtil {
 
     public static void checkVote(Vote vote) {
         boolean isVoteDeny = (vote != null && isTimeOver());

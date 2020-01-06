@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.Vote;
-import ru.topjava.graduation.model.dto.VoteTo;
 import ru.topjava.graduation.service.VoteService;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class VoteController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{restaurant}")
-    public List<VoteTo> getAll(@PathVariable("restaurant") Integer id) {
+    public List<Vote> getAll(@PathVariable("restaurant") Integer id) {
         log.info("get all votes for restaurant {}", id);
         return voteService.findForRestaurant(id);
     }
