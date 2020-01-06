@@ -20,11 +20,18 @@ public class RestaurantTo {
     private List<MealTo> mealList;
 
     public RestaurantTo(Restaurant r) {
-        this.id = r.getId();
-        this.name = r.getName();
-        this.address = r.getAddress();
-        this.votes = r.getVoteList().size();
-        this.mealList = mealTos(r.getMeals());
+        this(r.getId(), r.getName(),
+                r.getAddress(),
+                r.getVoteList().size(),
+                mealTos(r.getMeals()));
+    }
+
+    public RestaurantTo(Integer id, String name, String address, Integer votes, List<MealTo> mealList) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.votes = votes;
+        this.mealList = mealList;
     }
 
     public Integer getId() {

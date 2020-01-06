@@ -16,10 +16,14 @@ public class MealTo {
     private LocalDate date;
 
     public MealTo(Meal m) {
-        this.id = m.getId();
-        this.description = m.getDescription();
-        this.price = m.getPrice();
-        this.date = m.getDate();
+        this(m.getId(), m.getDescription(), m.getPrice(), m.getDate());
+    }
+
+    public MealTo(Integer id, String description, Integer price, LocalDate date) {
+        this.id = id;
+        this.description = description;
+        this.price = price;
+        this.date = date;
     }
 
     public Integer getId() {

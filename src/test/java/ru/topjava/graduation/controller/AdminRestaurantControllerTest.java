@@ -1,5 +1,6 @@
 package ru.topjava.graduation.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.topjava.graduation.RestaurantTestData.RESTAURANTS_FROM_DB;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,6 +25,8 @@ public class AdminRestaurantControllerTest {
 
     @Autowired
     protected MockMvc mockMvc;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void getForToday() throws Exception {
@@ -34,7 +38,7 @@ public class AdminRestaurantControllerTest {
         Assert.assertEquals("application/json;charset=UTF-8",
                 mvcResult.getResponse().getContentType());
 
-        Assert.assertEquals("application/json;charset=UTF-8",
+        Assert.assertEquals(objectMapper.writeValueAsString(RESTAURANTS_FROM_DB),
                 mvcResult.getResponse().getContentAsString());
     }
 }
