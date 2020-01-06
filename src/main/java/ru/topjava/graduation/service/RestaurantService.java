@@ -34,7 +34,11 @@ public class RestaurantService {
         restaurantRepository.deleteById(id);
     }
 
-    public RestaurantTo create(Restaurant restaurant) {
-        return new RestaurantTo(restaurantRepository.save(restaurant));
+    public Restaurant create(Restaurant restaurant) {
+        return restaurantRepository.save(restaurant);
+    }
+
+    public Restaurant get(Integer id) {
+        return restaurantRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 }

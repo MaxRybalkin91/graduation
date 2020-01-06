@@ -48,6 +48,17 @@ public class User implements UserDetails {
     public User() {
     }
 
+    public User(String username, String email, String password) {
+        this(null, username, email, password);
+    }
+
+    public User(Integer id, String username, String email, String password) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
