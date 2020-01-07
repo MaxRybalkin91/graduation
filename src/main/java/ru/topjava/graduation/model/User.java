@@ -16,13 +16,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @NotBlank
-    private String username;
+public class User extends AbstractNamedEntity implements UserDetails {
 
     @Email
     @NotBlank
@@ -53,35 +47,22 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String email, String password) {
-        this(null, username, email, password);
+    public User(String name, String email, String password) {
+        this(null, name, email, password);
     }
 
-    public User(Integer id, String username, String email, String password) {
-        this.id = id;
-        this.username = username;
+    public User(Integer id, String name, String email, String password) {
+        super(id, name);
         this.email = email;
         this.password = password;
     }
 
-    public boolean isAdmin() {
-        return roles.contains(Role.ADMIN);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getUsername() {
-        return username;
+        return super.name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String name) {
+        super.name = name;
     }
 
     public String getPassword() {

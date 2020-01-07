@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
+        User user = userRepo.findByName(username);
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("User not found");
         }
@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User addUser(User user) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
+        User userFromDb = userRepo.findByName(user.getUsername());
         if (userFromDb == null) {
             user.setRoles(Collections.singleton(Role.USER));
             user.setPassword(passwordEncoder.encode(user.getPassword()));

@@ -1,4 +1,4 @@
-insert into users (email, username, password)
+insert into users (email, name, password)
 values ('admin@gmail.com', 'admin', 'admin'),
        ('user@gmail.com', 'user', 'password'),
        ('user2@gmail.com', 'user2', 'password');

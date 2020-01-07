@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.topjava.graduation.RestaurantTestData.RESTAURANTS_FROM_DB;
+import static ru.topjava.graduation.RestaurantTestData.TODAY_RESTAURANTS;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,7 +36,7 @@ public class AdminRestaurantControllerTest {
         Assert.assertEquals("application/json;charset=UTF-8",
                 mvcResult.getResponse().getContentType());
 
-        Assert.assertEquals(objectMapper.writeValueAsString(RESTAURANTS_FROM_DB),
+        Assert.assertEquals(objectMapper.writeValueAsString(TODAY_RESTAURANTS),
                 mvcResult.getResponse().getContentAsString());
     }
 }

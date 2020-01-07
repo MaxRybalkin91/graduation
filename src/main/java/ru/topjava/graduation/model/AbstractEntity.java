@@ -1,0 +1,49 @@
+package ru.topjava.graduation.model;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@MappedSuperclass
+@Access(AccessType.FIELD)
+public abstract class AbstractEntity {
+    public static final int START_SEQ = 100000;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Integer id;
+
+    public AbstractEntity() {
+    }
+
+    public AbstractEntity(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractEntity that = (AbstractEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractEntity{" +
+                "id=" + id +
+                '}';
+    }
+}

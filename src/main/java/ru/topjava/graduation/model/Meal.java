@@ -1,7 +1,6 @@
 package ru.topjava.graduation.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -11,20 +10,11 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "meals")
-public class Meal {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @NotBlank
-    @Size(min = 2, max = 120)
-    private String description;
+public class Meal extends AbstractNamedEntity {
 
     @NotBlank
     private Integer price;
@@ -35,7 +25,6 @@ public class Meal {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date = LocalDate.now();
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -44,31 +33,13 @@ public class Meal {
     public Meal() {
     }
 
-    public Meal(String description, Integer price) {
-        this.description = description;
+    public Meal(String name, Integer price) {
+        this(null, name, price);
+    }
+
+    public Meal(Integer id, String name, Integer price) {
+        super(id, name);
         this.price = price;
-    }
-
-    public Meal(Integer id, String description, Integer price) {
-        this.id = id;
-        this.description = description;
-        this.price = price;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Integer getPrice() {

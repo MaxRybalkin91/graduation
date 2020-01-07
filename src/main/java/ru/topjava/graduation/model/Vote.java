@@ -14,10 +14,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "votes")
-public class Vote {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class Vote extends AbstractEntity {
 
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -66,13 +63,5 @@ public class Vote {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 }

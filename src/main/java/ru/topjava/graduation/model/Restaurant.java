@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,15 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
-public class Restaurant {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @NotBlank
-    @Size(min = 2, max = 50)
-    private String name;
+public class Restaurant extends AbstractNamedEntity {
 
     @NotBlank
     @Size(min = 5, max = 50)
@@ -48,29 +43,17 @@ public class Restaurant {
     }
 
     public Restaurant(String name, String address) {
-        this(name, address, Collections.EMPTY_LIST);
+        this(null, name, address, Collections.EMPTY_LIST);
     }
 
-    public Restaurant(String name, String address, List<Meal> meals) {
-        this.name = name;
+    public Restaurant(Integer id, String name, String address) {
+        this(id, name, address, Collections.EMPTY_LIST);
+    }
+
+    public Restaurant(Integer id, String name, String address, List<Meal> meals) {
+        super(id, name);
         this.address = address;
         this.meals = meals;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getAddress() {

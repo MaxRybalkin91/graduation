@@ -9,14 +9,14 @@ CREATE SEQUENCE hibernate_sequence START WITH 100000;
 
 CREATE TABLE users
 (
-    id              INTEGER      DEFAULT nextval('hibernate_sequence') PRIMARY KEY,
-    email           VARCHAR(255)               NOT NULL,
-    username        VARCHAR(255)               NOT NULL,
-    password        VARCHAR(255)               NOT NULL,
-    registered      TIMESTAMP    DEFAULT now() NOT NULL,
-    is_enabled      BOOLEAN      DEFAULT TRUE  NOT NULL
+    id         INTEGER   DEFAULT nextval('hibernate_sequence') PRIMARY KEY,
+    email      VARCHAR(255)            NOT NULL,
+    name       VARCHAR(255)            NOT NULL,
+    password   VARCHAR(255)            NOT NULL,
+    registered TIMESTAMP DEFAULT now() NOT NULL,
+    is_enabled BOOLEAN   DEFAULT TRUE  NOT NULL
 );
-CREATE UNIQUE INDEX users_unique_username_idx ON users (username);
+CREATE UNIQUE INDEX users_unique_name_idx ON users (name);
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE user_role
@@ -53,9 +53,9 @@ CREATE TABLE meals
 (
     id            INTEGER DEFAULT nextval('hibernate_sequence') PRIMARY KEY,
     date          DATE    DEFAULT now() NOT NULL,
-    description   VARCHAR(255)          NOT NULL,
+    name          VARCHAR(255)          NOT NULL,
     price         INTEGER               NOT NULL,
     restaurant_id INTEGER               NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX meals_unique_restId_date_description_idx ON meals (restaurant_id, date, description);
+CREATE UNIQUE INDEX meals_unique_restId_date_name_idx ON meals (restaurant_id, date, name);
