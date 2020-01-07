@@ -20,7 +20,7 @@ public class RestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    RestaurantService restaurantService;
+    private RestaurantService restaurantService;
 
     @GetMapping
     public List<RestaurantTo> getForToday() {

@@ -6,6 +6,8 @@ import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.repository.MealRepository;
 import ru.topjava.graduation.util.exception.NotFoundException;
 
+import java.util.List;
+
 @Service
 public class MealService {
 
@@ -14,5 +16,9 @@ public class MealService {
 
     public Meal findById(Integer mealId) {
         return mealRepository.findById(mealId).orElseThrow(NotFoundException::new);
+    }
+
+    public List<Meal> findAllForRestaurant(Integer id) {
+        return mealRepository.findAllByRestaurantId(id);
     }
 }

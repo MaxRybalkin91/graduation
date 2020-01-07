@@ -1,25 +1,22 @@
 package ru.topjava.graduation.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.topjava.graduation.util.DateTimeUtil;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "votes")
-public class Vote extends AbstractEntity {
+public class Vote extends AbstractEntity implements Serializable {
 
-    @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @JsonSerialize(using = LocalDateSerializer.class)
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
     private LocalDate date;
 
     @JsonIgnore

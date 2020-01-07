@@ -6,11 +6,11 @@ import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.Vote;
 import ru.topjava.graduation.repository.VoteRepository;
+import ru.topjava.graduation.util.exception.VoteDenyException;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
-
-import static ru.topjava.graduation.util.VoteValidationUtil.checkVote;
 
 @Service
 public class VoteService {
@@ -24,11 +24,9 @@ public class VoteService {
 
     public Vote vote(Restaurant restaurant, User user) {
         Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), LocalDate.now());
-        checkVote(voteFromRepo);
+        if (voteFromRepo != null && LocalTime.now().isAfter(LocalTime.of(11, 0))) {
+            throw new VoteDenyException();
+        }
         return voteRepository.save(new Vote(restaurant, user));
-    }
-
-    public void deleteById(Integer id) {
-        voteRepository.deleteById(id);
     }
 }

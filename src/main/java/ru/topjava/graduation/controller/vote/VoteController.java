@@ -3,7 +3,6 @@ package ru.topjava.graduation.controller.vote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,18 +25,9 @@ public class VoteController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{restaurant}")
-    public List<Vote> getAll(@PathVariable("restaurant") Integer id) {
+    public List<Vote> getAllVotes(@PathVariable("restaurant") Integer id) {
         log.info("get all votes for restaurant {}", id);
         return voteService.findForRestaurant(id);
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("{vote}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("vote") Integer id,
-                       @RequestParam User user) {
-        log.info("delete vote {} of user {}", id, user.getId());
-        voteService.deleteById(id);
     }
 
     @PostMapping("{restaurant}")

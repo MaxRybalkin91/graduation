@@ -1,22 +1,21 @@
 package ru.topjava.graduation.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.topjava.graduation.util.DateTimeUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class User extends AbstractNamedEntity implements UserDetails {
+public class User extends AbstractNamedEntity implements UserDetails, Serializable {
 
     @Email
     @NotBlank
@@ -30,11 +29,10 @@ public class User extends AbstractNamedEntity implements UserDetails {
 
     private boolean isEnabled = true;
 
-    @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private Date registered;
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    private Date registered = new Date();
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

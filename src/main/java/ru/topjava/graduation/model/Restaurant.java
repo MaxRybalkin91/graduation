@@ -1,17 +1,14 @@
 package ru.topjava.graduation.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.topjava.graduation.util.DateTimeUtil;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -19,23 +16,24 @@ import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
-public class Restaurant extends AbstractNamedEntity {
+public class Restaurant extends AbstractNamedEntity implements Serializable {
 
     @NotBlank
     @Size(min = 5, max = 50)
     private String address;
 
-    @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private Date registered;
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
+    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
+    private Date registered = new Date();
 
     private boolean isEnabled = true;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Meal> meals;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Vote> voteList;
 
@@ -43,7 +41,7 @@ public class Restaurant extends AbstractNamedEntity {
     }
 
     public Restaurant(String name, String address) {
-        this(null, name, address, Collections.EMPTY_LIST);
+        this(null, name, address);
     }
 
     public Restaurant(Integer id, String name, String address) {

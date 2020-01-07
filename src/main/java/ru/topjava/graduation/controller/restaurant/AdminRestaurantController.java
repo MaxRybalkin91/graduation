@@ -6,33 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.service.RestaurantService;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 import static ru.topjava.graduation.controller.restaurant.RestaurantController.REST_URL;
 
 @RestController
 @RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 public class AdminRestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    RestaurantService restaurantService;
-
-    @GetMapping("/all")
-    public List<RestaurantTo> getAll() {
-        log.info("get all the restaurants with all the meals");
-        return restaurantService.getAll();
-    }
+    private RestaurantService restaurantService;
 
     @GetMapping("/{restaurant}")
     public Restaurant restaurantEditForm(@PathVariable("restaurant") Integer id) {
@@ -51,7 +42,7 @@ public class AdminRestaurantController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody @PathVariable("id") Restaurant restaurant) {
+    public void update(@PathVariable("id") Restaurant restaurant) {
         log.info("update restaurant with id {}", restaurant.getId());
         restaurantService.create(restaurant);
     }
