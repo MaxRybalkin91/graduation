@@ -21,7 +21,7 @@ public class Meal extends AbstractNamedEntity implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
-    private LocalDate date;
+    private LocalDate date = LocalDate.now();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,13 +32,8 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     public Meal() {
     }
 
-    public Meal(String name, Integer price) {
-        this(null, name, price);
-    }
-
-    public Meal(Integer id, String name, Integer price) {
+    public Meal(Integer id, String name) {
         super(id, name);
-        this.price = price;
     }
 
     public Integer getPrice() {

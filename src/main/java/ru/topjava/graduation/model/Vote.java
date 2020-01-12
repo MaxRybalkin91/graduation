@@ -13,11 +13,11 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "votes")
-public class Vote extends AbstractEntity implements Serializable {
+public class Vote extends AbstractBaseEntity implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
-    private LocalDate date;
+    private LocalDate date = LocalDate.now();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,6 +36,10 @@ public class Vote extends AbstractEntity implements Serializable {
     public Vote(Restaurant restaurant, User user) {
         this.restaurant = restaurant;
         this.user = user;
+    }
+
+    public Vote(Integer id) {
+        super(id);
     }
 
     public LocalDate getDate() {

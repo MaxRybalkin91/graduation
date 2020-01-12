@@ -17,7 +17,7 @@ import java.net.URI;
 import static ru.topjava.graduation.controller.restaurant.RestaurantController.REST_URL;
 
 @RestController
-@RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+@RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8" + ";charset=UTF-8")
 //@PreAuthorize("hasAuthority('ADMIN')")
 public class AdminRestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());

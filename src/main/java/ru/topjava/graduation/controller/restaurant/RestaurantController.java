@@ -14,17 +14,17 @@ import ru.topjava.graduation.service.RestaurantService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+@RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8" + ";charset=UTF-8")
 public class RestaurantController {
-    public static final String REST_URL = "/restaurants";
+    static final String REST_URL = "/restaurants";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private RestaurantService restaurantService;
 
     @GetMapping
-    public List<RestaurantTo> getForToday() {
+    public List<RestaurantTo> getAll() {
         log.info("get today's restaurants");
-        return restaurantService.getForToday();
+        return restaurantService.getAll();
     }
 }

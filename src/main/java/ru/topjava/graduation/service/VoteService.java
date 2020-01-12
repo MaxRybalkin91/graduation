@@ -8,9 +8,7 @@ import ru.topjava.graduation.model.Vote;
 import ru.topjava.graduation.repository.VoteRepository;
 import ru.topjava.graduation.util.exception.VoteDenyException;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 public class VoteService {
@@ -18,13 +16,9 @@ public class VoteService {
     @Autowired
     private VoteRepository voteRepository;
 
-    public List<Vote> findForRestaurant(Integer id) {
-        return voteRepository.findByRestaurantId(id);
-    }
-
-    public Vote vote(Restaurant restaurant, User user) {
-        Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), LocalDate.now());
-        if (voteFromRepo != null && LocalTime.now().isAfter(LocalTime.of(11, 0))) {
+    public Vote vote(Restaurant restaurant, User user, LocalDateTime dateTime) {
+        Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), dateTime.toLocalDate());
+        if (voteFromRepo != null && dateTime.getHour() >= 11) {
             throw new VoteDenyException();
         }
         return voteRepository.save(new Vote(restaurant, user));

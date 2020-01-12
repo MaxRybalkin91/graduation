@@ -7,7 +7,6 @@ import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.util.exception.NotFoundException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static ru.topjava.graduation.util.RestaurantUtil.restaurantTos;
@@ -18,8 +17,8 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    public List<RestaurantTo> getForToday() {
-        return restaurantTos(restaurantRepository.findByRestaurantMealDate(LocalDate.now()));
+    public List<RestaurantTo> getAll() {
+        return restaurantTos(restaurantRepository.findAll());
     }
 
     public Restaurant findById(Integer id) {

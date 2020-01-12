@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public abstract class AbstractNamedEntity extends AbstractEntity {
+public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     @NotBlank
     @Size(min = 2, max = 120)

@@ -1,21 +1,22 @@
 package ru.topjava.graduation.model;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
-import java.util.Objects;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
-public abstract class AbstractEntity {
+public abstract class AbstractBaseEntity {
     public static final int START_SEQ = 100000;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Integer id;
 
-    public AbstractEntity() {
+    public AbstractBaseEntity() {
     }
 
-    public AbstractEntity(Integer id) {
+    public AbstractBaseEntity(Integer id) {
         this.id = id;
     }
 
@@ -29,15 +30,19 @@ public abstract class AbstractEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractEntity that = (AbstractEntity) o;
-        return Objects.equals(id, that.id);
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
+            return false;
+        }
+        AbstractBaseEntity that = (AbstractBaseEntity) o;
+        return id != null && id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id == null ? 0 : id;
     }
 
     @Override

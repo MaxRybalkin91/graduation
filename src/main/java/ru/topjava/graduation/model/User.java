@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -31,8 +32,7 @@ public class User extends AbstractNamedEntity implements UserDetails, Serializab
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
-    private Date registered = new Date();
+    private LocalDateTime registered = LocalDateTime.now();
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -40,19 +40,13 @@ public class User extends AbstractNamedEntity implements UserDetails, Serializab
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Vote> votes;
+    private List<Vote> votes = Collections.emptyList();
 
     public User() {
     }
 
-    public User(String name, String email, String password) {
-        this(null, name, email, password);
-    }
-
-    public User(Integer id, String name, String email, String password) {
+    public User(Integer id, String name) {
         super(id, name);
-        this.email = email;
-        this.password = password;
     }
 
     public String getUsername() {
@@ -87,10 +81,6 @@ public class User extends AbstractNamedEntity implements UserDetails, Serializab
         this.roles = roles;
     }
 
-    public Date getRegistered() {
-        return registered;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -99,7 +89,11 @@ public class User extends AbstractNamedEntity implements UserDetails, Serializab
         this.email = email;
     }
 
-    public void setRegistered(Date registered) {
+    public LocalDateTime getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
     }
 

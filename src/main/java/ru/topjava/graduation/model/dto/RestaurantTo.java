@@ -1,9 +1,7 @@
 package ru.topjava.graduation.model.dto;
 
-import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.model.Restaurant;
 
-import java.util.List;
 import java.util.Objects;
 
 public class RestaurantTo {
@@ -16,21 +14,17 @@ public class RestaurantTo {
 
     private Integer votes;
 
-    private List<Meal> mealList;
-
     public RestaurantTo(Restaurant r) {
         this(r.getId(), r.getName(),
                 r.getAddress(),
-                r.getVoteList().size(),
-                r.getMeals());
+                r.getVotes().size());
     }
 
-    public RestaurantTo(Integer id, String name, String address, Integer votes, List<Meal> mealList) {
+    public RestaurantTo(Integer id, String name, String address, Integer votes) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.votes = votes;
-        this.mealList = mealList;
     }
 
     public Integer getId() {
@@ -65,14 +59,6 @@ public class RestaurantTo {
         this.votes = votes;
     }
 
-    public List<Meal> getMealList() {
-        return mealList;
-    }
-
-    public void setMealList(List<Meal> mealList) {
-        this.mealList = mealList;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,13 +67,12 @@ public class RestaurantTo {
         return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(address, that.address) &&
-                Objects.equals(votes, that.votes) &&
-                Objects.equals(mealList, that.mealList);
+                Objects.equals(votes, that.votes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, votes, mealList);
+        return Objects.hash(id, name, address, votes);
     }
 
     @Override
@@ -97,7 +82,6 @@ public class RestaurantTo {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", votes=" + votes +
-                ", mealList=" + mealList +
                 '}';
     }
 }
