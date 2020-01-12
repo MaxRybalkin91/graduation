@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MainController {
+public class RootController {
 
     @GetMapping("/")
-    public String main() {
+    public String root() {
         return "redirect:/restaurants";
     }
 }

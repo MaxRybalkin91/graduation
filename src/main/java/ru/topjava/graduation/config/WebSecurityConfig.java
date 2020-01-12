@@ -31,20 +31,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/registration", "/restaurants").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/", "/registration", "/restaurants", "/meals").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                /*.and()
+                .loginPage("/login")*/
                 .permitAll()
                 .and()
                 .rememberMe()
                 .and()
                 .logout()
                 .permitAll();
-        //Set to enable when frontend added
-        http
-                .csrf().disable();
+
+        //Set enable when frontend added
+        http.csrf().disable();
     }
 
     @Override

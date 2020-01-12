@@ -11,8 +11,6 @@ import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.Vote;
 import ru.topjava.graduation.service.VoteService;
 
-import java.time.LocalDateTime;
-
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 public class VoteController {
@@ -22,9 +20,9 @@ public class VoteController {
     @Autowired
     private VoteService voteService;
 
-    @PostMapping("{restaurant}")
+    @PostMapping("/{restaurant}")
     public Vote vote(@PathVariable("restaurant") Restaurant restaurant,
-                     @RequestParam("dateTime") LocalDateTime dateTime,
+                     @RequestParam("dateTime") String dateTime,
                      @AuthenticationPrincipal User user) {
         log.info("add vote of user {} for restaurant {}", user.getId(), restaurant.getId());
         return voteService.vote(restaurant, user, dateTime);

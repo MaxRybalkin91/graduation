@@ -16,7 +16,8 @@ public class VoteService {
     @Autowired
     private VoteRepository voteRepository;
 
-    public Vote vote(Restaurant restaurant, User user, LocalDateTime dateTime) {
+    public Vote vote(Restaurant restaurant, User user, String dateAndTime) {
+        LocalDateTime dateTime = LocalDateTime.parse(dateAndTime);
         Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), dateTime.toLocalDate());
         if (voteFromRepo != null && dateTime.getHour() >= 11) {
             throw new VoteDenyException();
