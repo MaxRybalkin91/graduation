@@ -29,7 +29,7 @@ public class AdminRestaurantController {
     @GetMapping("/{restaurant}")
     public Restaurant restaurantEditForm(@PathVariable("restaurant") Integer id) {
         log.info("get restaurant with id {}", id);
-        return restaurantService.findById(id);
+        return restaurantService.get(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -52,6 +52,6 @@ public class AdminRestaurantController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("restaurant") Integer id) {
         log.info("delete restaurant with id {}", id);
-        restaurantService.deleteById(id);
+        restaurantService.delete(id);
     }
 }

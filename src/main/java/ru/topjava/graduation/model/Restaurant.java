@@ -12,9 +12,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
@@ -31,10 +30,7 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
     private boolean isEnabled = true;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    private List<Meal> meals = Collections.emptyList();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    private List<Vote> votes = Collections.emptyList();
+    private Set<Meal> meals = Collections.emptySet();
 
     public Restaurant() {
     }
@@ -59,19 +55,11 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
         return isEnabled;
     }
 
-    public List<Vote> getVotes() {
-        return new ArrayList<>(votes);
+    public Set<Meal> getMeals() {
+        return meals;
     }
 
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
-    }
-
-    public List<Meal> getMeals() {
-        return new ArrayList<>(meals);
-    }
-
-    public void setMeals(List<Meal> meals) {
+    public void setMeals(Set<Meal> meals) {
         this.meals = meals;
     }
 

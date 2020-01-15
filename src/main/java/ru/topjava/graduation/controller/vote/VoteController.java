@@ -14,13 +14,18 @@ import ru.topjava.graduation.service.VoteService;
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 public class VoteController {
-    static final String REST_URL = "/vote";
+    static final String REST_URL = "/votes";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private VoteService voteService;
 
-    @PostMapping("/{restaurant}")
+    @GetMapping("{restaurant}")
+    public Integer votesCount(@PathVariable("restaurant") Integer restaurantId) {
+        return voteService.votesCount(restaurantId);
+    }
+
+    @PostMapping("/addVote/{restaurant}")
     public Vote vote(@PathVariable("restaurant") Restaurant restaurant,
                      @RequestParam("dateTime") String dateTime,
                      @AuthenticationPrincipal User user) {

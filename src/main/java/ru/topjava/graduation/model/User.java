@@ -12,7 +12,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -38,9 +40,6 @@ public class User extends AbstractNamedEntity implements UserDetails, Serializab
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Vote> votes = Collections.emptyList();
 
     public User() {
     }
@@ -95,14 +94,6 @@ public class User extends AbstractNamedEntity implements UserDetails, Serializab
 
     public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
-    }
-
-    public List<Vote> getVotes() {
-        return new ArrayList<>(votes);
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
     }
 
     @Override

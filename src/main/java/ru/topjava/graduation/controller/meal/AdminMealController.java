@@ -11,9 +11,10 @@ import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.service.MealService;
 
 @RestController
-@RequestMapping(value = MealController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+@RequestMapping(value = AdminMealController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminMealController {
+    static final String REST_URL = "/meals";
 
     @Autowired
     private MealService mealService;

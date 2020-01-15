@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.topjava.graduation.model.dto.RestaurantTo;
+import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.service.RestaurantService;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping
-    public List<RestaurantTo> getAll() {
+    public List<Restaurant> getAll() {
         log.info("get today's restaurants");
         return restaurantService.getAll();
     }

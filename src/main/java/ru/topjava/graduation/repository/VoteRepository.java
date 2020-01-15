@@ -13,4 +13,6 @@ public interface VoteRepository extends CrudRepository<Vote, Integer> {
     List<Vote> findByRestaurantId(Integer id);
 
     Vote findByUserIdAndDate(Integer userId, LocalDate date);
+
+    Integer countByRestaurantId(Integer restaurantId);
 }

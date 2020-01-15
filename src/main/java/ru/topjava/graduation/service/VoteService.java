@@ -24,4 +24,8 @@ public class VoteService {
         }
         return voteRepository.save(new Vote(restaurant, user));
     }
+
+    public Integer votesCount(Integer restaurantId) {
+        return voteRepository.countByRestaurantId(restaurantId);
+    }
 }
