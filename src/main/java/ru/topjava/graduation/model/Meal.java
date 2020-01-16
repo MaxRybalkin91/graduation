@@ -32,10 +32,6 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     public Meal() {
     }
 
-    public Meal(Integer id, String name) {
-        super(id, name);
-    }
-
     public Integer getPrice() {
         return price;
     }

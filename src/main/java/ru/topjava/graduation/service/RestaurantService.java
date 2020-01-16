@@ -19,15 +19,20 @@ public class RestaurantService {
         return restaurantRepository.findByRestaurantMealDate(LocalDate.now());
     }
 
+    public Restaurant create(Restaurant restaurant) {
+        return restaurantRepository.save(restaurant);
+    }
+
     public Restaurant get(Integer id) {
-        return restaurantRepository.findById(id).orElseThrow(NotFoundException::new);
+        return restaurantRepository.getRestaurant(id).orElseThrow(NotFoundException::new);
     }
 
     public void delete(Integer id) {
         restaurantRepository.deleteById(id);
     }
 
-    public Restaurant create(Restaurant restaurant) {
-        return restaurantRepository.save(restaurant);
+    public void update(Restaurant restaurant, Integer id) {
+        restaurant.setId(id);
+        restaurantRepository.save(restaurant);
     }
 }

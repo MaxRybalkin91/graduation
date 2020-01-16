@@ -20,7 +20,7 @@ public class AdminMealController {
     private MealService mealService;
 
     @GetMapping("{mealId}")
-    public Meal getOne(@PathVariable Integer mealId) {
+    public Meal get(@PathVariable Integer mealId) {
         return mealService.findById(mealId);
     }
 }

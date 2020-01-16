@@ -7,10 +7,14 @@ import ru.topjava.graduation.model.Restaurant;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {
 
     @Query("select distinct r from Restaurant r join fetch r.meals m where m.date=?1")
     List<Restaurant> findByRestaurantMealDate(LocalDate date);
+
+    @Query("SELECT r FROM Restaurant r WHERE r.id = ?1")
+    Optional<Restaurant> getRestaurant(Integer id);
 }

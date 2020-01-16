@@ -26,8 +26,8 @@ public class AdminRestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("/{restaurant}")
-    public Restaurant restaurantEditForm(@PathVariable("restaurant") Integer id) {
+    @GetMapping("{id}")
+    public Restaurant get(@PathVariable Integer id) {
         log.info("get restaurant with id {}", id);
         return restaurantService.get(id);
     }
@@ -41,16 +41,17 @@ public class AdminRestaurantController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") Restaurant restaurant) {
-        log.info("update restaurant with id {}", restaurant.getId());
-        restaurantService.create(restaurant);
+    public void update(@PathVariable("id") Integer id,
+                       @Valid @RequestBody Restaurant restaurant) {
+        log.info("update restaurant with id {}", id);
+        restaurantService.update(restaurant, id);
     }
 
-    @DeleteMapping("/{restaurant}")
+    @DeleteMapping("{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("restaurant") Integer id) {
+    public void delete(@PathVariable Integer id) {
         log.info("delete restaurant with id {}", id);
         restaurantService.delete(id);
     }
