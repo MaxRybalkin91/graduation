@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.Vote;
 import ru.topjava.graduation.service.VoteService;
@@ -25,11 +24,11 @@ public class VoteController {
         return voteService.votesCount(restaurantId);
     }
 
-    @PostMapping("/addVote/{restaurant}")
-    public Vote vote(@PathVariable("restaurant") Restaurant restaurant,
+    @PostMapping
+    public Vote vote(@RequestParam("restaurantId") Integer restaurantId,
                      @RequestParam("dateTime") String dateTime,
                      @AuthenticationPrincipal User user) {
-        log.info("add vote of user {} for restaurant {}", user.getId(), restaurant.getId());
-        return voteService.vote(restaurant, user, dateTime);
+        log.info("add vote of user {} for restaurant {}", user.getId(), restaurantId);
+        return voteService.vote(user, dateTime);
     }
 }

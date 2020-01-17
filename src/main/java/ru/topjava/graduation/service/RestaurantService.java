@@ -24,7 +24,7 @@ public class RestaurantService {
     }
 
     public Restaurant get(Integer id) {
-        return restaurantRepository.getRestaurant(id).orElseThrow(NotFoundException::new);
+        return restaurantRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     public void delete(Integer id) {
