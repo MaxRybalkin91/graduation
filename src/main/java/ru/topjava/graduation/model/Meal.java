@@ -1,5 +1,6 @@
 package ru.topjava.graduation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,12 +9,11 @@ import ru.topjava.graduation.util.DateTimeUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "meals")
-public class Meal extends AbstractNamedEntity implements Serializable {
+public class Meal extends AbstractNamedEntity {
 
     @NotBlank
     private Integer price;
@@ -22,6 +22,7 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
     private LocalDate date = LocalDate.now();
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

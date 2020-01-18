@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.repository.RestaurantRepository;
-import ru.topjava.graduation.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,7 +23,7 @@ public class RestaurantService {
     }
 
     public Restaurant get(Integer id) {
-        return restaurantRepository.findById(id).orElseThrow(NotFoundException::new);
+        return restaurantRepository.getOne(id);
     }
 
     public void delete(Integer id) {

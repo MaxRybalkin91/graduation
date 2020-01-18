@@ -10,14 +10,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
-public class Restaurant extends AbstractNamedEntity implements Serializable {
+public class Restaurant extends AbstractNamedEntity {
 
     @NotBlank
     @Size(min = 5, max = 50)
@@ -61,10 +60,6 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
 
     public void setMeals(Set<Meal> meals) {
         this.meals = meals;
-    }
-
-    public boolean getEnabled() {
-        return isEnabled;
     }
 
     public void setEnabled(boolean enabled) {

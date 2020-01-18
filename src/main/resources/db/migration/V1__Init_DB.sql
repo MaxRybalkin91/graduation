@@ -33,21 +33,9 @@ CREATE TABLE restaurants
     address    VARCHAR(255)            NOT NULL,
     name       VARCHAR(255)            NOT NULL,
     registered TIMESTAMP DEFAULT now() NOT NULL,
-    is_enabled BOOLEAN   DEFAULT TRUE  NOT NULL,
-    votes      INTEGER   DEFAULT 0     NOT NULL
+    is_enabled BOOLEAN   DEFAULT TRUE  NOT NULL
 );
 CREATE UNIQUE INDEX restaurants_unique_name_address_idx ON restaurants (name, address);
-
-CREATE TABLE votes
-(
-    id            INTEGER DEFAULT nextval('hibernate_sequence') PRIMARY KEY,
-    user_id       INTEGER               NOT NULL,
-    restaurant_id INTEGER               NOT NULL,
-    date          DATE    DEFAULT now() NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
-);
-CREATE UNIQUE INDEX unique_vote_idx ON votes (user_id, restaurant_id, date);
 
 CREATE TABLE meals
 (
@@ -59,3 +47,14 @@ CREATE TABLE meals
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX meals_unique_restId_date_name_idx ON meals (restaurant_id, date, name);
+
+CREATE TABLE votes
+(
+    id            INTEGER DEFAULT nextval('hibernate_sequence') PRIMARY KEY,
+    user_id       INTEGER               NOT NULL,
+    restaurant_id INTEGER               NOT NULL,
+    date          DATE    DEFAULT now() NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX unique_vote_idx ON votes (user_id, restaurant_id, date);
