@@ -1,4 +1,4 @@
-package ru.topjava.graduation.controller;
+package ru.topjava.graduation.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;

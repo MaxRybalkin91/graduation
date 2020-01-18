@@ -1,4 +1,4 @@
-package ru.topjava.graduation.controller.vote;
+package ru.topjava.graduation.web.vote;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

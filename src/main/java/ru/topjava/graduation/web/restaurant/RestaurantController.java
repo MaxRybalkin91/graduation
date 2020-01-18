@@ -1,4 +1,4 @@
-package ru.topjava.graduation.controller.restaurant;
+package ru.topjava.graduation.web.restaurant;
 
 
 import org.slf4j.Logger;

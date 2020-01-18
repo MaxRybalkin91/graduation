@@ -1,4 +1,4 @@
-package ru.topjava.graduation.controller;
+package ru.topjava.graduation.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package ru.topjava.graduation.controller.restaurant;
+package ru.topjava.graduation.web.restaurant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import ru.topjava.graduation.service.RestaurantService;
 import javax.validation.Valid;
 import java.net.URI;
 
-import static ru.topjava.graduation.controller.restaurant.RestaurantController.REST_URL;
+import static ru.topjava.graduation.web.restaurant.RestaurantController.REST_URL;
 
 @RestController
 @RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")

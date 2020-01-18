@@ -1,4 +1,4 @@
-package ru.topjava.graduation.controller.meal;
+package ru.topjava.graduation.web.meal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
