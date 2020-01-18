@@ -4,19 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.topjava.graduation.util.DateTimeUtil;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
-public class Restaurant extends AbstractNamedEntity {
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "Restaurant.allJoins", includeAllAttributes = true),
+        @NamedEntityGraph(name = "Restaurant.noJoins")
+})
+public class Restaurant extends AbstractNamedEntity implements Serializable {
 
     @NotBlank
     @Size(min = 5, max = 50)

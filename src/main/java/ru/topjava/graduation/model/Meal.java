@@ -9,11 +9,12 @@ import ru.topjava.graduation.util.DateTimeUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "meals")
-public class Meal extends AbstractNamedEntity {
+public class Meal extends AbstractNamedEntity implements Serializable {
 
     @NotBlank
     private Integer price;

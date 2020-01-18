@@ -3,6 +3,7 @@ package ru.topjava.graduation.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Restaurant;
+import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.repository.RestaurantRepository;
 
 import java.time.LocalDate;
@@ -22,8 +23,8 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public Restaurant get(Integer id) {
-        return restaurantRepository.getOne(id);
+    public RestaurantTo get(Integer id) {
+        return new RestaurantTo(restaurantRepository.getOne(id));
     }
 
     public void delete(Integer id) {

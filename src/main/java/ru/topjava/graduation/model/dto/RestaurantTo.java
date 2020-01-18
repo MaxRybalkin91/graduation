@@ -2,16 +2,14 @@ package ru.topjava.graduation.model.dto;
 
 import ru.topjava.graduation.model.Restaurant;
 
-import java.io.Serializable;
+public class RestaurantTo {
+    private final Integer id;
 
-public class RestaurantTo implements Serializable {
-    private Integer id;
+    private final String name;
 
-    private String name;
+    private final String address;
 
-    private String address;
-
-    private boolean isEnabled;
+    private final boolean isEnabled;
 
     public RestaurantTo(Restaurant r) {
         this.id = r.getId();
@@ -24,31 +22,15 @@ public class RestaurantTo implements Serializable {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public boolean isEnabled() {
         return isEnabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
     }
 }

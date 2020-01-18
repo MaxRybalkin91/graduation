@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.Restaurant;
+import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.service.RestaurantService;
 
 import javax.validation.Valid;
@@ -27,7 +28,7 @@ public class AdminRestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping("{id}")
-    public Restaurant get(@PathVariable Integer id) {
+    public RestaurantTo get(@PathVariable Integer id) {
         log.info("get restaurant with id {}", id);
         return restaurantService.get(id);
     }
