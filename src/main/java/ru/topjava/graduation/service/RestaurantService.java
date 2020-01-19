@@ -2,12 +2,14 @@ package ru.topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.repository.RestaurantRepository;
+import ru.topjava.graduation.util.exception.NotFoundException;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
@@ -15,24 +17,24 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    public List<Restaurant> getAll() {
-        return restaurantRepository.findByRestaurantMealDate(LocalDate.now());
+    public List<RestaurantTo> getAll() {
+        return restaurantRepository.findByIsEnabled(true)
+                .stream()
+                .map(RestaurantTo::new)
+                .collect(Collectors.toList());
     }
 
+    @Transactional
     public Restaurant create(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
 
     public RestaurantTo get(Integer id) {
-        return new RestaurantTo(restaurantRepository.getOne(id));
+        return new RestaurantTo(restaurantRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
+    @Transactional
     public void delete(Integer id) {
         restaurantRepository.deleteById(id);
-    }
-
-    public void update(Restaurant restaurant, Integer id) {
-        restaurant.setId(id);
-        restaurantRepository.save(restaurant);
     }
 }

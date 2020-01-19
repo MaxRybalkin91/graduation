@@ -1,4 +1,4 @@
-package ru.topjava.graduation.web;
+package ru.topjava.graduation.service;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AdminRestaurantControllerTest {
+public class VoteServiceTest {
 
     @Autowired
     protected MockMvc mockMvc;

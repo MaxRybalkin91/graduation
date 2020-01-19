@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import ru.topjava.graduation.util.DateTimeUtil;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Table(name = "meals")
 public class Meal extends AbstractNamedEntity implements Serializable {
 
-    @NotBlank
+    @NotNull
     private Integer price;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

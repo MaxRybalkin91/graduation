@@ -8,19 +8,33 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.topjava.graduation.service.UserService;
+
+import static ru.topjava.graduation.web.Controller.*;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/", RESTAURANTS_URL, MEALS_URL, VOTE_URL).permitAll()
+                .anyRequest().authenticated()
+                .and().httpBasic()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().rememberMe()
+                .and().logout().permitAll()
+                .and().csrf().disable();
+    }
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -28,31 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/", "/registration", "/restaurants").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                /*
-                .and()
-                .loginPage("/login")
-                .permitAll()
-                */
-                .and()
-                .rememberMe()
-                .and()
-                .logout()
-                .permitAll();
-
-        //Set enable when frontend added
-        http.csrf().disable();
-    }
-
-    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder);
+                .passwordEncoder(getPasswordEncoder());
     }
 }

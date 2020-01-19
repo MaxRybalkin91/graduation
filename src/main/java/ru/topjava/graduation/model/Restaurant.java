@@ -8,16 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
-@NamedEntityGraphs({
-        @NamedEntityGraph(name = "Restaurant.allJoins", includeAllAttributes = true),
-        @NamedEntityGraph(name = "Restaurant.noJoins")
-})
 public class Restaurant extends AbstractNamedEntity implements Serializable {
 
     @NotBlank
@@ -26,12 +21,12 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
-    private LocalDateTime registered = LocalDateTime.now();
+    private Date registered = new Date();
 
     private boolean isEnabled = true;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    private Set<Meal> meals = Collections.emptySet();
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<Meal> meals;
 
     public Restaurant() {
     }
@@ -44,11 +39,11 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
         this.address = address;
     }
 
-    public LocalDateTime getRegistered() {
+    public Date getRegistered() {
         return registered;
     }
 
-    public void setRegistered(LocalDateTime registered) {
+    public void setRegistered(Date registered) {
         this.registered = registered;
     }
 

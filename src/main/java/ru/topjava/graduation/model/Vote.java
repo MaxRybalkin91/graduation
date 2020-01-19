@@ -33,9 +33,9 @@ public class Vote extends AbstractBaseEntity implements Serializable {
     public Vote() {
     }
 
-    public Vote(LocalDate date, User user) {
-        this.date = date;
+    public Vote(User user, Restaurant restaurant) {
         this.user = user;
+        this.restaurant = restaurant;
     }
 
     public Vote(Integer id) {

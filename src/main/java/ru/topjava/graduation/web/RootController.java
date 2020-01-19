@@ -1,13 +1,16 @@
 package ru.topjava.graduation.web;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-public class RootController {
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-    @GetMapping("/")
-    public String root() {
-        return "redirect:/restaurants";
+@RestController
+public class RootController implements Controller {
+
+    @RequestMapping("/")
+    void redirect(HttpServletResponse response) throws IOException {
+        response.sendRedirect(RESTAURANTS_URL);
     }
 }
