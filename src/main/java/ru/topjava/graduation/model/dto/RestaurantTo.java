@@ -2,6 +2,8 @@ package ru.topjava.graduation.model.dto;
 
 import ru.topjava.graduation.model.Restaurant;
 
+import java.util.Objects;
+
 public class RestaurantTo {
     private final Integer id;
 
@@ -9,13 +11,10 @@ public class RestaurantTo {
 
     private final String address;
 
-    private final boolean isEnabled;
-
     public RestaurantTo(Restaurant r) {
         this.id = r.getId();
         this.name = r.getName();
         this.address = r.getAddress();
-        this.isEnabled = r.isEnabled();
     }
 
     public Integer getId() {
@@ -30,7 +29,18 @@ public class RestaurantTo {
         return address;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RestaurantTo that = (RestaurantTo) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(address, that.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address);
     }
 }

@@ -18,7 +18,7 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     public List<RestaurantTo> getAll() {
-        return restaurantRepository.findByIsEnabled(true)
+        return restaurantRepository.findAll()
                 .stream()
                 .map(RestaurantTo::new)
                 .collect(Collectors.toList());

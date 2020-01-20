@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.topjava.graduation.service.UserService;
 
+import static ru.topjava.graduation.web.Controller.MEALS_URL;
+import static ru.topjava.graduation.web.Controller.RESTAURANTS_URL;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -25,7 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest().authenticated()
+                .antMatchers(RESTAURANTS_URL + "/*").hasRole("ADMIN")
+                .antMatchers(MEALS_URL + "/*").hasRole("ADMIN")
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().rememberMe()

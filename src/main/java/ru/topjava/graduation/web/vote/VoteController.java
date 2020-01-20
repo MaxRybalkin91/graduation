@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,7 +31,6 @@ public class VoteController implements Controller {
         return voteService.votesCount(restaurantId);
     }
 
-    @Secured({"USER", "ADMIN"})
     @PostMapping(consumes = JSON_TYPE)
     public ResponseEntity<Vote> create(@AuthenticationPrincipal User user,
                                        @PathVariable Integer restaurantId) {

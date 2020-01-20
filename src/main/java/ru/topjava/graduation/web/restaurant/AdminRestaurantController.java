@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.Restaurant;
@@ -20,7 +19,6 @@ import static ru.topjava.graduation.web.Controller.RESTAURANTS_URL;
 
 @RestController
 @RequestMapping(value = RESTAURANTS_URL, produces = JSON_TYPE)
-@Secured("ADMIN")
 public class AdminRestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 

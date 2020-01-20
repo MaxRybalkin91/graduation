@@ -1,18 +1,15 @@
 package ru.topjava.graduation.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.topjava.graduation.util.DateTimeUtil;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,21 +17,13 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends AbstractNamedEntity implements UserDetails, Serializable {
 
-    @Email
-    @NotBlank
-    @Size(max = 100)
-    private String email;
-
     @NotBlank
     @Size(min = 5, max = 100)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @NotNull
     private boolean isEnabled = true;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
-    private Date registered = new Date();
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -78,22 +67,6 @@ public class User extends AbstractNamedEntity implements UserDetails, Serializab
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getRegistered() {
-        return registered;
-    }
-
-    public void setRegistered(Date registered) {
-        this.registered = registered;
     }
 
     @Override

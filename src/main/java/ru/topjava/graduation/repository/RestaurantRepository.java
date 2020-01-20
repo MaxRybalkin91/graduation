@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {
 
-    List<Restaurant> findByIsEnabled(boolean isEnabled);
+    List<Restaurant> findAll();
 }
