@@ -1,6 +1,9 @@
 package ru.topjava.graduation.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -14,7 +17,7 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
     @Size(min = 5, max = 50)
     private String address;
 
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private Set<Meal> meals;
 
     public Restaurant() {

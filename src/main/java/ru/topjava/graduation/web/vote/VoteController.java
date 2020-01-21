@@ -15,10 +15,10 @@ import ru.topjava.graduation.web.Controller;
 import java.net.URI;
 
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
-import static ru.topjava.graduation.web.Controller.VOTE_URL;
+import static ru.topjava.graduation.web.Controller.VOTES_URL;
 
 @RestController
-@RequestMapping(value = VOTE_URL, produces = JSON_TYPE)
+@RequestMapping(value = VOTES_URL, produces = JSON_TYPE)
 public class VoteController implements Controller {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -36,8 +36,8 @@ public class VoteController implements Controller {
                                        @PathVariable Integer restaurantId) {
         Vote created = voteService.create(user, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(VOTE_URL + "/" + created.getId())
-                .buildAndExpand(created.getId()).toUri();
+                .path(VOTES_URL + "/{id}")
+                .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 }

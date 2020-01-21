@@ -2,7 +2,6 @@ package ru.topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.repository.RestaurantRepository;
@@ -24,7 +23,6 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     public Restaurant create(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
@@ -33,7 +31,6 @@ public class RestaurantService {
         return new RestaurantTo(restaurantRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
-    @Transactional
     public void delete(Integer id) {
         restaurantRepository.deleteById(id);
     }

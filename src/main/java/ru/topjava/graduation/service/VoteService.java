@@ -2,7 +2,6 @@ package ru.topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.Vote;
@@ -36,8 +35,7 @@ public class VoteService {
         return checkAndSave(LocalTime.now(), user, restaurantId);
     }
 
-    @Transactional
-    Vote checkAndSave(LocalTime time, User user, Integer restaurantId) {
+    private Vote checkAndSave(LocalTime time, User user, Integer restaurantId) {
         Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), LocalDate.now());
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(NotFoundException::new);
         if (voteFromRepo != null && time.getHour() >= 11) {
