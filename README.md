@@ -1,33 +1,19 @@
-### curl samples (application deployed in application context `topjava`).
-> For windows use `Git Bash`
+Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend.
 
-#### get All Users
-`curl -s http://localhost:8080/topjava/rest/admin/users --user admin@gmail.com:admin`
+The task is:
 
-#### get Users 100001
-`curl -s http://localhost:8080/topjava/rest/admin/users/100001 --user admin@gmail.com:admin`
+Build a voting system for deciding where to have lunch.
 
-#### get All Meals
-`curl -s http://localhost:8080/topjava/rest/profile/meals --user user@yandex.ru:password`
+2 types of users: admin and regular users
+Admin can input a restaurant and it's lunch menu of the day (2-5 items usually, just a dish name and price)
+Menu changes each day (admins do the updates)
+Users can vote on which restaurant they want to have lunch at
+Only one vote counted per user
+If user votes again the same day:
+If it is before 11:00 we asume that he changed his mind.
+If it is after 11:00 then it is too late, vote can't be changed
+Each restaurant provides new menu each day.
 
-#### get Meals 100003
-`curl -s http://localhost:8080/topjava/rest/profile/meals/100003  --user user@yandex.ru:password`
+As a result, provide a link to github repository.
 
-#### filter Meals
-`curl -s "http://localhost:8080/topjava/rest/profile/meals/filter?startDate=2015-05-30&startTime=07:00:00&endDate=2015-05-31&endTime=11:00:00" --user user@yandex.ru:password`
-
-#### get Meals not found
-`curl -s -v http://localhost:8080/topjava/rest/profile/meals/100008 --user user@yandex.ru:password`
-
-#### delete Meals
-`curl -s -X DELETE http://localhost:8080/topjava/rest/profile/meals/100002 --user user@yandex.ru:password`
-
-#### create Meals
-`curl -s -X POST -d '{"dateTime":"2015-06-01T12:00","name":"Created lunch","calories":300}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/topjava/rest/profile/meals --user user@yandex.ru:password`
-
-#### update Meals
-`curl -s -X PUT -d '{"dateTime":"2015-05-30T07:00", "name":"Updated breakfast", "calories":200}' -H 'Content-Type: application/json' http://localhost:8080/topjava/rest/profile/meals/100003 --user user@yandex.ru:password`
-
-#### validate with Error
-`curl -s -X POST -d '{}' -H 'Content-Type: application/json' http://localhost:8080/topjava/rest/admin/users --user admin@gmail.com:admin`
-`curl -s -X PUT -d '{"dateTime":"2015-05-30T07:00"}' -H 'Content-Type: application/json' http://localhost:8080/topjava/rest/profile/meals/100003 --user user@yandex.ru:password`
+It should contain the code and README.md with API documentation and curl commands to get data for voting and vote.
