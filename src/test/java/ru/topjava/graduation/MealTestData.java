@@ -1,20 +1,18 @@
 package ru.topjava.graduation;
 
-public class MealTestData {
+import ru.topjava.graduation.model.Meal;
 
-    /*public static final List<Meal> BURGERKING_TODAY_MEALS = new ArrayList<>() {{
-        add(new Meal(100006, "ChickenBurger set", 300));
-        add(new Meal(100007, "CheeseBurger set", 400));
-        add(new Meal(100008, "FishBurger set", 500));
-    }};
+import static ru.topjava.graduation.RestaurantTestData.*;
 
-    public static final List<Meal> MCDONALDS_TODAY_MEALS = new ArrayList<>() {{
-        add(new Meal(100009, "BigMac set", 300));
-        add(new Meal(100010, "Happy Meal set", 400));
-    }};
+public class MealTestData extends AbstractTestData {
+    public static final Meal MEAL_1 = new Meal(START_SEQ + 6, "ChickenBurger set", 300, RESTAURANT_1);
+    public static final Meal MEAL_2 = new Meal(START_SEQ + 7, "CheeseBurger set", 400, RESTAURANT_1);
+    public static final Meal MEAL_3 = new Meal(START_SEQ + 8, "FishBurger set", 500, RESTAURANT_1);
 
-    public static final List<Meal> KFC_TODAY_MEALS = new ArrayList<>() {{
-        add(new Meal(100011, "Sanders lunch basket", 300));
-        add(new Meal(100012, "Lunch basket \"5 items\"", 400));
-    }};*/
+    public static final Meal MEAL_4 = new Meal(START_SEQ + 9, "BigMac set", 300, RESTAURANT_2);
+    public static final Meal MEAL_5 = new Meal(START_SEQ + 10, "Happy Meal set", 400, RESTAURANT_2);
+
+    public static final Meal MEAL_6 = new Meal(START_SEQ + 11, "Sanders lunch basket", 300, RESTAURANT_3);
+    public static final Meal MEAL_7 = new Meal(START_SEQ + 12, "Lunch basket \"5 items\"", 400, RESTAURANT_3);
+
 }

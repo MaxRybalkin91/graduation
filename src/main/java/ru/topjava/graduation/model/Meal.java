@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.topjava.graduation.util.DateTimeUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,7 +19,7 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     private Integer price;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date = LocalDate.now();
 
     @JsonIgnore
@@ -30,6 +29,12 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     private Restaurant restaurant;
 
     public Meal() {
+    }
+
+    public Meal(Integer id, String name, Integer price, Restaurant restaurant) {
+        super(id, name);
+        this.price = price;
+        this.restaurant = restaurant;
     }
 
     public Integer getPrice() {

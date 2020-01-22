@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.format.annotation.DateTimeFormat;
-import ru.topjava.graduation.util.DateTimeUtil;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +14,6 @@ import java.time.LocalDate;
 public class Vote extends AbstractBaseEntity implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
     private LocalDate date = LocalDate.now();
 
     @JsonIgnore

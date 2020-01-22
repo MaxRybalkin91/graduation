@@ -23,6 +23,11 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
     public Restaurant() {
     }
 
+    public Restaurant(Integer id, String name, String address) {
+        super(id, name);
+        this.address = address;
+    }
+
     public String getAddress() {
         return address;
     }
