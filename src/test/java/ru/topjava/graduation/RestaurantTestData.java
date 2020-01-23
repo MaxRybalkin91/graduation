@@ -13,8 +13,9 @@ public class RestaurantTestData extends AbstractTestData {
 
     public static final List<RestaurantTo> RESTAURANTS = List.of(RESTAURANT_1, RESTAURANT_2, RESTAURANT_3)
             .stream()
-            .map(restaurant -> new RestaurantTo())
+            .map(RestaurantTo::new)
             .collect(Collectors.toList());
+
     public static TestMatchers<RestaurantTo> RESTAURANTS_TO_MATCHERS = TestMatchers.useEquals(RestaurantTo.class);
 
     public static Restaurant getNewRestaurant() {
