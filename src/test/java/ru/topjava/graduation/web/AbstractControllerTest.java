@@ -1,21 +1,32 @@
 package ru.topjava.graduation.web;
 
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.topjava.graduation.model.User;
+import ru.topjava.graduation.web.json.JsonUtil;
 
+import javax.annotation.PostConstruct;
+
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wrap;
 
 @Transactional
 @AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
+@SpringBootTest
 abstract public class AbstractControllerTest {
 
     protected static final User USER = new User("user", "password");
@@ -28,14 +39,25 @@ abstract public class AbstractControllerTest {
         CHARACTER_ENCODING_FILTER.setForceEncoding(true);
     }
 
-    private final String url;
     @Autowired
     private MockMvc mockMvc;
+
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    private final String url;
+
     public AbstractControllerTest(String url) {
         this.url = url;
+    }
+
+    @PostConstruct
+    private void postConstruct() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(webApplicationContext)
+                .addFilter(CHARACTER_ENCODING_FILTER)
+                .apply(springSecurity())
+                .build();
     }
 
     public ResultActions perform(RequestWrapper wrapper) throws Exception {
@@ -67,7 +89,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected RequestWrapper doDelete(int id) {
-        return wrap(MockMvcRequestBuilders.delete(url + "{id}", id));
+        return wrap(MockMvcRequestBuilders.delete(url + "/{id}", id));
     }
 
     protected RequestWrapper doPut() {
@@ -75,7 +97,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected RequestWrapper doPut(int id) {
-        return wrap(MockMvcRequestBuilders.put(url + "{id}", id));
+        return wrap(MockMvcRequestBuilders.put(url + "/{id}", id));
     }
 
     protected RequestWrapper doPost(String pad) throws Exception {
@@ -87,7 +109,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected RequestWrapper doPatch(int id) {
-        return wrap(MockMvcRequestBuilders.patch(url + "{id}", id));
+        return wrap(MockMvcRequestBuilders.patch(url + "/{id}", id));
     }
 
     public static class RequestWrapper {
@@ -103,6 +125,16 @@ abstract public class AbstractControllerTest {
 
         public MockHttpServletRequestBuilder unwrap() {
             return builder;
+        }
+
+        public <T> RequestWrapper jsonBody(T body) {
+            builder.contentType(MediaType.APPLICATION_JSON).content(JsonUtil.writeValue(body));
+            return this;
+        }
+
+        public RequestWrapper jsonUserWithPassword(User user) {
+            builder.contentType(MediaType.APPLICATION_JSON).content(JsonUtil.writeAdditionProps(user, "password", user.getPassword()));
+            return this;
         }
 
         public RequestWrapper basicAuth(User user) {

@@ -2,19 +2,35 @@ package ru.topjava.graduation.model.dto;
 
 import ru.topjava.graduation.model.Restaurant;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class RestaurantTo {
-    private final Integer id;
+public class RestaurantTo implements Serializable {
+    private Integer id;
 
-    private final String name;
+    private String name;
 
-    private final String address;
+    private String address;
+
+    public RestaurantTo() {
+    }
 
     public RestaurantTo(Restaurant r) {
         this.id = r.getId();
         this.name = r.getName();
         this.address = r.getAddress();
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Integer getId() {
@@ -42,5 +58,14 @@ public class RestaurantTo {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, address);
+    }
+
+    @Override
+    public String toString() {
+        return "RestaurantTo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }
