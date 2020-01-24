@@ -21,4 +21,11 @@ public class RestaurantTestData extends AbstractTestData {
     public static Restaurant getNewRestaurant() {
         return new Restaurant("KFC", "ул.Пушкина 10");
     }
+
+    public static Restaurant getUpdatedRestaurant() {
+        Restaurant updated = RESTAURANT_1;
+        updated.setName("NEW NAME");
+        updated.setAddress("NEW ADDRESS");
+        return updated;
+    }
 }

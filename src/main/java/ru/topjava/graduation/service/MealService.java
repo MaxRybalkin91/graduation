@@ -19,8 +19,8 @@ public class MealService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    public Meal create(Meal meal, Integer restaurantId) {
-        meal.setRestaurant(restaurantRepository.findById(restaurantId).orElseThrow(NotFoundException::new));
+    public Meal create(Meal meal, Integer id) {
+        meal.setRestaurant(restaurantRepository.findById(id).orElseThrow(NotFoundException::new));
         return mealRepository.save(meal);
     }
 
@@ -33,7 +33,7 @@ public class MealService {
     }
 
 
-    public List<Meal> getAll(Integer restaurantId) {
-        return mealRepository.findAllByRestaurantIdAndDate(restaurantId, LocalDate.now());
+    public List<Meal> getAll(Integer id) {
+        return mealRepository.findAllByidAndDate(id, LocalDate.now());
     }
 }

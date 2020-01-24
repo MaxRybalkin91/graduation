@@ -24,10 +24,10 @@ public class AdminRestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("{id}")
-    public RestaurantTo get(@PathVariable Integer id) {
-        log.info("get restaurant with id {}", id);
-        return restaurantService.get(id);
+    @GetMapping("{restaurantId}")
+    public RestaurantTo get(@PathVariable Integer restaurantId) {
+        log.info("get restaurant with id {}", restaurantId);
+        return restaurantService.get(restaurantId);
     }
 
     @PostMapping(consumes = JSON_TYPE)
@@ -39,10 +39,10 @@ public class AdminRestaurantController {
         return ResponseEntity.created(uriOfNewResource).body(new RestaurantTo(created));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{restaurantId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Integer id) {
-        log.info("delete restaurant with id {}", id);
-        restaurantService.delete(id);
+    public void delete(@PathVariable Integer restaurantId) {
+        log.info("delete restaurant with id {}", restaurantId);
+        restaurantService.delete(restaurantId);
     }
 }

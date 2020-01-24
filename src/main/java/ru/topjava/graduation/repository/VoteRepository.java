@@ -12,7 +12,7 @@ public interface VoteRepository extends CrudRepository<Vote, Integer> {
 
     Vote findByUserIdAndDate(Integer userId, LocalDate date);
 
-    Integer countByRestaurantId(Integer restaurantId);
+    Integer countByid(Integer id);
 
     @Override
     @Transactional

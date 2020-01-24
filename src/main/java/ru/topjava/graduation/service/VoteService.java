@@ -22,22 +22,22 @@ public class VoteService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    public Integer votesCount(Integer restaurantId) {
-        return voteRepository.countByRestaurantId(restaurantId);
+    public Integer votesCount(Integer id) {
+        return voteRepository.countByid(id);
     }
 
-    public Vote create(User user, String time, Integer restaurantId) {
+    public Vote create(User user, String time, Integer id) {
         LocalTime userTime = LocalTime.parse(time);
-        return checkAndSave(userTime, user, restaurantId);
+        return checkAndSave(userTime, user, id);
     }
 
-    public Vote create(User user, Integer restaurantId) {
-        return checkAndSave(LocalTime.now(), user, restaurantId);
+    public Vote create(User user, Integer id) {
+        return checkAndSave(LocalTime.now(), user, id);
     }
 
-    private Vote checkAndSave(LocalTime time, User user, Integer restaurantId) {
+    private Vote checkAndSave(LocalTime time, User user, Integer id) {
         Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), LocalDate.now());
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(NotFoundException::new);
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(NotFoundException::new);
         if (voteFromRepo != null && time.getHour() >= 11) {
             throw new VoteDenyException();
         }

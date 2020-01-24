@@ -3,6 +3,10 @@ package ru.topjava.graduation.web.restaurant;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.NestedServletException;
+import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.service.RestaurantService;
 import ru.topjava.graduation.util.exception.NotFoundException;
@@ -29,14 +33,16 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void create() throws Exception {
-        RestaurantTo newRestaurant = new RestaurantTo(getNewRestaurant());
+        Restaurant newRestaurant = getNewRestaurant();
+        RestaurantTo newRestTo = new RestaurantTo(newRestaurant);
         ResultActions action = perform(doPost().jsonBody(newRestaurant).basicAuth(ADMIN));
 
         RestaurantTo created = readFromJson(action, RestaurantTo.class);
         Integer newId = created.getId();
         newRestaurant.setId(newId);
-        RESTAURANTS_TO_MATCHERS.assertMatch(created, newRestaurant);
-        RESTAURANTS_TO_MATCHERS.assertMatch(restaurantService.get(newId), newRestaurant);
+
+        RESTAURANTS_TO_MATCHERS.assertMatch(created, newRestTo);
+        RESTAURANTS_TO_MATCHERS.assertMatch(restaurantService.get(newId), newRestTo);
     }
 
     @Test
@@ -50,19 +56,21 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void createExists() throws Exception {
-        perform(doPost().jsonBody(RESTAURANT_1).basicAuth(ADMIN))
-                .andDo(print())
-                .andExpect(status().isCreated());
-    }
-
-    @Test
     public void delete() throws Exception {
         Integer rest_id = RESTAURANT_1.getId();
         perform(doDelete(rest_id).basicAuth(ADMIN))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> restaurantService.get(rest_id));
+    }
+
+    //TODO: CREATE EXCEPTIONS AND HANDLER
+    @Test
+    public void deleteNotFound() throws Exception {
+        Integer rest_id = USER.getId();
+        perform(doDelete(rest_id).basicAuth(ADMIN))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -90,7 +98,29 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getForNotAdmin() throws Exception {
+    public void getNotAdmin() throws Exception {
         expectForbidden(perform(doGet(RESTAURANT_1.getId()).basicAuth(USER)));
+    }
+
+    @Test
+    public void update() throws Exception {
+        Restaurant newUpdatedRestaurant = getUpdatedRestaurant();
+        RestaurantTo newUpdatedRestTo = new RestaurantTo(newUpdatedRestaurant);
+        ResultActions action = perform(doPost().jsonBody(newUpdatedRestaurant).basicAuth(ADMIN));
+
+        RestaurantTo updated = readFromJson(action, RestaurantTo.class);
+
+        RESTAURANTS_TO_MATCHERS.assertMatch(updated, newUpdatedRestTo);
+        RESTAURANTS_TO_MATCHERS.assertMatch(restaurantService.get(updated.getId()), newUpdatedRestTo);
+    }
+
+
+    //TODO: CREATE EXCEPTIONS AND HANDLER
+    @Test(expected = NestedServletException.class)
+    @Transactional(propagation = Propagation.NEVER)
+    public void createExists() throws Exception {
+        Restaurant duplicated = new Restaurant(null, RESTAURANT_1.getName(), RESTAURANT_1.getAddress());
+        perform(doPost().jsonBody(duplicated)
+                .basicAuth(ADMIN));
     }
 }

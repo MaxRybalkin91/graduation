@@ -26,18 +26,18 @@ public class VoteController implements Controller {
     private VoteService voteService;
 
     @GetMapping
-    public Integer votesCount(@PathVariable Integer restaurantId) {
-        log.info("get count of the votes for restaurant {}", restaurantId);
-        return voteService.votesCount(restaurantId);
+    public Integer votesCount(@PathVariable Integer id) {
+        log.info("get count of the votes for restaurant {}", id);
+        return voteService.votesCount(id);
     }
 
     @PostMapping(consumes = JSON_TYPE)
     public ResponseEntity<Vote> create(@AuthenticationPrincipal User user,
-                                       @PathVariable Integer restaurantId) {
-        Vote created = voteService.create(user, restaurantId);
+                                       @PathVariable Integer id) {
+        Vote created = voteService.create(user, id);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(VOTES_URL + "/{id}")
-                .buildAndExpand(restaurantId, created.getId()).toUri();
+                .buildAndExpand(id, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 }

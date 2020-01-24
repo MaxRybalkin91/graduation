@@ -40,11 +40,11 @@ public class AdminMealController implements Controller {
 
     @PostMapping(consumes = JSON_TYPE)
     public ResponseEntity<Meal> create(@Valid @RequestBody Meal meal,
-                                       @PathVariable Integer restaurantId) {
-        Meal created = mealService.create(meal, restaurantId);
+                                       @PathVariable Integer id) {
+        Meal created = mealService.create(meal, id);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(MEALS_URL + "/{id}")
-                .buildAndExpand(restaurantId, created.getId()).toUri();
+                .buildAndExpand(id, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 }

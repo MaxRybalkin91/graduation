@@ -11,7 +11,7 @@ import java.util.List;
 public interface MealRepository extends CrudRepository<Meal, Integer> {
 
     @Query("select m from Meal m where m.restaurant.id = ?1 and m.date = ?2")
-    List<Meal> findAllByRestaurantIdAndDate(Integer restaurantId, LocalDate date);
+    List<Meal> findAllByidAndDate(Integer id, LocalDate date);
 
     @Override
     @Transactional
