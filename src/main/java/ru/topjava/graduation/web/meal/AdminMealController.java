@@ -14,28 +14,28 @@ import ru.topjava.graduation.web.Controller;
 import javax.validation.Valid;
 import java.net.URI;
 
+import static ru.topjava.graduation.web.Controller.ADMIN_MEALS_URL;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
-import static ru.topjava.graduation.web.Controller.MEALS_URL;
 
 @RestController
-@RequestMapping(value = MEALS_URL, produces = JSON_TYPE)
+@RequestMapping(value = ADMIN_MEALS_URL, produces = JSON_TYPE)
 public class AdminMealController implements Controller {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private MealService mealService;
 
-    @GetMapping("{restaurantId}")
-    public Meal get(@PathVariable Integer restaurantId) {
-        log.info("get meal with id {}", restaurantId);
-        return mealService.get(restaurantId);
+    @GetMapping("{id}")
+    public Meal get(@PathVariable Integer id) {
+        log.info("get meal with id {}", id);
+        return mealService.get(id);
     }
 
-    @DeleteMapping("{restaurantId}")
+    @DeleteMapping("{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Integer restaurantId) {
-        log.info("delete meal with id {}", restaurantId);
-        mealService.delete(restaurantId);
+    public void delete(@PathVariable Integer id) {
+        log.info("delete meal with id {}", id);
+        mealService.delete(id);
     }
 
     @PostMapping(consumes = JSON_TYPE)

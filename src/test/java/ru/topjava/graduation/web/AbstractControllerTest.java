@@ -21,6 +21,7 @@ import ru.topjava.graduation.web.json.JsonUtil;
 import javax.annotation.PostConstruct;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wrap;
 
 @Transactional
@@ -30,6 +31,7 @@ import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wr
 abstract public class AbstractControllerTest {
 
     protected static final User USER = new User("user", "password");
+    protected static final User USER_2 = new User("user2", "password");
     protected static final User ADMIN = new User("admin", "admin");
 
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
@@ -48,7 +50,7 @@ abstract public class AbstractControllerTest {
     private final String url;
 
     public AbstractControllerTest(String url) {
-        this.url = url;
+        this.url = url + "/";
     }
 
     @PostConstruct
@@ -68,48 +70,20 @@ abstract public class AbstractControllerTest {
         return mockMvc.perform(builder);
     }
 
-    protected RequestWrapper doGet(String urlTemplatePad, Object... uriVars) {
-        return wrap(MockMvcRequestBuilders.get(url + urlTemplatePad, uriVars));
-    }
-
     protected RequestWrapper doGet() {
         return wrap(MockMvcRequestBuilders.get(url));
     }
 
-    protected RequestWrapper doGet(String pad) {
-        return wrap(MockMvcRequestBuilders.get(url + pad));
-    }
-
     protected RequestWrapper doGet(int id) {
-        return doGet("/{id}", id);
-    }
-
-    protected RequestWrapper doDelete() {
-        return wrap(MockMvcRequestBuilders.delete(url));
+        return wrap(MockMvcRequestBuilders.get(url + "{id}", id));
     }
 
     protected RequestWrapper doDelete(int id) {
-        return wrap(MockMvcRequestBuilders.delete(url + "/{id}", id));
-    }
-
-    protected RequestWrapper doPut() {
-        return wrap(MockMvcRequestBuilders.put(url));
-    }
-
-    protected RequestWrapper doPut(int id) {
-        return wrap(MockMvcRequestBuilders.put(url + "/{id}", id));
-    }
-
-    protected RequestWrapper doPost(String pad) throws Exception {
-        return wrap(MockMvcRequestBuilders.post(url + pad));
+        return wrap(MockMvcRequestBuilders.delete(url + "{id}", id));
     }
 
     protected RequestWrapper doPost() {
         return wrap(MockMvcRequestBuilders.post(url));
-    }
-
-    protected RequestWrapper doPatch(int id) {
-        return wrap(MockMvcRequestBuilders.patch(url + "/{id}", id));
     }
 
     public static class RequestWrapper {
@@ -136,5 +110,13 @@ abstract public class AbstractControllerTest {
             builder.with(SecurityMockMvcRequestPostProcessors.httpBasic(user.getName(), user.getPassword()));
             return this;
         }
+    }
+
+    protected void expectUnauthorized(ResultActions perform) throws Exception {
+        perform.andExpect(status().isUnauthorized());
+    }
+
+    protected void expectForbidden(ResultActions perform) throws Exception {
+        perform.andExpect(status().isForbidden());
     }
 }

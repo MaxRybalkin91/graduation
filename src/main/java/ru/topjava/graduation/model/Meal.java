@@ -18,9 +18,10 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     @NotNull
     private Integer price;
 
+    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date = LocalDate.now();
+    private LocalDate date;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

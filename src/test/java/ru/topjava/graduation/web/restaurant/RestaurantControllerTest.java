@@ -2,7 +2,6 @@ package ru.topjava.graduation.web.restaurant;
 
 import org.junit.Test;
 import org.springframework.test.web.servlet.ResultActions;
-import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -20,22 +19,18 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getAllForUnauthorized() throws Exception {
-        getAll(perform(doGet()));
-    }
-
-    @Test
-    public void getAllForUser() throws Exception {
-        getAllAuthorized(USER);
+    public void getAllUnauthorized() throws Exception {
+        expectUnauthorized(perform(doGet()));
     }
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getAllAuthorized(ADMIN);
+        getAll(perform(doGet().basicAuth(ADMIN)));
     }
 
-    private void getAllAuthorized(User user) throws Exception {
-        getAll(perform(doGet().basicAuth(user)));
+    @Test
+    public void getAllForUser() throws Exception {
+        getAll(perform(doGet().basicAuth(USER)));
     }
 
     private void getAll(ResultActions resultActions) throws Exception {

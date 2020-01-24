@@ -15,13 +15,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.topjava.graduation.RestaurantTestData.*;
 import static ru.topjava.graduation.TestUtil.readFromJson;
 import static ru.topjava.graduation.TestUtil.readFromJsonMvcResult;
+import static ru.topjava.graduation.web.Controller.ADMIN_RESTAURANTS_URL;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
-import static ru.topjava.graduation.web.Controller.RESTAURANTS_URL;
 
 public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     public AdminRestaurantControllerTest() {
-        super(RESTAURANTS_URL);
+        super(ADMIN_RESTAURANTS_URL);
     }
 
     @Autowired
@@ -41,16 +41,12 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void createUnauthorized() throws Exception {
-        perform(doPost().jsonBody(getNewRestaurant()))
-                .andDo(print())
-                .andExpect(status().isUnauthorized());
+        expectUnauthorized(perform(doPost().jsonBody(getNewRestaurant())));
     }
 
     @Test
     public void createNotAdmin() throws Exception {
-        perform(doPost().jsonBody(getNewRestaurant()).basicAuth(USER))
-                .andDo(print())
-                .andExpect(status().isForbidden());
+        expectForbidden(perform(doPost().jsonBody(getNewRestaurant()).basicAuth(USER)));
     }
 
     @Test
@@ -71,16 +67,12 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void deleteUnauthorized() throws Exception {
-        perform(doDelete(RESTAURANT_1.getId()))
-                .andDo(print())
-                .andExpect(status().isUnauthorized());
+        expectUnauthorized(perform(doGet(RESTAURANT_1.getId())));
     }
 
     @Test
     public void deleteNotAdmin() throws Exception {
-        perform(doDelete(RESTAURANT_1.getId()).basicAuth(USER))
-                .andDo(print())
-                .andExpect(status().isForbidden());
+        expectForbidden(perform(doDelete(RESTAURANT_1.getId()).basicAuth(USER)));
     }
 
     @Test
@@ -94,15 +86,11 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getUnauthorized() throws Exception {
-        perform(doGet(RESTAURANT_1.getId()))
-                .andDo(print())
-                .andExpect(status().isUnauthorized());
+        expectUnauthorized(perform(doGet(RESTAURANT_1.getId())));
     }
 
     @Test
     public void getForNotAdmin() throws Exception {
-        perform(doGet(RESTAURANT_1.getId()).basicAuth(USER))
-                .andDo(print())
-                .andExpect(status().isForbidden());
+        expectForbidden(perform(doGet(RESTAURANT_1.getId()).basicAuth(USER)));
     }
 }

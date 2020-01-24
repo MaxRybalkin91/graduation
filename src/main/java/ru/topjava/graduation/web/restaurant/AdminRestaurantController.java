@@ -14,11 +14,10 @@ import ru.topjava.graduation.service.RestaurantService;
 import javax.validation.Valid;
 import java.net.URI;
 
-import static ru.topjava.graduation.web.Controller.JSON_TYPE;
-import static ru.topjava.graduation.web.Controller.RESTAURANTS_URL;
+import static ru.topjava.graduation.web.Controller.*;
 
 @RestController
-@RequestMapping(value = RESTAURANTS_URL, produces = JSON_TYPE)
+@RequestMapping(value = ADMIN_RESTAURANTS_URL, produces = JSON_TYPE)
 public class AdminRestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
