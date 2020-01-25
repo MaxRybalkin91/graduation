@@ -65,16 +65,12 @@ abstract public class AbstractControllerTest {
         return wrap(MockMvcRequestBuilders.get(url));
     }
 
-    protected RequestWrapper doGet(String pad) {
-        return wrap(MockMvcRequestBuilders.get(url + pad));
+    protected RequestWrapper doGet(String url) {
+        return wrap(MockMvcRequestBuilders.get(url));
     }
 
-    protected RequestWrapper doRestaurantsGet(int id) {
+    protected RequestWrapper doGet(int id) {
         return wrap(MockMvcRequestBuilders.get(url + "{id}", id));
-    }
-
-    protected RequestWrapper doMealsGet(int restaurantId) {
-        return wrap(MockMvcRequestBuilders.get(url + "{restaurantId}", restaurantId));
     }
 
     protected RequestWrapper doDelete() {

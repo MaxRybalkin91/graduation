@@ -83,7 +83,7 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void deleteUnauthorized() throws Exception {
-        expectUnauthorized(perform(doRestaurantsGet(MEAL_1.getId())));
+        expectUnauthorized(perform(doGet(MEAL_1.getId())));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void get() throws Exception {
-        perform(doRestaurantsGet(MEAL_1.getId()).basicAuth(ADMIN))
+        perform(doGet(MEAL_1.getId()).basicAuth(ADMIN))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_TYPE))
@@ -102,17 +102,17 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getUnauthorized() throws Exception {
-        expectUnauthorized(perform(doRestaurantsGet(MEAL_1.getId())));
+        expectUnauthorized(perform(doGet(MEAL_1.getId())));
     }
 
     @Test
     public void getNotAdmin() throws Exception {
-        expectForbidden(perform(doRestaurantsGet(MEAL_1.getId()).basicAuth(USER)));
+        expectForbidden(perform(doGet(MEAL_1.getId()).basicAuth(USER)));
     }
 
     @Test
     public void getNotFound() throws Exception {
-        perform(doRestaurantsGet(USER.getId()).basicAuth(ADMIN))
+        perform(doGet(USER.getId()).basicAuth(ADMIN))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }

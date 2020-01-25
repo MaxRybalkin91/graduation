@@ -11,20 +11,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.data.MealTestData.*;
-import static ru.topjava.graduation.data.RestaurantTestData.RESTAURANT_1;
-import static ru.topjava.graduation.data.RestaurantTestData.RESTAURANT_2;
 import static ru.topjava.graduation.data.UserTestData.ADMIN;
 import static ru.topjava.graduation.data.UserTestData.USER;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
-import static ru.topjava.graduation.web.Controller.MEALS_URL;
 
 public class MealControllerTest extends AbstractControllerTest {
 
     public MealControllerTest() {
-        super(MEALS_URL);
+        super(RESTAURANT_1_MEALS_URL);
     }
 
-    /*@Test
+    @Test
     public void createFromAnotherMapping() throws Exception {
         perform(doPost().jsonBody(getNewMeal())
                 .basicAuth(ADMIN))
@@ -36,21 +33,21 @@ public class MealControllerTest extends AbstractControllerTest {
         perform(doDelete()
                 .basicAuth(ADMIN))
                 .andExpect(status().isMethodNotAllowed());
-    }*/
+    }
 
     @Test
     public void getAllUnauthorized() throws Exception {
-        expectUnauthorized(perform(doMealsGet(RESTAURANT_2.getId())));
+        expectUnauthorized(perform(doGet(RESTAURANT_3_MEALS_URL)));
     }
 
     @Test
     public void getAllUser() throws Exception {
-        getAll(perform(doMealsGet(RESTAURANT_1.getId()).basicAuth(USER)), RESTAURANT_1_MEALS);
+        getAll(perform(doGet(RESTAURANT_1_MEALS_URL).basicAuth(USER)), RESTAURANT_1_MEALS);
     }
 
     @Test
     public void getAllAdmin() throws Exception {
-        getAll(perform(doMealsGet(RESTAURANT_2.getId()).basicAuth(ADMIN)), RESTAURANT_2_MEALS);
+        getAll(perform(doGet(RESTAURANT_2_MEALS_URL).basicAuth(ADMIN)), RESTAURANT_2_MEALS);
     }
 
     private void getAll(ResultActions resultActions, List<Meal> mealList) throws Exception {

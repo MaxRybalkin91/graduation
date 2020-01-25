@@ -24,7 +24,11 @@ public class MealTestData {
     public static final List<Meal> RESTAURANT_2_MEALS = List.of(MEAL_4, MEAL_5);
     public static final List<Meal> RESTAURANT_3_MEALS = List.of(MEAL_6, MEAL_7);
 
-    public static TestMatchers<Meal> MEAL_MATCHERS = TestMatchers.useEquals(Meal.class);
+    public static final String RESTAURANT_1_MEALS_URL = "/restaurants/" + RESTAURANT_1.getId() + "/meals";
+    public static final String RESTAURANT_2_MEALS_URL = "/restaurants/" + RESTAURANT_2.getId() + "/meals";
+    public static final String RESTAURANT_3_MEALS_URL = "/restaurants/" + RESTAURANT_3.getId() + "/meals";
+
+    public static TestMatchers<Meal> MEAL_MATCHERS = TestMatchers.useFieldsComparator(Meal.class, "date");
 
     public static Meal getNewMeal() {
         return new Meal("Big Mexican Burger", 199);
