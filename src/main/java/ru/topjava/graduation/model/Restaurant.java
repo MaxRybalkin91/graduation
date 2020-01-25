@@ -12,9 +12,10 @@ import java.util.Set;
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @NotBlank
-    @Size(min = 5, max = 50)
+    @NotBlank(message = "Address is a required field")
+    @Size(min = 5, max = 50, message = "Address must have more than 5 and lower than 50 characters")
     private String address;
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)

@@ -1,12 +1,15 @@
-package ru.topjava.graduation;
+package ru.topjava.graduation.data;
 
+import ru.topjava.graduation.TestMatchers;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.dto.RestaurantTo;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RestaurantTestData extends AbstractTestData {
+public class RestaurantTestData {
+    private static final Integer START_SEQ = 100000;
+
     public static final Restaurant RESTAURANT_1 = new Restaurant(START_SEQ + 3, "Burger King", "ул.Садовая 1");
     public static final Restaurant RESTAURANT_2 = new Restaurant(START_SEQ + 4, "McDonalds", "ул.Центральная 5");
     public static final Restaurant RESTAURANT_3 = new Restaurant(START_SEQ + 5, "KFC", "ул.Пушкина 10");

@@ -1,4 +1,4 @@
-package ru.topjava.graduation.web.restaurant;
+package ru.topjava.graduation.web.meal;
 
 import org.junit.Test;
 import org.springframework.test.web.servlet.ResultActions;
@@ -7,21 +7,21 @@ import ru.topjava.graduation.web.AbstractControllerTest;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.topjava.graduation.data.RestaurantTestData.*;
+import static ru.topjava.graduation.data.MealTestData.*;
 import static ru.topjava.graduation.data.UserTestData.ADMIN;
 import static ru.topjava.graduation.data.UserTestData.USER;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
-import static ru.topjava.graduation.web.Controller.RESTAURANTS_URL;
+import static ru.topjava.graduation.web.Controller.MEALS_URL;
 
-public class RestaurantControllerTest extends AbstractControllerTest {
+public class MealControllerTest extends AbstractControllerTest {
 
-    public RestaurantControllerTest() {
-        super(RESTAURANTS_URL);
+    public MealControllerTest() {
+        super(MEALS_URL);
     }
 
     @Test
     public void createFromAnotherMapping() throws Exception {
-        perform(doPost().jsonBody(getNewRestaurant())
+        perform(doPost().jsonBody(getNewMeal())
                 .basicAuth(ADMIN))
                 .andExpect(status().isMethodNotAllowed());
     }
@@ -53,6 +53,6 @@ public class RestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_TYPE))
-                .andExpect(RESTAURANTS_TO_MATCHERS.contentJson(RESTAURANTS));
+                .andExpect(MEAL_MATCHERS.contentJson(RESTAURANT_1_MEALS));
     }
 }

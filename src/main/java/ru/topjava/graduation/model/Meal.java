@@ -14,14 +14,15 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "meals")
 public class Meal extends AbstractNamedEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @NotNull
+    @NotNull(message = "Price must be added")
     private Integer price;
 
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
+    private LocalDate date = LocalDate.now();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +31,10 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     private Restaurant restaurant;
 
     public Meal() {
+    }
+
+    public Meal(String name, Integer price) {
+        this(null, name, price, null);
     }
 
     public Meal(Integer id, String name, Integer price, Restaurant restaurant) {

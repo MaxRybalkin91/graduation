@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "votes")
 public class Vote extends AbstractBaseEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate date = LocalDate.now();

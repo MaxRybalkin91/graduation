@@ -1,13 +1,12 @@
-package ru.topjava.graduation.web.restaurant;
+package ru.topjava.graduation.web.meal;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.model.dto.RestaurantTo;
-import ru.topjava.graduation.service.RestaurantService;
+import ru.topjava.graduation.model.Meal;
+import ru.topjava.graduation.service.MealService;
 import ru.topjava.graduation.util.exception.NotFoundException;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
@@ -17,33 +16,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.readFromJson;
 import static ru.topjava.graduation.TestUtil.readFromJsonMvcResult;
-import static ru.topjava.graduation.data.RestaurantTestData.*;
+import static ru.topjava.graduation.data.MealTestData.*;
+import static ru.topjava.graduation.data.RestaurantTestData.getNewRestaurant;
 import static ru.topjava.graduation.data.UserTestData.ADMIN;
 import static ru.topjava.graduation.data.UserTestData.USER;
-import static ru.topjava.graduation.web.Controller.ADMIN_RESTAURANTS_URL;
+import static ru.topjava.graduation.web.Controller.ADMIN_MEALS_URL;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
-public class AdminRestaurantControllerTest extends AbstractControllerTest {
-
-    public AdminRestaurantControllerTest() {
-        super(ADMIN_RESTAURANTS_URL);
-    }
+public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Autowired
-    private RestaurantService restaurantService;
+    private MealService mealService;
+
+    public AdminMealControllerTest() {
+        super(ADMIN_MEALS_URL);
+    }
 
     @Test
     public void create() throws Exception {
-        Restaurant newRestaurant = getNewRestaurant();
-        RestaurantTo newRestTo = new RestaurantTo(newRestaurant);
-        ResultActions action = perform(doPost().jsonBody(newRestaurant).basicAuth(ADMIN));
+        Meal newMeal = getNewMeal();
+        ResultActions action = perform(doPost().jsonBody(newMeal).basicAuth(ADMIN));
 
-        RestaurantTo created = readFromJson(action, RestaurantTo.class);
+        Meal created = readFromJson(action, Meal.class);
         Integer newId = created.getId();
-        newRestTo.setId(newId);
+        newMeal.setId(newId);
 
-        RESTAURANTS_TO_MATCHERS.assertMatch(created, newRestTo);
-        RESTAURANTS_TO_MATCHERS.assertMatch(restaurantService.get(newId), newRestTo);
+        MEAL_MATCHERS.assertMatch(created, newMeal);
+        MEAL_MATCHERS.assertMatch(mealService.get(newId), newMeal);
     }
 
     @Test
@@ -59,7 +58,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @Transactional(propagation = Propagation.NEVER)
     public void createExists() throws Exception {
-        Restaurant duplicated = new Restaurant(null, RESTAURANT_1.getName(), RESTAURANT_1.getAddress());
+        Meal duplicated = new Meal(MEAL_1.getName(), MEAL_1.getPrice());
         perform(doPost().jsonBody(duplicated)
                 .basicAuth(ADMIN))
                 .andExpect(status().isUnprocessableEntity());
@@ -67,11 +66,11 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void delete() throws Exception {
-        Integer rest_id = RESTAURANT_1.getId();
+        Integer rest_id = MEAL_1.getId();
         perform(doDelete(rest_id).basicAuth(ADMIN))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> restaurantService.get(rest_id));
+        assertThrows(NotFoundException.class, () -> mealService.get(rest_id));
     }
 
     @Test
@@ -84,31 +83,31 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void deleteUnauthorized() throws Exception {
-        expectUnauthorized(perform(doGet(RESTAURANT_1.getId())));
+        expectUnauthorized(perform(doGet(MEAL_1.getId())));
     }
 
     @Test
     public void deleteNotAdmin() throws Exception {
-        expectForbidden(perform(doDelete(RESTAURANT_1.getId()).basicAuth(USER)));
+        expectForbidden(perform(doDelete(MEAL_1.getId()).basicAuth(USER)));
     }
 
     @Test
     public void get() throws Exception {
-        perform(doGet(RESTAURANT_1.getId()).basicAuth(ADMIN))
+        perform(doGet(MEAL_1.getId()).basicAuth(ADMIN))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_TYPE))
-                .andExpect(result -> RESTAURANTS_TO_MATCHERS.assertMatch(readFromJsonMvcResult(result, RestaurantTo.class), new RestaurantTo(RESTAURANT_1)));
+                .andExpect(result -> MEAL_MATCHERS.assertMatch(readFromJsonMvcResult(result, Meal.class), MEAL_1));
     }
 
     @Test
     public void getUnauthorized() throws Exception {
-        expectUnauthorized(perform(doGet(RESTAURANT_1.getId())));
+        expectUnauthorized(perform(doGet(MEAL_1.getId())));
     }
 
     @Test
     public void getNotAdmin() throws Exception {
-        expectForbidden(perform(doGet(RESTAURANT_1.getId()).basicAuth(USER)));
+        expectForbidden(perform(doGet(MEAL_1.getId()).basicAuth(USER)));
     }
 
     @Test
@@ -120,13 +119,12 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void update() throws Exception {
-        Restaurant newUpdatedRestaurant = getUpdatedRestaurant();
-        RestaurantTo newUpdatedRestTo = new RestaurantTo(newUpdatedRestaurant);
-        ResultActions action = perform(doPost().jsonBody(newUpdatedRestaurant).basicAuth(ADMIN));
+        Meal newUpdatedMeal = getUpdatedMeal();
+        ResultActions action = perform(doPost().jsonBody(newUpdatedMeal).basicAuth(ADMIN));
 
-        RestaurantTo updated = readFromJson(action, RestaurantTo.class);
+        Meal updated = readFromJson(action, Meal.class);
 
-        RESTAURANTS_TO_MATCHERS.assertMatch(updated, newUpdatedRestTo);
-        RESTAURANTS_TO_MATCHERS.assertMatch(restaurantService.get(updated.getId()), newUpdatedRestTo);
+        MEAL_MATCHERS.assertMatch(updated, newUpdatedMeal);
+        MEAL_MATCHERS.assertMatch(mealService.get(updated.getId()), newUpdatedMeal);
     }
 }

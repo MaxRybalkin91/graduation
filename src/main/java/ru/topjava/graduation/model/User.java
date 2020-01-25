@@ -16,6 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User extends AbstractNamedEntity implements UserDetails, Serializable {
+    private static final long serialVersionUID = 1L;
 
     @NotBlank
     @Size(min = 5, max = 100)

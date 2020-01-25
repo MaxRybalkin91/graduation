@@ -11,8 +11,8 @@ import java.util.Objects;
 @Access(AccessType.FIELD)
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
-    @NotBlank
-    @Size(min = 2, max = 120)
+    @NotBlank(message = "Name is a required field")
+    @Size(min = 2, max = 50, message = "Address must have more than 5 and lower than 50 characters")
     protected String name;
 
     public AbstractNamedEntity() {
