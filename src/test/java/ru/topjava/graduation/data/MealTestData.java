@@ -8,7 +8,7 @@ import java.util.List;
 import static ru.topjava.graduation.data.RestaurantTestData.*;
 
 public class MealTestData {
-    public static final List<Meal> RESTAURANT_1_MEALS = List.of(MEAL_1, MEAL_2, MEAL_3);
+    private static final Integer START_SEQ = 100000;
 
     public static final Meal MEAL_1 = new Meal(START_SEQ + 6, "ChickenBurger set", 300, RESTAURANT_1);
     public static final Meal MEAL_2 = new Meal(START_SEQ + 7, "CheeseBurger set", 400, RESTAURANT_1);
@@ -19,7 +19,8 @@ public class MealTestData {
 
     public static final Meal MEAL_6 = new Meal(START_SEQ + 11, "Sanders lunch basket", 300, RESTAURANT_3);
     public static final Meal MEAL_7 = new Meal(START_SEQ + 12, "Lunch basket \"5 items\"", 400, RESTAURANT_3);
-    private static final Integer START_SEQ = 100000;
+
+    public static final List<Meal> RESTAURANT_1_MEALS = List.of(MEAL_1, MEAL_2, MEAL_3);
     public static final List<Meal> RESTAURANT_2_MEALS = List.of(MEAL_4, MEAL_5);
     public static final List<Meal> RESTAURANT_3_MEALS = List.of(MEAL_6, MEAL_7);
 

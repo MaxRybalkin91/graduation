@@ -24,7 +24,7 @@ public class AdminRestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("{restaurantId}")
+    @GetMapping("/{restaurantId}")
     public RestaurantTo get(@PathVariable Integer restaurantId) {
         log.info("get restaurant with id {}", restaurantId);
         return restaurantService.get(restaurantId);
@@ -39,7 +39,7 @@ public class AdminRestaurantController {
         return ResponseEntity.created(uriOfNewResource).body(new RestaurantTo(created));
     }
 
-    @DeleteMapping("{restaurantId}")
+    @DeleteMapping("/{restaurantId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer restaurantId) {
         log.info("delete restaurant with id {}", restaurantId);
