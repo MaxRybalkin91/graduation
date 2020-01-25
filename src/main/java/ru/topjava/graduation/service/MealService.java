@@ -34,7 +34,7 @@ public class MealService {
     }
 
     public List<Meal> getAll(Integer id) {
-        return mealRepository.findAllByidAndDate(id, LocalDate.now());
+        return mealRepository.findAllByIdAndDate(id, LocalDate.now());
     }
 
     private Meal getOrThrow(Integer id) {

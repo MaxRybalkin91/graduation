@@ -23,10 +23,6 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
         this.name = name;
     }
 
-    public AbstractNamedEntity(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
@@ -52,8 +48,8 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     @Override
     public String toString() {
         return "AbstractNamedEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

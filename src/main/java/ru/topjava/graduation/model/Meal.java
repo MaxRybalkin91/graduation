@@ -19,7 +19,6 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     @NotNull(message = "Price must be added")
     private Integer price;
 
-    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date = LocalDate.now();
@@ -65,5 +64,15 @@ public class Meal extends AbstractNamedEntity implements Serializable {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "id=" + id +
+                ", name=" + name +
+                ", price=" + price +
+                ", date=" + date +
+                ", restaurant=" + restaurant + '}';
     }
 }

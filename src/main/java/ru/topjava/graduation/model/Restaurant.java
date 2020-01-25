@@ -1,5 +1,7 @@
 package ru.topjava.graduation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -18,6 +20,7 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
     @Size(min = 5, max = 50, message = "Address must have more than 5 and lower than 50 characters")
     private String address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private Set<Meal> meals;
 
@@ -47,5 +50,13 @@ public class Restaurant extends AbstractNamedEntity implements Serializable {
 
     public void setMeals(Set<Meal> meals) {
         this.meals = meals;
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                ", id=" + id +
+                ", name='" + name +
+                "address='" + address + '}';
     }
 }

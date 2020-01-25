@@ -28,7 +28,7 @@ public class MealTestData {
     public static final String RESTAURANT_2_MEALS_URL = "/restaurants/" + RESTAURANT_2.getId() + "/meals";
     public static final String RESTAURANT_3_MEALS_URL = "/restaurants/" + RESTAURANT_3.getId() + "/meals";
 
-    public static TestMatchers<Meal> MEAL_MATCHERS = TestMatchers.useFieldsComparator(Meal.class, "date");
+    public static TestMatchers<Meal> MEAL_MATCHERS = TestMatchers.useFieldsComparator(Meal.class);
 
     public static Meal getNewMeal() {
         return new Meal("Big Mexican Burger", 199);
