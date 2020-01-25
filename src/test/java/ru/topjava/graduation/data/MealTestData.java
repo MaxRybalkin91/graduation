@@ -19,9 +19,10 @@ public class MealTestData {
 
     public static final Meal MEAL_6 = new Meal(START_SEQ + 11, "Sanders lunch basket", 300, RESTAURANT_3);
     public static final Meal MEAL_7 = new Meal(START_SEQ + 12, "Lunch basket \"5 items\"", 400, RESTAURANT_3);
+    private static final Integer START_SEQ = 100000;
     public static final List<Meal> RESTAURANT_2_MEALS = List.of(MEAL_4, MEAL_5);
     public static final List<Meal> RESTAURANT_3_MEALS = List.of(MEAL_6, MEAL_7);
-    private static final Integer START_SEQ = 100000;
+
     public static TestMatchers<Meal> MEAL_MATCHERS = TestMatchers.useEquals(Meal.class);
 
     public static Meal getNewMeal() {

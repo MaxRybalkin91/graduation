@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.web.json.JsonUtil;
 
@@ -29,13 +28,6 @@ import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wr
 @RunWith(SpringRunner.class)
 @SpringBootTest
 abstract public class AbstractControllerTest {
-
-    private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
-
-    static {
-        CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");
-        CHARACTER_ENCODING_FILTER.setForceEncoding(true);
-    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -53,7 +45,6 @@ abstract public class AbstractControllerTest {
     private void postConstruct() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
-                .addFilter(CHARACTER_ENCODING_FILTER)
                 .apply(springSecurity())
                 .build();
     }
@@ -78,8 +69,12 @@ abstract public class AbstractControllerTest {
         return wrap(MockMvcRequestBuilders.get(url + pad));
     }
 
-    protected RequestWrapper doGet(int id) {
-        return doGet("{id}", id);
+    protected RequestWrapper doRestaurantsGet(int id) {
+        return wrap(MockMvcRequestBuilders.get(url + "{id}", id));
+    }
+
+    protected RequestWrapper doMealsGet(int restaurantId) {
+        return wrap(MockMvcRequestBuilders.get(url + "{restaurantId}", restaurantId));
     }
 
     protected RequestWrapper doDelete() {

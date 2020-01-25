@@ -20,14 +20,14 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void createFromAnotherMapping() throws Exception {
+    public void createNotAllowed() throws Exception {
         perform(doPost().jsonBody(getNewRestaurant())
                 .basicAuth(ADMIN))
                 .andExpect(status().isMethodNotAllowed());
     }
 
     @Test
-    public void deleteFromAnotherMapping() throws Exception {
+    public void deleteNotAllowed() throws Exception {
         perform(doDelete()
                 .basicAuth(ADMIN))
                 .andExpect(status().isMethodNotAllowed());
