@@ -34,7 +34,11 @@ public class User extends AbstractNamedEntity implements UserDetails, Serializab
     }
 
     public User(String name, String password) {
-        super(name);
+        this(null, name, password);
+    }
+
+    public User(Integer id, String name, String password) {
+        super(id, name);
         this.password = password;
     }
 

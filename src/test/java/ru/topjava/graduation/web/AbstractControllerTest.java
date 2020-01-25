@@ -30,8 +30,9 @@ import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wr
 @SpringBootTest
 abstract public class AbstractControllerTest {
 
-    protected static final User USER = new User("user", "password");
-    protected static final User ADMIN = new User("admin", "admin");
+    protected static final User ADMIN = new User(100000, "admin", "admin");
+    protected static final User USER = new User(100001, "user", "password");
+    protected static final User USER_2 = new User(100002, "user2", "password");
 
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
 

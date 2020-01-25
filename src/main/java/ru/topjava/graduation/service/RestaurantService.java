@@ -28,10 +28,15 @@ public class RestaurantService {
     }
 
     public RestaurantTo get(Integer id) {
-        return new RestaurantTo(restaurantRepository.findById(id).orElseThrow(NotFoundException::new));
+        return new RestaurantTo(getOrThrow(id));
     }
 
     public void delete(Integer id) {
+        getOrThrow(id);
         restaurantRepository.deleteById(id);
+    }
+
+    private Restaurant getOrThrow(Integer id) {
+        return restaurantRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 }

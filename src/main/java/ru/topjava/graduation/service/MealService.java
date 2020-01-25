@@ -25,15 +25,19 @@ public class MealService {
     }
 
     public Meal get(Integer id) {
-        return mealRepository.findById(id).orElseThrow(NotFoundException::new);
+        return getOrThrow(id);
     }
 
     public void delete(Integer id) {
+        getOrThrow(id);
         mealRepository.deleteById(id);
     }
 
-
     public List<Meal> getAll(Integer id) {
         return mealRepository.findAllByidAndDate(id, LocalDate.now());
+    }
+
+    private Meal getOrThrow(Integer id) {
+        return mealRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 }

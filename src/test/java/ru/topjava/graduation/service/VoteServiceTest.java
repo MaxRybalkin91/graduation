@@ -1,3 +1,4 @@
+/*
 package ru.topjava.graduation.service;
 
 import org.junit.runner.RunWith;
@@ -16,4 +17,4 @@ public class VoteServiceTest {
     protected MockMvc mockMvc;
 
 
-}
+}*/

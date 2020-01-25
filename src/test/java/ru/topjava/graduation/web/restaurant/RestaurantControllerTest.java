@@ -18,6 +18,20 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void createFromAnotherMapping() throws Exception {
+        perform(doPost().jsonBody(getNewRestaurant())
+                .basicAuth(ADMIN))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    public void deleteFromAnotherMapping() throws Exception {
+        perform(doDelete()
+                .basicAuth(ADMIN))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
     public void getAllUnauthorized() throws Exception {
         expectUnauthorized(perform(doGet()));
     }
@@ -38,19 +52,5 @@ public class RestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_TYPE))
                 .andExpect(RESTAURANTS_TO_MATCHERS.contentJson(RESTAURANTS));
-    }
-
-    @Test
-    public void createFromAnotherMapping() throws Exception {
-        perform(doPost().jsonBody(getNewRestaurant())
-                .basicAuth(ADMIN))
-                .andExpect(status().isMethodNotAllowed());
-    }
-
-    @Test
-    public void deleteFromAnotherMapping() throws Exception {
-        perform(doDelete()
-                .basicAuth(ADMIN))
-                .andExpect(status().isMethodNotAllowed());
     }
 }

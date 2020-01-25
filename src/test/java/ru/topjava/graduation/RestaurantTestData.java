@@ -19,11 +19,12 @@ public class RestaurantTestData extends AbstractTestData {
     public static TestMatchers<RestaurantTo> RESTAURANTS_TO_MATCHERS = TestMatchers.useEquals(RestaurantTo.class);
 
     public static Restaurant getNewRestaurant() {
-        return new Restaurant("KFC", "ул.Пушкина 10");
+        return new Restaurant("Пиццерия", "пр.Академиков 15");
     }
 
     public static Restaurant getUpdatedRestaurant() {
-        Restaurant updated = RESTAURANT_1;
+        Restaurant updated = new Restaurant();
+        updated.setId(RESTAURANT_1.getId());
         updated.setName("NEW NAME");
         updated.setAddress("NEW ADDRESS");
         return updated;
