@@ -28,7 +28,7 @@ public class VoteController implements Controller {
     @GetMapping
     public Integer getVotesCount(@PathVariable Integer restaurantId) {
         log.info("get count of the votes for restaurant {}", restaurantId);
-        return voteService.votesCount(restaurantId);
+        return voteService.getVotesCount(restaurantId);
     }
 
     @PostMapping(consumes = JSON_TYPE)

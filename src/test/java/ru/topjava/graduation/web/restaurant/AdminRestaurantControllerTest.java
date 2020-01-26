@@ -29,22 +29,22 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void deleteUnauthorized() throws Exception {
-        expectUnauthorized(perform(doGet(RESTAURANT_1.getId())));
+        expectUnauthorized(perform(doGet(REST_1_ID)));
     }
 
     @Test
     public void deleteNotAdmin() throws Exception {
-        expectForbidden(perform(doDelete(RESTAURANT_1.getId()).basicAuth(USER)));
+        expectForbidden(perform(doDelete(REST_1_ID).basicAuth(USER)));
     }
 
     @Test
     public void getUnauthorized() throws Exception {
-        expectUnauthorized(perform(doGet(RESTAURANT_1.getId())));
+        expectUnauthorized(perform(doGet(REST_1_ID)));
     }
 
     @Test
     public void getNotAdmin() throws Exception {
-        expectForbidden(perform(doGet(RESTAURANT_1.getId()).basicAuth(USER)));
+        expectForbidden(perform(doGet(REST_1_ID).basicAuth(USER)));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void delete() throws Exception {
-        deleteAndCheck(RESTAURANT_1.getId());
+        deleteAndCheck(REST_1_ID);
     }
 
     @Test
