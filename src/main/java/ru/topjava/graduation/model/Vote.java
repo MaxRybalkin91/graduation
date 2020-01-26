@@ -63,4 +63,14 @@ public class Vote extends AbstractBaseEntity implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "id=" + id +
+                ", user=" + user.getUsername() +
+                ", restaurant=" + restaurant.getName() +
+                ", date=" + date +
+                '}';
+    }
 }

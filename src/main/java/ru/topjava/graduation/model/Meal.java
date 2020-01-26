@@ -19,9 +19,10 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     @NotNull(message = "Price must be added")
     private Integer price;
 
+    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date = LocalDate.now();
+    private final LocalDate date = LocalDate.now();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,17 +34,12 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     }
 
     public Meal(String name, Integer price) {
-        this(null, name, price, null);
+        this(null, name, price);
     }
 
     public Meal(Integer id, String name, Integer price) {
-        this(id, name, price, null);
-    }
-
-    public Meal(Integer id, String name, Integer price, Restaurant restaurant) {
         super(id, name);
         this.price = price;
-        this.restaurant = restaurant;
     }
 
     public Integer getPrice() {
@@ -54,20 +50,16 @@ public class Meal extends AbstractNamedEntity implements Serializable {
         this.price = price;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public Restaurant getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public LocalDate getDate() {
+        return date;
     }
 
     @Override
@@ -76,7 +68,6 @@ public class Meal extends AbstractNamedEntity implements Serializable {
                 "id=" + id +
                 ", name=" + name +
                 ", price=" + price +
-                ", date=" + date +
-                ", restaurant=" + restaurant + '}';
+                '}';
     }
 }

@@ -38,7 +38,7 @@ abstract public class AbstractControllerTest {
     private final String url;
 
     public AbstractControllerTest(String url) {
-        this.url = url + "/";
+        this.url = url;
     }
 
     @PostConstruct
@@ -70,7 +70,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected RequestWrapper doGet(int id) {
-        return wrap(MockMvcRequestBuilders.get(url + "{id}", id));
+        return wrap(MockMvcRequestBuilders.get(url + "/{id}", id));
     }
 
     protected RequestWrapper doDelete() {
@@ -78,7 +78,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected RequestWrapper doDelete(int id) {
-        return wrap(MockMvcRequestBuilders.delete(url + "{id}", id));
+        return wrap(MockMvcRequestBuilders.delete(url + "/{id}", id));
     }
 
     protected RequestWrapper doPut() {
@@ -86,7 +86,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected RequestWrapper doPut(int id) {
-        return wrap(MockMvcRequestBuilders.put(url + "{id}", id));
+        return wrap(MockMvcRequestBuilders.put(url + "/{id}", id));
     }
 
     protected RequestWrapper doPost(String pad) throws Exception {
@@ -98,7 +98,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected RequestWrapper doPatch(int id) {
-        return wrap(MockMvcRequestBuilders.patch(url + "{id}", id));
+        return wrap(MockMvcRequestBuilders.patch(url + "/{id}", id));
     }
 
     public static class RequestWrapper {

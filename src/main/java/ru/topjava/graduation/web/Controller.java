@@ -10,6 +10,6 @@ public interface Controller {
     String MEALS_URL = "/restaurants/{restaurantId}/meals";
     String VOTES_URL = "/restaurants/{restaurantId}/votes";
 
-    String ADMIN_RESTAURANTS_URL = "/admin/restaurants";
-    String ADMIN_MEALS_URL = "/admin/restaurants/{restaurantId}/meals";
+    String ADMIN_RESTAURANTS_URL = "/admin" + RESTAURANTS_URL;
+    String ADMIN_MEALS_URL = "/admin" + MEALS_URL;
 }

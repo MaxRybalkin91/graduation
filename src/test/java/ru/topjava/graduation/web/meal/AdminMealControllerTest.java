@@ -17,10 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.topjava.graduation.TestUtil.readFromJson;
 import static ru.topjava.graduation.TestUtil.readFromJsonMvcResult;
 import static ru.topjava.graduation.data.MealTestData.*;
-import static ru.topjava.graduation.data.RestaurantTestData.getNewRestaurant;
 import static ru.topjava.graduation.data.UserTestData.ADMIN;
 import static ru.topjava.graduation.data.UserTestData.USER;
-import static ru.topjava.graduation.web.Controller.ADMIN_MEALS_URL;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
 public class AdminMealControllerTest extends AbstractControllerTest {
@@ -29,7 +27,7 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     private MealService mealService;
 
     public AdminMealControllerTest() {
-        super(ADMIN_MEALS_URL);
+        super(ADMIN_REST_1_MEALS_URL);
     }
 
     @Test
@@ -47,12 +45,12 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void createUnauthorized() throws Exception {
-        expectUnauthorized(perform(doPost().jsonBody(getNewRestaurant())));
+        expectUnauthorized(perform(doPost().jsonBody(getNewMeal())));
     }
 
     @Test
     public void createNotAdmin() throws Exception {
-        expectForbidden(perform(doPost().jsonBody(getNewRestaurant()).basicAuth(USER)));
+        expectForbidden(perform(doPost().jsonBody(getNewMeal()).basicAuth(USER)));
     }
 
     @Test
@@ -66,17 +64,17 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void delete() throws Exception {
-        Integer rest_id = MEAL_1.getId();
-        perform(doDelete(rest_id).basicAuth(ADMIN))
+        Integer mealId = MEAL_1.getId();
+        perform(doDelete(mealId).basicAuth(ADMIN))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> mealService.get(rest_id));
+        assertThrows(NotFoundException.class, () -> mealService.get(mealId));
     }
 
     @Test
     public void deleteNotFound() throws Exception {
-        Integer rest_id = USER.getId();
-        perform(doDelete(rest_id).basicAuth(ADMIN))
+        Integer mealId = USER.getId();
+        perform(doDelete(mealId).basicAuth(ADMIN))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }

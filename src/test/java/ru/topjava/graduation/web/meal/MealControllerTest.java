@@ -18,7 +18,7 @@ import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 public class MealControllerTest extends AbstractControllerTest {
 
     public MealControllerTest() {
-        super(RESTAURANT_1_MEALS_URL);
+        super(REST_1_MEALS_URL);
     }
 
     @Test
@@ -37,17 +37,17 @@ public class MealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAllForUnauthorized() throws Exception {
-        expectUnauthorized(perform(doGet(RESTAURANT_3_MEALS_URL)));
+        expectUnauthorized(perform(doGet(REST_3_MEALS_URL)));
     }
 
     @Test
     public void getAllForUser() throws Exception {
-        getAll(perform(doGet(RESTAURANT_1_MEALS_URL).basicAuth(USER)), RESTAURANT_1_MEALS);
+        getAll(perform(doGet(REST_1_MEALS_URL).basicAuth(USER)), RESTAURANT_1_MEALS);
     }
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getAll(perform(doGet(RESTAURANT_2_MEALS_URL).basicAuth(ADMIN)), RESTAURANT_2_MEALS);
+        getAll(perform(doGet(REST_2_MEALS_URL).basicAuth(ADMIN)), RESTAURANT_2_MEALS);
     }
 
     private void getAll(ResultActions resultActions, List<Meal> mealList) throws Exception {
