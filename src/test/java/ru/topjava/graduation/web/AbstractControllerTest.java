@@ -14,13 +14,21 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import ru.topjava.graduation.TestMatchers;
+import ru.topjava.graduation.model.AbstractBaseEntity;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.web.json.JsonUtil;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.topjava.graduation.TestUtil.readFromJson;
+import static ru.topjava.graduation.TestUtil.readFromJsonMvcResult;
+import static ru.topjava.graduation.data.UserTestData.ADMIN;
 import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wrap;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
@@ -48,6 +56,65 @@ abstract public class AbstractControllerTest {
                 .webAppContextSetup(webApplicationContext)
                 .apply(springSecurity())
                 .build();
+    }
+
+    protected <T> void createNew(AbstractBaseEntity entity, TestMatchers<T> matchers) throws Exception {
+        ResultActions action = perform(doPost().jsonBody(entity).basicAuth(ADMIN));
+        AbstractBaseEntity created = readFromJson(action, entity.getClass());
+        Integer newId = created.getId();
+        entity.setId(newId);
+        matchers.assertMatch(created, entity);
+    }
+
+    protected void deleteAndCheck(Integer id) throws Exception {
+        expectNoContent(perform(doDelete(id).basicAuth(ADMIN)));
+        expectNotFound(perform(doGet(id).basicAuth(ADMIN)));
+    }
+
+    protected <T> void getOne(AbstractBaseEntity entity, TestMatchers<T> matchers) throws Exception {
+        perform(doGet(entity.getId()).basicAuth(ADMIN))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(JSON_TYPE))
+                .andExpect(result -> matchers.assertMatch(readFromJsonMvcResult(result, entity.getClass()), entity));
+    }
+
+    protected <T> void updateExisted(AbstractBaseEntity entity, TestMatchers<T> matchers) throws Exception {
+        ResultActions action = perform(doPost().jsonBody(entity).basicAuth(ADMIN));
+        AbstractBaseEntity updated = readFromJson(action, entity.getClass());
+        matchers.assertMatch(updated, entity);
+    }
+
+    protected <T> void getAllEntities(ResultActions resultActions, List<T> entityList, TestMatchers<T> matchers) throws Exception {
+        resultActions
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(JSON_TYPE))
+                .andExpect(matchers.contentJson(entityList));
+    }
+
+    protected void expectForbidden(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isForbidden());
+    }
+
+    protected void expectUnauthorized(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isUnauthorized());
+    }
+
+    protected void expectNotFound(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isNotFound());
+    }
+
+    protected void expectDuplicated(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isUnprocessableEntity());
+    }
+
+    protected void expectNoContent(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isNoContent());
+    }
+
+    protected void expectNotAllowed(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isMethodNotAllowed());
     }
 
     public ResultActions perform(RequestWrapper wrapper) throws Exception {
@@ -102,13 +169,5 @@ abstract public class AbstractControllerTest {
             builder.with(SecurityMockMvcRequestPostProcessors.httpBasic(user.getName(), user.getPassword()));
             return this;
         }
-    }
-
-    protected void expectForbidden(ResultActions perform) throws Exception {
-        perform.andExpect(status().isForbidden());
-    }
-
-    protected void expectUnauthorized(ResultActions perform) throws Exception {
-        perform.andExpect(status().isUnauthorized());
     }
 }

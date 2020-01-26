@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.service.RestaurantService;
 
 import javax.validation.Valid;
@@ -25,18 +24,18 @@ public class AdminRestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping("/{restaurantId}")
-    public RestaurantTo get(@PathVariable Integer restaurantId) {
+    public Restaurant get(@PathVariable Integer restaurantId) {
         log.info("get restaurant with id {}", restaurantId);
         return restaurantService.get(restaurantId);
     }
 
     @PostMapping(consumes = JSON_TYPE)
-    public ResponseEntity<RestaurantTo> create(@Valid @RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
         Restaurant created = restaurantService.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(RESTAURANTS_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(new RestaurantTo(created));
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @DeleteMapping("/{restaurantId}")

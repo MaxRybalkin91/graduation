@@ -17,20 +17,14 @@ public class MealTestData {
     public static final Meal MEAL_4 = new Meal(START_SEQ + 9, "BigMac set", 300);
     public static final Meal MEAL_5 = new Meal(START_SEQ + 10, "Happy Meal set", 400);
 
-    public static final Meal MEAL_6 = new Meal(START_SEQ + 11, "Sanders lunch basket", 300);
-    public static final Meal MEAL_7 = new Meal(START_SEQ + 12, "Lunch basket \"5 items\"", 400);
-
     public static final List<Meal> RESTAURANT_1_MEALS = List.of(MEAL_1, MEAL_2, MEAL_3);
     public static final List<Meal> RESTAURANT_2_MEALS = List.of(MEAL_4, MEAL_5);
-    public static final List<Meal> RESTAURANT_3_MEALS = List.of(MEAL_6, MEAL_7);
 
     public static final String REST_1_MEALS_URL = "/restaurants/" + RESTAURANT_1.getId() + "/meals";
     public static final String REST_2_MEALS_URL = "/restaurants/" + RESTAURANT_2.getId() + "/meals";
     public static final String REST_3_MEALS_URL = "/restaurants/" + RESTAURANT_3.getId() + "/meals";
 
     public static final String ADMIN_REST_1_MEALS_URL = "/admin" + REST_1_MEALS_URL;
-    public static final String ADMIN_REST_2_MEALS_URL = "/admin" + REST_2_MEALS_URL;
-    public static final String ADMIN_REST_3_MEALS_URL = "/admin" + REST_3_MEALS_URL;
 
     public static TestMatchers<Meal> MEAL_MATCHERS = TestMatchers.useFieldsComparator(Meal.class, "restaurant");
 

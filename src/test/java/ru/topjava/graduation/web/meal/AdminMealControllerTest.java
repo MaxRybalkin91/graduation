@@ -1,46 +1,19 @@
 package ru.topjava.graduation.web.meal;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.graduation.model.Meal;
-import ru.topjava.graduation.service.MealService;
-import ru.topjava.graduation.util.exception.NotFoundException;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.topjava.graduation.TestUtil.readFromJson;
-import static ru.topjava.graduation.TestUtil.readFromJsonMvcResult;
 import static ru.topjava.graduation.data.MealTestData.*;
 import static ru.topjava.graduation.data.UserTestData.ADMIN;
 import static ru.topjava.graduation.data.UserTestData.USER;
-import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
 public class AdminMealControllerTest extends AbstractControllerTest {
 
-    @Autowired
-    private MealService mealService;
-
     public AdminMealControllerTest() {
         super(ADMIN_REST_1_MEALS_URL);
-    }
-
-    @Test
-    public void create() throws Exception {
-        Meal newMeal = getNewMeal();
-        ResultActions action = perform(doPost().jsonBody(newMeal).basicAuth(ADMIN));
-
-        Meal created = readFromJson(action, Meal.class);
-        Integer newId = created.getId();
-        newMeal.setId(newId);
-
-        MEAL_MATCHERS.assertMatch(created, newMeal);
-        MEAL_MATCHERS.assertMatch(mealService.get(newId), newMeal);
     }
 
     @Test
@@ -54,32 +27,6 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Transactional(propagation = Propagation.NEVER)
-    public void createExists() throws Exception {
-        Meal duplicated = new Meal(MEAL_1.getName(), MEAL_1.getPrice());
-        perform(doPost().jsonBody(duplicated)
-                .basicAuth(ADMIN))
-                .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    public void delete() throws Exception {
-        Integer mealId = MEAL_1.getId();
-        perform(doDelete(mealId).basicAuth(ADMIN))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> mealService.get(mealId));
-    }
-
-    @Test
-    public void deleteNotFound() throws Exception {
-        Integer mealId = USER.getId();
-        perform(doDelete(mealId).basicAuth(ADMIN))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
     public void deleteUnauthorized() throws Exception {
         expectUnauthorized(perform(doGet(MEAL_1.getId())));
     }
@@ -87,15 +34,6 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     @Test
     public void deleteNotAdmin() throws Exception {
         expectForbidden(perform(doDelete(MEAL_1.getId()).basicAuth(USER)));
-    }
-
-    @Test
-    public void get() throws Exception {
-        perform(doGet(MEAL_1.getId()).basicAuth(ADMIN))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(JSON_TYPE))
-                .andExpect(result -> MEAL_MATCHERS.assertMatch(readFromJsonMvcResult(result, Meal.class), MEAL_1));
     }
 
     @Test
@@ -109,20 +47,39 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void create() throws Exception {
+        createNew(getNewMeal(), MEAL_MATCHERS);
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    public void createExists() throws Exception {
+        Meal duplicated = new Meal(MEAL_1.getName(), MEAL_1.getPrice());
+        expectDuplicated(perform(doPost().jsonBody(duplicated).basicAuth(ADMIN)));
+    }
+
+    @Test
+    public void delete() throws Exception {
+        deleteAndCheck(MEAL_1.getId());
+    }
+
+    @Test
+    public void deleteNotFound() throws Exception {
+        expectNotFound(perform(doDelete(USER.getId()).basicAuth(ADMIN)));
+    }
+
+    @Test
+    public void get() throws Exception {
+        getOne(MEAL_1, MEAL_MATCHERS);
+    }
+
+    @Test
     public void getNotFound() throws Exception {
-        perform(doGet(USER.getId()).basicAuth(ADMIN))
-                .andDo(print())
-                .andExpect(status().isNotFound());
+        expectNotFound(perform(doGet(USER.getId()).basicAuth(ADMIN)));
     }
 
     @Test
     public void update() throws Exception {
-        Meal newUpdatedMeal = getUpdatedMeal();
-        ResultActions action = perform(doPost().jsonBody(newUpdatedMeal).basicAuth(ADMIN));
-
-        Meal updated = readFromJson(action, Meal.class);
-
-        MEAL_MATCHERS.assertMatch(updated, newUpdatedMeal);
-        MEAL_MATCHERS.assertMatch(mealService.get(updated.getId()), newUpdatedMeal);
+        updateExisted(getUpdatedMeal(), MEAL_MATCHERS);
     }
 }

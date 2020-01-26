@@ -1,16 +1,11 @@
 package ru.topjava.graduation.web.restaurant;
 
 import org.junit.Test;
-import org.springframework.test.web.servlet.ResultActions;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.data.RestaurantTestData.*;
 import static ru.topjava.graduation.data.UserTestData.ADMIN;
 import static ru.topjava.graduation.data.UserTestData.USER;
-import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 import static ru.topjava.graduation.web.Controller.RESTAURANTS_URL;
 
 public class RestaurantControllerTest extends AbstractControllerTest {
@@ -21,16 +16,12 @@ public class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void createNotAllowed() throws Exception {
-        perform(doPost().jsonBody(getNewRestaurant())
-                .basicAuth(ADMIN))
-                .andExpect(status().isMethodNotAllowed());
+        expectNotAllowed(perform(doPost().jsonBody(getNewRestaurant()).basicAuth(ADMIN)));
     }
 
     @Test
     public void deleteNotAllowed() throws Exception {
-        perform(doDelete()
-                .basicAuth(ADMIN))
-                .andExpect(status().isMethodNotAllowed());
+        expectNotAllowed(perform(doDelete().basicAuth(ADMIN)));
     }
 
     @Test
@@ -40,19 +31,11 @@ public class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAllForUser() throws Exception {
-        getAll(perform(doGet().basicAuth(USER)));
+        getAllEntities(perform(doGet().basicAuth(USER)), RESTAURANTS, RESTAURANTS_MATCHERS);
     }
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getAll(perform(doGet().basicAuth(ADMIN)));
-    }
-
-    private void getAll(ResultActions resultActions) throws Exception {
-        resultActions
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(JSON_TYPE))
-                .andExpect(RESTAURANTS_TO_MATCHERS.contentJson(RESTAURANTS));
+        getAllEntities(perform(doGet().basicAuth(ADMIN)), RESTAURANTS, RESTAURANTS_MATCHERS);
     }
 }

@@ -1,6 +1,7 @@
 package ru.topjava.graduation;
 
 import org.springframework.test.web.servlet.ResultMatcher;
+import ru.topjava.graduation.model.AbstractBaseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.topjava.graduation.TestUtil.readListFromJsonMvcResult;
@@ -20,11 +21,7 @@ public class TestMatchers<T> {
         return new TestMatchers<>(clazz, false, fieldsToIgnore);
     }
 
-    public static <T> TestMatchers<T> useEquals(Class<T> clazz) {
-        return new TestMatchers<>(clazz, true);
-    }
-
-    public void assertMatch(T actual, T expected) {
+    public <T extends AbstractBaseEntity> void assertMatch(T actual, T expected) {
         if (useEquals) {
             assertThat(actual).isEqualTo(expected);
         } else {
