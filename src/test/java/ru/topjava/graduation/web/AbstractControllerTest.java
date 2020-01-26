@@ -22,6 +22,7 @@ import javax.annotation.PostConstruct;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wrap;
+import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
 @Transactional
 @AutoConfigureMockMvc
@@ -57,10 +58,6 @@ abstract public class AbstractControllerTest {
         return mockMvc.perform(builder);
     }
 
-    protected RequestWrapper doGet(String urlTemplatePad, Object... uriVars) {
-        return wrap(MockMvcRequestBuilders.get(url + urlTemplatePad, uriVars));
-    }
-
     protected RequestWrapper doGet() {
         return wrap(MockMvcRequestBuilders.get(url));
     }
@@ -81,24 +78,8 @@ abstract public class AbstractControllerTest {
         return wrap(MockMvcRequestBuilders.delete(url + "/{id}", id));
     }
 
-    protected RequestWrapper doPut() {
-        return wrap(MockMvcRequestBuilders.put(url));
-    }
-
-    protected RequestWrapper doPut(int id) {
-        return wrap(MockMvcRequestBuilders.put(url + "/{id}", id));
-    }
-
-    protected RequestWrapper doPost(String pad) throws Exception {
-        return wrap(MockMvcRequestBuilders.post(url + pad));
-    }
-
     protected RequestWrapper doPost() {
-        return wrap(MockMvcRequestBuilders.post(url));
-    }
-
-    protected RequestWrapper doPatch(int id) {
-        return wrap(MockMvcRequestBuilders.patch(url + "/{id}", id));
+        return wrap(MockMvcRequestBuilders.post(url).contentType(JSON_TYPE));
     }
 
     public static class RequestWrapper {
@@ -110,10 +91,6 @@ abstract public class AbstractControllerTest {
 
         public static RequestWrapper wrap(MockHttpServletRequestBuilder builder) {
             return new RequestWrapper(builder);
-        }
-
-        public MockHttpServletRequestBuilder unwrap() {
-            return builder;
         }
 
         public <T> RequestWrapper jsonBody(T body) {

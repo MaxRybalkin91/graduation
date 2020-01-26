@@ -1,6 +1,5 @@
 package ru.topjava.graduation.repository;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.graduation.model.Meal;
@@ -10,8 +9,7 @@ import java.util.List;
 
 public interface MealRepository extends CrudRepository<Meal, Integer> {
 
-    @Query("select m from Meal m where m.restaurant.id = ?1 and m.date = ?2")
-    List<Meal> findAllByIdAndDate(Integer id, LocalDate date);
+    List<Meal> findAllByRestaurantIdAndDate(Integer restaurantId, LocalDate date);
 
     @Override
     @Transactional

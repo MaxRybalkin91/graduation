@@ -36,10 +36,6 @@ public class Vote extends AbstractBaseEntity implements Serializable {
         this.restaurant = restaurant;
     }
 
-    public Vote(Integer id) {
-        super(id);
-    }
-
     public LocalDate getDate() {
         return date;
     }
@@ -68,8 +64,6 @@ public class Vote extends AbstractBaseEntity implements Serializable {
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", user=" + user.getUsername() +
-                ", restaurant=" + restaurant.getName() +
                 ", date=" + date +
                 '}';
     }

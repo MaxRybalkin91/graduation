@@ -24,20 +24,20 @@ public class MealService {
         return mealRepository.save(meal);
     }
 
-    public Meal get(Integer id) {
-        return getOrThrowException(id);
+    public Meal get(Integer restaurantId) {
+        return getOrThrowException(restaurantId);
     }
 
-    public void delete(Integer id) {
-        getOrThrowException(id);
-        mealRepository.deleteById(id);
+    public void delete(Integer restaurantId) {
+        getOrThrowException(restaurantId);
+        mealRepository.deleteById(restaurantId);
     }
 
-    public List<Meal> getAll(Integer id) {
-        return mealRepository.findAllByIdAndDate(id, LocalDate.now());
+    public List<Meal> getAll(Integer restaurantId) {
+        return mealRepository.findAllByRestaurantIdAndDate(restaurantId, LocalDate.now());
     }
 
-    private Meal getOrThrowException(Integer id) {
-        return mealRepository.findById(id).orElseThrow(NotFoundException::new);
+    private Meal getOrThrowException(Integer restaurantId) {
+        return mealRepository.findById(restaurantId).orElseThrow(NotFoundException::new);
     }
 }
