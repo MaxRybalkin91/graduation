@@ -36,6 +36,10 @@ public class Meal extends AbstractNamedEntity implements Serializable {
         this(null, name, price, null);
     }
 
+    public Meal(Integer id, String name, Integer price) {
+        this(id, name, price, null);
+    }
+
     public Meal(Integer id, String name, Integer price, Restaurant restaurant) {
         super(id, name);
         this.price = price;

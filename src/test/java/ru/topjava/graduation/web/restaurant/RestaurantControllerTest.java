@@ -34,17 +34,17 @@ public class RestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getAllUnauthorized() throws Exception {
+    public void getAllForUnauthorized() throws Exception {
         expectUnauthorized(perform(doGet()));
     }
 
     @Test
-    public void getAllUser() throws Exception {
+    public void getAllForUser() throws Exception {
         getAll(perform(doGet().basicAuth(USER)));
     }
 
     @Test
-    public void getAllAdmin() throws Exception {
+    public void getAllForAdmin() throws Exception {
         getAll(perform(doGet().basicAuth(ADMIN)));
     }
 

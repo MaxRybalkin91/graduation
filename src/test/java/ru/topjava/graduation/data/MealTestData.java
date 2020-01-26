@@ -10,15 +10,15 @@ import static ru.topjava.graduation.data.RestaurantTestData.*;
 public class MealTestData {
     private static final Integer START_SEQ = 100000;
 
-    public static final Meal MEAL_1 = new Meal(START_SEQ + 6, "ChickenBurger set", 300, RESTAURANT_1);
-    public static final Meal MEAL_2 = new Meal(START_SEQ + 7, "CheeseBurger set", 400, RESTAURANT_1);
-    public static final Meal MEAL_3 = new Meal(START_SEQ + 8, "FishBurger set", 500, RESTAURANT_1);
+    public static final Meal MEAL_1 = new Meal(START_SEQ + 6, "ChickenBurger set", 300);
+    public static final Meal MEAL_2 = new Meal(START_SEQ + 7, "CheeseBurger set", 400);
+    public static final Meal MEAL_3 = new Meal(START_SEQ + 8, "FishBurger set", 500);
 
-    public static final Meal MEAL_4 = new Meal(START_SEQ + 9, "BigMac set", 300, RESTAURANT_2);
-    public static final Meal MEAL_5 = new Meal(START_SEQ + 10, "Happy Meal set", 400, RESTAURANT_2);
+    public static final Meal MEAL_4 = new Meal(START_SEQ + 9, "BigMac set", 300);
+    public static final Meal MEAL_5 = new Meal(START_SEQ + 10, "Happy Meal set", 400);
 
-    public static final Meal MEAL_6 = new Meal(START_SEQ + 11, "Sanders lunch basket", 300, RESTAURANT_3);
-    public static final Meal MEAL_7 = new Meal(START_SEQ + 12, "Lunch basket \"5 items\"", 400, RESTAURANT_3);
+    public static final Meal MEAL_6 = new Meal(START_SEQ + 11, "Sanders lunch basket", 300);
+    public static final Meal MEAL_7 = new Meal(START_SEQ + 12, "Lunch basket \"5 items\"", 400);
 
     public static final List<Meal> RESTAURANT_1_MEALS = List.of(MEAL_1, MEAL_2, MEAL_3);
     public static final List<Meal> RESTAURANT_2_MEALS = List.of(MEAL_4, MEAL_5);

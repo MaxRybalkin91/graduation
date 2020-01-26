@@ -36,17 +36,17 @@ public class MealControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getAllUnauthorized() throws Exception {
+    public void getAllForUnauthorized() throws Exception {
         expectUnauthorized(perform(doGet(RESTAURANT_3_MEALS_URL)));
     }
 
     @Test
-    public void getAllUser() throws Exception {
+    public void getAllForUser() throws Exception {
         getAll(perform(doGet(RESTAURANT_1_MEALS_URL).basicAuth(USER)), RESTAURANT_1_MEALS);
     }
 
     @Test
-    public void getAllAdmin() throws Exception {
+    public void getAllForAdmin() throws Exception {
         getAll(perform(doGet(RESTAURANT_2_MEALS_URL).basicAuth(ADMIN)), RESTAURANT_2_MEALS);
     }
 
