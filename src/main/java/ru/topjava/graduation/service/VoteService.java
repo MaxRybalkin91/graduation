@@ -40,10 +40,9 @@ public class VoteService {
         if (voteFromRepo != null) {
             if (time.getHour() >= 11) {
                 throw new VoteDenyException();
-            } else {
-                voteFromRepo.setRestaurant(restaurant);
-                return voteRepository.save(voteFromRepo);
             }
+            voteFromRepo.setRestaurant(restaurant);
+            return voteRepository.save(voteFromRepo);
         }
         return voteRepository.save(new Vote(user, restaurant));
     }
