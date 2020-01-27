@@ -47,6 +47,11 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void getNotOwned() throws Exception {
+        expectNotFound(perform(doGet(MEAL_4_ID).basicAuth(ADMIN)));
+    }
+
+    @Test
     public void create() throws Exception {
         createNew(getNewMeal(), MEAL_MATCHERS);
     }
@@ -56,6 +61,11 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     public void createExists() throws Exception {
         Meal duplicated = new Meal(MEAL_1.getName(), MEAL_1.getPrice());
         expectDuplicated(perform(doPost().jsonBody(duplicated).basicAuth(ADMIN)));
+    }
+
+    @Test
+    public void createInvalid() throws Exception {
+        expectInvalidEntity(perform(doPost().jsonBody(INVALID_MEAL).basicAuth(ADMIN)));
     }
 
     @Test
@@ -74,12 +84,39 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void getOld() throws Exception {
+        expectEditDeny(perform(doGet(OLD_MEAL_ID).basicAuth(ADMIN)));
+    }
+
+    @Test
+    public void deleteOld() throws Exception {
+        expectEditDeny(perform(doDelete(OLD_MEAL_ID).basicAuth(ADMIN)));
+    }
+
+    @Test
     public void getNotFound() throws Exception {
         expectNotFound(perform(doGet(USER.getId()).basicAuth(ADMIN)));
     }
 
     @Test
     public void update() throws Exception {
-        updateExisted(getUpdatedMeal(), MEAL_MATCHERS);
+        update(MEAL_1_ID, getUpdatedMeal(), MEAL_MATCHERS);
+    }
+
+    @Test
+    public void updateInvalid() throws Exception {
+        Meal updated = new Meal(INVALID_MEAL);
+        updated.setId(MEAL_1_ID);
+        expectInvalidEntity(perform(doPut(MEAL_1_ID).jsonBody(INVALID_MEAL).basicAuth(ADMIN)));
+    }
+
+    @Test
+    public void updateNotOwned() throws Exception {
+        expectInvalidSave(perform(doPut(MEAL_4_ID).jsonBody(MEAL_4).basicAuth(ADMIN)));
+    }
+
+    @Test
+    public void getHistory() throws Exception {
+        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN, RESTAURANT_1_MEALS, MEAL_HISTORY_MATCHERS);
     }
 }

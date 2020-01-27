@@ -16,6 +16,8 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT_2 = new Restaurant(REST_2_ID, "McDonalds", "ул.Центральная 5");
     public static final Restaurant RESTAURANT_3 = new Restaurant(REST_3_ID, "KFC", "ул.Пушкина 10");
 
+    public static final Restaurant INVALID_RESTAURANT = new Restaurant(REST_3_ID, null, null);
+
     public static final List<Restaurant> RESTAURANTS = List.of(RESTAURANT_1, RESTAURANT_2, RESTAURANT_3);
 
     public static TestMatchers<Restaurant> RESTAURANTS_MATCHERS = TestMatchers.useFieldsComparator(Restaurant.class, "meals");

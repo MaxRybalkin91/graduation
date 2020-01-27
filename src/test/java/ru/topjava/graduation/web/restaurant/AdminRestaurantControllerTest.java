@@ -60,6 +60,12 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void createInvalid() throws Exception {
+        Restaurant invalid = new Restaurant(RESTAURANT_1.getName(), null);
+        expectInvalidEntity(perform(doPost().jsonBody(invalid).basicAuth(ADMIN)));
+    }
+
+    @Test
     public void delete() throws Exception {
         deleteAndCheck(REST_1_ID);
     }
@@ -81,6 +87,11 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void update() throws Exception {
-        updateExisted(getUpdatedRestaurant(), RESTAURANTS_MATCHERS);
+        update(REST_1_ID, getUpdatedRestaurant(), RESTAURANTS_MATCHERS);
+    }
+
+    @Test
+    public void updateInvalid() throws Exception {
+        expectInvalidEntity(perform(doPut(REST_3_ID).jsonBody(INVALID_RESTAURANT).basicAuth(ADMIN)));
     }
 }

@@ -18,6 +18,11 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
+    public void update(Integer restaurantId, Restaurant restaurant) {
+        restaurant.setId(restaurantId);
+        restaurantRepository.save(restaurant);
+    }
+
     public Restaurant create(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }

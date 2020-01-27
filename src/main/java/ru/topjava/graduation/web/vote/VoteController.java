@@ -31,9 +31,10 @@ public class VoteController implements Controller {
         return voteService.getVotesCount(restaurantId);
     }
 
-    @PostMapping(consumes = JSON_TYPE)
+    @PostMapping
     public ResponseEntity<Vote> create(@AuthenticationPrincipal User user,
                                        @PathVariable Integer restaurantId) {
+        log.info("user {} vote for restaurant {}", user.getId(), restaurantId);
         Vote created = voteService.create(user, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(VOTES_URL + "/{id}")

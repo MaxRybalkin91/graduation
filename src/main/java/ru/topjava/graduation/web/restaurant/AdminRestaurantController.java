@@ -31,6 +31,7 @@ public class AdminRestaurantController {
 
     @PostMapping(consumes = JSON_TYPE)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
+        log.info("creating new restaurant");
         Restaurant created = restaurantService.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(RESTAURANTS_URL + "/{id}")
@@ -43,5 +44,13 @@ public class AdminRestaurantController {
     public void delete(@PathVariable Integer restaurantId) {
         log.info("delete restaurant with id {}", restaurantId);
         restaurantService.delete(restaurantId);
+    }
+
+    @PutMapping("/{restaurantId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void update(@PathVariable Integer restaurantId,
+                       @Valid @RequestBody Restaurant restaurant) {
+        log.info("update restaurant with id {}", restaurantId);
+        restaurantService.update(restaurantId, restaurant);
     }
 }

@@ -21,6 +21,7 @@ import ru.topjava.graduation.web.json.JsonUtil;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -79,14 +80,18 @@ abstract public class AbstractControllerTest {
                 .andExpect(result -> matchers.assertMatch(readFromJsonMvcResult(result, entity.getClass()), entity));
     }
 
-    protected <T> void updateExisted(AbstractBaseEntity entity, TestMatchers<T> matchers) throws Exception {
-        ResultActions action = perform(doPost().jsonBody(entity).basicAuth(ADMIN));
-        AbstractBaseEntity updated = readFromJson(action, entity.getClass());
+    protected <T> void update(Integer id, AbstractBaseEntity entity, TestMatchers<T> matchers) throws Exception {
+        perform(doPut(id).jsonBody(entity).basicAuth(ADMIN)).andExpect(status().isNoContent());
+        ResultActions updatedActions = perform(doGet(id).basicAuth(ADMIN));
+        AbstractBaseEntity updated = readFromJson(updatedActions, entity.getClass());
         matchers.assertMatch(updated, entity);
     }
 
-    protected <T> void getAllEntities(User user, List<T> entityList, TestMatchers<T> matchers) throws Exception {
-        perform(doGet().basicAuth(user))
+    protected <T> void getAllEntities(String url, User user, List<T> entityList, TestMatchers<T> matchers) throws Exception {
+        if (Objects.isNull(url)) {
+            url = this.url;
+        }
+        perform(doGet(url).basicAuth(user))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_TYPE))
@@ -115,6 +120,18 @@ abstract public class AbstractControllerTest {
 
     protected void expectNotAllowed(ResultActions perform) throws Exception {
         perform.andDo(print()).andExpect(status().isMethodNotAllowed());
+    }
+
+    protected void expectInvalidEntity(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    protected void expectEditDeny(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isUnprocessableEntity());
+    }
+
+    protected void expectInvalidSave(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isBadRequest());
     }
 
     public ResultActions perform(RequestWrapper wrapper) throws Exception {
@@ -149,6 +166,10 @@ abstract public class AbstractControllerTest {
         return wrap(MockMvcRequestBuilders.post(url).contentType(JSON_TYPE));
     }
 
+    protected RequestWrapper doPut(Integer id) {
+        return wrap(MockMvcRequestBuilders.put(url + "/{id}", id).contentType(JSON_TYPE));
+    }
+
     public static class RequestWrapper {
         private final MockHttpServletRequestBuilder builder;
 
@@ -158,6 +179,10 @@ abstract public class AbstractControllerTest {
 
         public static RequestWrapper wrap(MockHttpServletRequestBuilder builder) {
             return new RequestWrapper(builder);
+        }
+
+        public MockHttpServletRequestBuilder unwrap() {
+            return builder;
         }
 
         public <T> RequestWrapper jsonBody(T body) {

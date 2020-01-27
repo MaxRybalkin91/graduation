@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.Vote;
+import ru.topjava.graduation.model.dto.VoteToDate;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.repository.VoteRepository;
 import ru.topjava.graduation.util.exception.NotFoundException;
@@ -12,6 +13,7 @@ import ru.topjava.graduation.util.exception.VoteDenyException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service
 public class VoteService {
@@ -45,5 +47,9 @@ public class VoteService {
             return voteRepository.save(voteFromRepo);
         }
         return voteRepository.save(new Vote(user, restaurant));
+    }
+
+    public List<VoteToDate> getVotesStatistic(Integer restaurantId) {
+        return voteRepository.groupCountByDate(restaurantId);
     }
 }

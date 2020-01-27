@@ -21,6 +21,10 @@ public class TestMatchers<T> {
         return new TestMatchers<>(clazz, false, fieldsToIgnore);
     }
 
+    public static <T> TestMatchers<T> useEquals(Class<T> clazz) {
+        return new TestMatchers<>(clazz, true);
+    }
+
     public <T extends AbstractBaseEntity> void assertMatch(T actual, T expected) {
         if (useEquals) {
             assertThat(actual).isEqualTo(expected);

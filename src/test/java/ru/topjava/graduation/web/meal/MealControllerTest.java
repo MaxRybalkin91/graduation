@@ -30,11 +30,11 @@ public class MealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAllForUser() throws Exception {
-        getAllEntities(USER, RESTAURANT_1_MEALS, MEAL_MATCHERS);
+        getAllEntities(null, USER, RESTAURANT_1_TODAY_MEALS, MEAL_MATCHERS);
     }
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getAllEntities(ADMIN, RESTAURANT_1_MEALS, MEAL_MATCHERS);
+        getAllEntities(null, ADMIN, RESTAURANT_1_TODAY_MEALS, MEAL_MATCHERS);
     }
 }

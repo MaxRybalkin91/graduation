@@ -6,6 +6,7 @@ import ru.topjava.graduation.model.Meal;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface MealRepository extends CrudRepository<Meal, Integer> {
 
@@ -18,4 +19,8 @@ public interface MealRepository extends CrudRepository<Meal, Integer> {
     @Override
     @Transactional
     void deleteById(Integer id);
+
+    Optional<Meal> findByIdAndRestaurantId(Integer id, Integer restaurantId);
+
+    List<Meal> findAllByRestaurantId(Integer restaurantId);
 }

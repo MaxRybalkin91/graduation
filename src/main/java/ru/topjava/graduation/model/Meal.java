@@ -2,6 +2,8 @@ package ru.topjava.graduation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "meals")
 public class Meal extends AbstractNamedEntity implements Serializable {
@@ -22,7 +25,7 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private final LocalDate date = LocalDate.now();
+    private LocalDate date = LocalDate.now();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,9 +40,19 @@ public class Meal extends AbstractNamedEntity implements Serializable {
         this(null, name, price);
     }
 
+    public Meal(Meal m) {
+        this(m.getId(), m.getName(), m.getPrice());
+    }
+
     public Meal(Integer id, String name, Integer price) {
         super(id, name);
         this.price = price;
+    }
+
+    public Meal(Integer id, String name, Integer price, LocalDate date) {
+        super(id, name);
+        this.price = price;
+        this.date = date;
     }
 
     public Integer getPrice() {

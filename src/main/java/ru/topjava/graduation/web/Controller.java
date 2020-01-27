@@ -12,4 +12,5 @@ public interface Controller {
 
     String ADMIN_RESTAURANTS_URL = "/admin" + RESTAURANTS_URL;
     String ADMIN_MEALS_URL = "/admin" + MEALS_URL;
+    String ADMIN_VOTES_URL = "/admin" + VOTES_URL;
 }
