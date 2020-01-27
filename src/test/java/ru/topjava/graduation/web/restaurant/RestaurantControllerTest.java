@@ -31,11 +31,11 @@ public class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAllForUser() throws Exception {
-        getAllEntities(perform(doGet().basicAuth(USER)), RESTAURANTS, RESTAURANTS_MATCHERS);
+        getAllEntities(USER, RESTAURANTS, RESTAURANTS_MATCHERS);
     }
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getAllEntities(perform(doGet().basicAuth(ADMIN)), RESTAURANTS, RESTAURANTS_MATCHERS);
+        getAllEntities(ADMIN, RESTAURANTS, RESTAURANTS_MATCHERS);
     }
 }

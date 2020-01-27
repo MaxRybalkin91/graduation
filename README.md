@@ -1,19 +1,50 @@
-Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend.
+## GRADUATION PROJECT
 
-The task is:
+This is a graduation app of the [TOPJAVA](https://topjava.ru/) course I highly recommend you:)
 
-Build a voting system for deciding where to have lunch.
+[Click here to see a task](https://github.com/JavaWebinar/topjava/blob/doc/doc/graduation.md)
 
-2 types of users: admin and regular users
-Admin can input a restaurant and it's lunch menu of the day (2-5 items usually, just a dish name and price)
-Menu changes each day (admins do the updates)
-Users can vote on which restaurant they want to have lunch at
-Only one vote counted per user
-If user votes again the same day:
-If it is before 11:00 we asume that he changed his mind.
-If it is after 11:00 then it is too late, vote can't be changed
-Each restaurant provides new menu each day.
+There are used: 
+* Java 11, Maven, IntelliJ IDEA
+* Spring Framework(Boot 2, Security, Data)
+* Hibernate ORM 
+* H2 Database
+* REST API(JSON)
+* Integration and service tests(SpringBootTest(MOCK), JUnit).
 
-As a result, provide a link to github repository.
+## CURL-requests to get data:
 
-It should contain the code and README.md with API documentation and curl commands to get data for voting and vote.
+**Please, start the "Application.java" to run the app**
+
+####### Get all restaurants
+`curl -s http://localhost:8080/restaurants --user user:password`
+
+####### Get all today's meals of different restaurants
+`curl -s http://localhost:8080/restaurants/100003/meals --user user:password`
+`curl -s http://localhost:8080/restaurants/100004/meals --user user2:password`
+`curl -s http://localhost:8080/restaurants/100005/meals --user admin:admin`
+
+####### Get all previous votes of different restaurants
+`curl -s http://localhost:8080/restaurants/100003/votes --user user:password`
+`curl -s http://localhost:8080/restaurants/100004/votes --user user2:password`
+`curl -s http://localhost:8080/restaurants/100005/votes --user admin:admin`
+
+####### Create new restaurant
+`curl -s -X POST -d '{"name":"Italian pizza","address":"1st cental str, 10"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/restaurants --user admin:admin`
+
+####### Delete restaurant
+`curl -s -X DELETE http://localhost:8080/admin/restaurants/100003 --user admin:admin`
+
+####### Update restaurant
+`curl -s -X POST -d '{"id":100003,"name":"Burger King","address":"1st cental str, 10"}' -H 'Content-Type: application/json' http://localhost:8080/admin/restaurants --user admin:admin`
+
+####### Create new meal
+`curl -s -X POST -d '{"name":"Big Mexican Burger","price":199}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/restaurants/100003/meals --user admin:admin`
+
+####### Delete meal
+`curl -s -X DELETE http://localhost:8080/admin/restaurants/100003/meals/100006 --user admin:admin`
+
+####### Update meal
+`curl -s -X POST -d '{"id":100007,"name":"New Burger","price":199}' -H 'Content-Type: application/json' http://localhost:8080/admin/restaurants/100003/meals --user admin:admin`
+
+

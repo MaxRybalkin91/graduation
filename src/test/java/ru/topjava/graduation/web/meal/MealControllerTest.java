@@ -14,7 +14,7 @@ public class MealControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void createNotAllowed() throws Exception {
+    public void methodsNotAllowed() throws Exception {
         expectNotAllowed(perform(doPost().jsonBody(getNewMeal()).basicAuth(ADMIN)));
     }
 
@@ -30,11 +30,11 @@ public class MealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAllForUser() throws Exception {
-        getAllEntities(perform(doGet(REST_1_MEALS_URL).basicAuth(USER)), RESTAURANT_1_MEALS, MEAL_MATCHERS);
+        getAllEntities(USER, RESTAURANT_1_MEALS, MEAL_MATCHERS);
     }
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getAllEntities(perform(doGet(REST_2_MEALS_URL).basicAuth(ADMIN)), RESTAURANT_2_MEALS, MEAL_MATCHERS);
+        getAllEntities(ADMIN, RESTAURANT_1_MEALS, MEAL_MATCHERS);
     }
 }

@@ -85,8 +85,8 @@ abstract public class AbstractControllerTest {
         matchers.assertMatch(updated, entity);
     }
 
-    protected <T> void getAllEntities(ResultActions resultActions, List<T> entityList, TestMatchers<T> matchers) throws Exception {
-        resultActions
+    protected <T> void getAllEntities(User user, List<T> entityList, TestMatchers<T> matchers) throws Exception {
+        perform(doGet().basicAuth(user))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_TYPE))
