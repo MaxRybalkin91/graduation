@@ -74,23 +74,13 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void deleteNotFound() throws Exception {
-        expectNotFound(perform(doDelete(USER.getId()).basicAuth(ADMIN)));
-    }
-
-    @Test
     public void get() throws Exception {
         getOne(MEAL_1, MEAL_MATCHERS);
     }
 
     @Test
     public void getOld() throws Exception {
-        expectEditDeny(perform(doGet(OLD_MEAL_ID).basicAuth(ADMIN)));
-    }
-
-    @Test
-    public void deleteOld() throws Exception {
-        expectEditDeny(perform(doDelete(OLD_MEAL_ID).basicAuth(ADMIN)));
+        expectEditDeny(perform(doGet(100).basicAuth(ADMIN)));
     }
 
     @Test
@@ -117,6 +107,6 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getHistory() throws Exception {
-        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN, RESTAURANT_1_MEALS, MEAL_HISTORY_MATCHERS);
+        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN, RESTAURANT_1_HISTORY, MEAL_HISTORY_MATCHERS);
     }
 }

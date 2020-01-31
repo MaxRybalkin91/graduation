@@ -10,6 +10,7 @@ import ru.topjava.graduation.model.dto.VoteToDate;
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Repository
 public interface VoteRepository extends CrudRepository<Vote, Integer> {
 

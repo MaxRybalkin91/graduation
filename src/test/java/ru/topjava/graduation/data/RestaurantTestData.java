@@ -2,8 +2,12 @@ package ru.topjava.graduation.data;
 
 import ru.topjava.graduation.TestMatchers;
 import ru.topjava.graduation.model.Restaurant;
+import ru.topjava.graduation.model.dto.RestaurantTo;
 
 import java.util.List;
+import java.util.Set;
+
+import static ru.topjava.graduation.data.MealTestData.*;
 
 public class RestaurantTestData {
     private static final Integer START_SEQ = 100000;
@@ -16,11 +20,19 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT_2 = new Restaurant(REST_2_ID, "McDonalds", "ул.Центральная 5");
     public static final Restaurant RESTAURANT_3 = new Restaurant(REST_3_ID, "KFC", "ул.Пушкина 10");
 
+    public static final RestaurantTo RESTAURANT_TO_1 = new RestaurantTo(RESTAURANT_1, Set.of(MEAL_1, MEAL_2, MEAL_3));
+    public static final RestaurantTo RESTAURANT_TO_2 = new RestaurantTo(RESTAURANT_2, Set.of(MEAL_4, MEAL_5));
+    public static final RestaurantTo RESTAURANT_TO_3 = new RestaurantTo(RESTAURANT_3, Set.of(MEAL_6, MEAL_7));
+
+    public static final List<RestaurantTo> TODAY_RESTAURANTS = List.of(RESTAURANT_TO_1, RESTAURANT_TO_2, RESTAURANT_TO_3);
+
     public static final Restaurant INVALID_RESTAURANT = new Restaurant(REST_3_ID, null, null);
 
     public static final List<Restaurant> RESTAURANTS = List.of(RESTAURANT_1, RESTAURANT_2, RESTAURANT_3);
 
     public static TestMatchers<Restaurant> RESTAURANTS_MATCHERS = TestMatchers.useFieldsComparator(Restaurant.class, "meals");
+
+    public static TestMatchers<RestaurantTo> RESTAURANTS_TO_MATCHERS = TestMatchers.useFieldsComparator(RestaurantTo.class);
 
     public static Restaurant getNewRestaurant() {
         return new Restaurant("Пиццерия", "пр.Академиков 15");

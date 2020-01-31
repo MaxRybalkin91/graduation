@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class VoteToDate implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;

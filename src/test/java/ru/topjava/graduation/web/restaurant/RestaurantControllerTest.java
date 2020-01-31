@@ -31,11 +31,11 @@ public class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAllForUser() throws Exception {
-        getAllEntities(null, USER, RESTAURANTS, RESTAURANTS_MATCHERS);
+        getAllEntities(null, USER, TODAY_RESTAURANTS, RESTAURANTS_TO_MATCHERS);
     }
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getAllEntities(null, ADMIN, RESTAURANTS, RESTAURANTS_MATCHERS);
+        getAllEntities(null, ADMIN, TODAY_RESTAURANTS, RESTAURANTS_TO_MATCHERS);
     }
 }

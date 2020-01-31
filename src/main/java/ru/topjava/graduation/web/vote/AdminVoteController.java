@@ -24,7 +24,7 @@ public class AdminVoteController implements Controller {
     @Autowired
     private VoteService voteService;
 
-    @GetMapping("/history")
+    @GetMapping
     public List<VoteToDate> getVotesStatistic(@PathVariable Integer restaurantId) {
         log.info("get votes statistic for restaurant {}", restaurantId);
         return voteService.getVotesStatistic(restaurantId);

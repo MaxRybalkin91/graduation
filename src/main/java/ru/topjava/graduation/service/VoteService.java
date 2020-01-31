@@ -1,6 +1,7 @@
 package ru.topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
@@ -8,7 +9,6 @@ import ru.topjava.graduation.model.Vote;
 import ru.topjava.graduation.model.dto.VoteToDate;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.repository.VoteRepository;
-import ru.topjava.graduation.util.exception.NotFoundException;
 import ru.topjava.graduation.util.exception.VoteDenyException;
 
 import java.time.LocalDate;
@@ -28,6 +28,9 @@ public class VoteService {
         return voteRepository.countByRestaurantId(restaurantId);
     }
 
+    @Value("${time.vote.deny}")
+    private Integer denyHour;
+
     public Vote create(User user, Integer restaurantId, LocalTime time) {
         return checkAndSave(time, user, restaurantId);
     }
@@ -38,9 +41,9 @@ public class VoteService {
 
     private Vote checkAndSave(LocalTime time, User user, Integer restaurantId) {
         Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), LocalDate.now());
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(NotFoundException::new);
+        Restaurant restaurant = restaurantRepository.getOne(restaurantId);
         if (voteFromRepo != null) {
-            if (time.getHour() >= 11) {
+            if (time.getHour() >= denyHour) {
                 throw new VoteDenyException();
             }
             voteFromRepo.setRestaurant(restaurant);

@@ -131,7 +131,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected void expectInvalidSave(ResultActions perform) throws Exception {
-        perform.andDo(print()).andExpect(status().isBadRequest());
+        perform.andDo(print()).andExpect(status().isUnprocessableEntity());
     }
 
     public ResultActions perform(RequestWrapper wrapper) throws Exception {
@@ -164,6 +164,10 @@ abstract public class AbstractControllerTest {
 
     protected RequestWrapper doPost() {
         return wrap(MockMvcRequestBuilders.post(url).contentType(JSON_TYPE));
+    }
+
+    protected RequestWrapper doPut() {
+        return wrap(MockMvcRequestBuilders.put(url).contentType(JSON_TYPE));
     }
 
     protected RequestWrapper doPut(Integer id) {

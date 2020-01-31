@@ -81,6 +81,11 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void getAll() throws Exception {
+        getAllEntities(null, ADMIN, RESTAURANTS, RESTAURANTS_MATCHERS);
+    }
+
+    @Test
     public void getNotFound() throws Exception {
         expectNotFound(perform(doGet(USER.getId()).basicAuth(ADMIN)));
     }

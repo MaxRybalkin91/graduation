@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.topjava.graduation.model.Restaurant;
+import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.service.RestaurantService;
 import ru.topjava.graduation.web.Controller;
 
@@ -24,8 +24,8 @@ public class RestaurantController implements Controller {
     private RestaurantService restaurantService;
 
     @GetMapping
-    public List<Restaurant> getAll() {
-        log.info("get all the restaurants");
-        return restaurantService.getAll();
+    public List<RestaurantTo> getAll() {
+        log.info("get all the restaurants with today's menu");
+        return restaurantService.getWithMenu();
     }
 }

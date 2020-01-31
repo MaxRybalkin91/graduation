@@ -9,19 +9,28 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.service.RestaurantService;
+import ru.topjava.graduation.web.Controller;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
-import static ru.topjava.graduation.web.Controller.*;
+import static ru.topjava.graduation.web.Controller.ADMIN_RESTAURANTS_URL;
+import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
 @RestController
 @RequestMapping(value = ADMIN_RESTAURANTS_URL, produces = JSON_TYPE)
-public class AdminRestaurantController {
+public class AdminRestaurantController implements Controller {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private RestaurantService restaurantService;
+
+    @GetMapping
+    public List<Restaurant> getAll() {
+        log.info("get all the restaurants");
+        return restaurantService.getAll();
+    }
 
     @GetMapping("/{restaurantId}")
     public Restaurant get(@PathVariable Integer restaurantId) {

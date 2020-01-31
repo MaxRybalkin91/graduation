@@ -1,5 +1,6 @@
 package ru.topjava.graduation.web;
 
+import org.hibernate.JDBCException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,14 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<String> handleConstraintViolationException() {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ExistsDataException().getMessage());
+    protected ResponseEntity<String> handleConstraintViolationException(JDBCException e) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        String message = new ExistsDataException().getMessage();
+        if (e.getErrorCode() == 23506) {
+            status = HttpStatus.NOT_FOUND;
+            message = new NotFoundException().getMessage();
+        }
+        return ResponseEntity.status(status).body(message);
     }
 
     @ExceptionHandler(VoteDenyException.class)
@@ -38,7 +45,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(InvalidSaveException.class)
     protected ResponseEntity<String> handleInvalidSaveException() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new InvalidSaveException().getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new InvalidSaveException().getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

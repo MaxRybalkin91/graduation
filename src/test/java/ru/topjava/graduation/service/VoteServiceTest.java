@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import ru.topjava.graduation.model.Vote;
 import ru.topjava.graduation.util.exception.VoteDenyException;
 
 import java.time.LocalTime;
@@ -35,10 +34,7 @@ public class VoteServiceTest {
 
     @Test
     public void setVote() {
-        Vote newVote = new Vote(USER, RESTAURANT_1);
-        Vote created = voteService.create(USER, REST_1_ID, LocalTime.of(10, 0));
-        newVote.setId(created.getId());
-        VOTE_MATCHERS.assertMatch(newVote, created);
+        voteService.create(USER, REST_1_ID, LocalTime.of(10, 0));
         Assert.assertEquals((int) voteService.getVotesCount(REST_1_ID), REST_1_VOTES + 1);
     }
 
