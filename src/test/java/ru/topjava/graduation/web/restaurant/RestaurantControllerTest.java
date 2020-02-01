@@ -4,7 +4,7 @@ import org.junit.Test;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
 import static ru.topjava.graduation.data.RestaurantTestData.*;
-import static ru.topjava.graduation.data.UserTestData.ADMIN;
+import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
 import static ru.topjava.graduation.data.UserTestData.USER;
 import static ru.topjava.graduation.web.Controller.RESTAURANTS_URL;
 
@@ -16,12 +16,12 @@ public class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void createNotAllowed() throws Exception {
-        expectNotAllowed(perform(doPost().jsonBody(getNewRestaurant()).basicAuth(ADMIN)));
+        expectNotAllowed(perform(doPost().jsonBody(getNewRestaurant()).basicAuth(ADMIN_1)));
     }
 
     @Test
     public void deleteNotAllowed() throws Exception {
-        expectNotAllowed(perform(doDelete().basicAuth(ADMIN)));
+        expectNotAllowed(perform(doDelete().basicAuth(ADMIN_1)));
     }
 
     @Test
@@ -36,6 +36,6 @@ public class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getAllEntities(null, ADMIN, TODAY_RESTAURANTS, RESTAURANTS_TO_MATCHERS);
+        getAllEntities(null, ADMIN_1, TODAY_RESTAURANTS, RESTAURANTS_TO_MATCHERS);
     }
 }

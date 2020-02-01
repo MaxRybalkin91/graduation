@@ -9,7 +9,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.topjava.graduation.util.exception.*;
+import ru.topjava.graduation.util.exception.EditDenyException;
+import ru.topjava.graduation.util.exception.ExistsDataException;
+import ru.topjava.graduation.util.exception.NotFoundException;
+import ru.topjava.graduation.util.exception.VoteDenyException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,11 +44,6 @@ public class RestExceptionHandler {
     @ExceptionHandler(EditDenyException.class)
     protected ResponseEntity<String> handleEditDenyException() {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new EditDenyException().getMessage());
-    }
-
-    @ExceptionHandler(InvalidSaveException.class)
-    protected ResponseEntity<String> handleInvalidSaveException() {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new InvalidSaveException().getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -34,7 +34,7 @@ CREATE TABLE restaurants
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX restaurants_unique_name_address_idx ON restaurants (name, address);
-CREATE INDEX restaurants_id_idx ON restaurants (id, user_id);
+CREATE INDEX restaurants_user_idx ON restaurants (id, user_id);
 
 CREATE TABLE meals
 (
@@ -48,7 +48,7 @@ CREATE TABLE meals
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX meals_unique_restId_date_name_idx ON meals (restaurant_id, date, name);
-CREATE INDEX meals_userId_restId_idx ON meals (restaurant_id, user_id);
+CREATE INDEX meals_user_idx ON meals (id, restaurant_id, user_id);
 
 CREATE TABLE votes
 (

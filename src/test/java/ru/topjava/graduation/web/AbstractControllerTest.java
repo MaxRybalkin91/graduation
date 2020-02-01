@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.readFromJson;
 import static ru.topjava.graduation.TestUtil.readFromJsonMvcResult;
-import static ru.topjava.graduation.data.UserTestData.ADMIN;
+import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
 import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wrap;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
@@ -60,7 +60,7 @@ abstract public class AbstractControllerTest {
     }
 
     protected <T> void createNew(AbstractBaseEntity entity, TestMatchers<T> matchers) throws Exception {
-        ResultActions action = perform(doPost().jsonBody(entity).basicAuth(ADMIN));
+        ResultActions action = perform(doPost().jsonBody(entity).basicAuth(ADMIN_1));
         AbstractBaseEntity created = readFromJson(action, entity.getClass());
         Integer newId = created.getId();
         entity.setId(newId);
@@ -68,12 +68,12 @@ abstract public class AbstractControllerTest {
     }
 
     protected void deleteAndCheck(Integer id) throws Exception {
-        expectNoContent(perform(doDelete(id).basicAuth(ADMIN)));
-        expectNotFound(perform(doGet(id).basicAuth(ADMIN)));
+        expectNoContent(perform(doDelete(id).basicAuth(ADMIN_1)));
+        expectNotFound(perform(doGet(id).basicAuth(ADMIN_1)));
     }
 
     protected <T> void getOne(AbstractBaseEntity entity, TestMatchers<T> matchers) throws Exception {
-        perform(doGet(entity.getId()).basicAuth(ADMIN))
+        perform(doGet(entity.getId()).basicAuth(ADMIN_1))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(JSON_TYPE))
@@ -81,8 +81,8 @@ abstract public class AbstractControllerTest {
     }
 
     protected <T> void update(Integer id, AbstractBaseEntity entity, TestMatchers<T> matchers) throws Exception {
-        perform(doPut(id).jsonBody(entity).basicAuth(ADMIN)).andExpect(status().isNoContent());
-        ResultActions updatedActions = perform(doGet(id).basicAuth(ADMIN));
+        perform(doPut(id).jsonBody(entity).basicAuth(ADMIN_1)).andExpect(status().isNoContent());
+        ResultActions updatedActions = perform(doGet(id).basicAuth(ADMIN_1));
         AbstractBaseEntity updated = readFromJson(updatedActions, entity.getClass());
         matchers.assertMatch(updated, entity);
     }

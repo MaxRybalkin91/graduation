@@ -1,9 +1,9 @@
 package ru.topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Restaurant;
+import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.util.exception.NotFoundException;
@@ -18,8 +18,8 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    public List<Restaurant> getAll() {
-        return restaurantRepository.findAll();
+    public List<Restaurant> getAll(Integer userId) {
+        return restaurantRepository.findAllByUserId(userId);
     }
 
     public List<RestaurantTo> getWithMenu() {
@@ -29,28 +29,26 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
-    @CacheEvict(value = "restaurants", allEntries = true)
-    public void update(Integer restaurantId, Restaurant restaurant) {
+    public void update(Integer restaurantId, Restaurant restaurant, User user) {
+        getOrThrowException(restaurantId, user.getId());
         restaurant.setId(restaurantId);
-        restaurantRepository.save(restaurant);
+        create(restaurant, user);
     }
 
-    @CacheEvict(value = "restaurants", allEntries = true)
-    public Restaurant create(Restaurant restaurant) {
+    public Restaurant create(Restaurant restaurant, User user) {
+        restaurant.setUser(user);
         return restaurantRepository.save(restaurant);
     }
 
-    public Restaurant get(Integer restaurantId) {
-        return getOrThrowException(restaurantId);
+    public Restaurant get(Integer restaurantId, Integer userId) {
+        return getOrThrowException(restaurantId, userId);
     }
 
-    @CacheEvict(value = "restaurants", allEntries = true)
-    public void delete(Integer restaurantId) {
-        getOrThrowException(restaurantId);
-        restaurantRepository.deleteById(restaurantId);
+    public void delete(Integer restaurantId, Integer userId) {
+        restaurantRepository.deleteByIdAndUserId(restaurantId, userId);
     }
 
-    private Restaurant getOrThrowException(Integer restaurantId) {
-        return restaurantRepository.findById(restaurantId).orElseThrow(NotFoundException::new);
+    private Restaurant getOrThrowException(Integer restaurantId, Integer userId) {
+        return restaurantRepository.findByIdAndUserId(restaurantId, userId).orElseThrow(NotFoundException::new);
     }
 }

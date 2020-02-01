@@ -52,7 +52,7 @@ public class VoteService {
         return voteRepository.save(new Vote(user, restaurant));
     }
 
-    public List<VoteToDate> getVotesStatistic(Integer restaurantId) {
-        return voteRepository.groupCountByDate(restaurantId);
+    public List<VoteToDate> getVotesStatistic(Integer restaurantId, Integer userId) {
+        return voteRepository.groupCountByDate(restaurantId, userId, LocalDate.now());
     }
 }

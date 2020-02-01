@@ -7,7 +7,7 @@ import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
 import static ru.topjava.graduation.data.MealTestData.*;
-import static ru.topjava.graduation.data.UserTestData.ADMIN;
+import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
 import static ru.topjava.graduation.data.UserTestData.USER;
 
 public class AdminMealControllerTest extends AbstractControllerTest {
@@ -48,7 +48,7 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getNotOwned() throws Exception {
-        expectNotFound(perform(doGet(MEAL_4_ID).basicAuth(ADMIN)));
+        expectNotFound(perform(doGet(MEAL_4_ID).basicAuth(ADMIN_1)));
     }
 
     @Test
@@ -60,12 +60,12 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     public void createExists() throws Exception {
         Meal duplicated = new Meal(MEAL_1.getName(), MEAL_1.getPrice());
-        expectDuplicated(perform(doPost().jsonBody(duplicated).basicAuth(ADMIN)));
+        expectDuplicated(perform(doPost().jsonBody(duplicated).basicAuth(ADMIN_1)));
     }
 
     @Test
     public void createInvalid() throws Exception {
-        expectInvalidEntity(perform(doPost().jsonBody(INVALID_MEAL).basicAuth(ADMIN)));
+        expectInvalidEntity(perform(doPost().jsonBody(INVALID_MEAL).basicAuth(ADMIN_1)));
     }
 
     @Test
@@ -80,12 +80,12 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getOld() throws Exception {
-        expectEditDeny(perform(doGet(100).basicAuth(ADMIN)));
+        expectEditDeny(perform(doGet(100).basicAuth(ADMIN_1)));
     }
 
     @Test
     public void getNotFound() throws Exception {
-        expectNotFound(perform(doGet(USER.getId()).basicAuth(ADMIN)));
+        expectNotFound(perform(doGet(USER.getId()).basicAuth(ADMIN_1)));
     }
 
     @Test
@@ -97,16 +97,16 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     public void updateInvalid() throws Exception {
         Meal updated = new Meal(INVALID_MEAL);
         updated.setId(MEAL_1_ID);
-        expectInvalidEntity(perform(doPut(MEAL_1_ID).jsonBody(INVALID_MEAL).basicAuth(ADMIN)));
+        expectInvalidEntity(perform(doPut(MEAL_1_ID).jsonBody(INVALID_MEAL).basicAuth(ADMIN_1)));
     }
 
     @Test
     public void updateNotOwned() throws Exception {
-        expectInvalidSave(perform(doPut(MEAL_4_ID).jsonBody(MEAL_4).basicAuth(ADMIN)));
+        expectInvalidSave(perform(doPut(MEAL_4_ID).jsonBody(MEAL_4).basicAuth(ADMIN_1)));
     }
 
     @Test
     public void getHistory() throws Exception {
-        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN, RESTAURANT_1_HISTORY, MEAL_HISTORY_MATCHERS);
+        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN_1, RESTAURANT_1_HISTORY, MEAL_MATCHERS);
     }
 }
