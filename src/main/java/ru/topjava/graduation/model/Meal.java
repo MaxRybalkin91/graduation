@@ -30,6 +30,12 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
+
     public Meal() {
     }
 
@@ -70,6 +76,14 @@ public class Meal extends AbstractNamedEntity implements Serializable {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
