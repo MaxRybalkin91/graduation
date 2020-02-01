@@ -1,11 +1,15 @@
 package ru.topjava.graduation.web.meal;
 
 import org.junit.Test;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
+import java.time.LocalDate;
+
+import static ru.topjava.graduation.TestUtil.readFromJson;
 import static ru.topjava.graduation.data.MealTestData.*;
 import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
 import static ru.topjava.graduation.data.UserTestData.USER;
@@ -107,6 +111,36 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getHistory() throws Exception {
-        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN_1, RESTAURANT_1_HISTORY, MEAL_HISTORY_MATCHERS);
+        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN_1, RESTAURANT_1_HISTORY, MEAL_MATCHERS);
+    }
+
+    @Test
+    public void getFutureMeals() throws Exception {
+        getAllEntities(ADMIN_REST_1_MEALS_URL + "/future", ADMIN_1, RESTAURANT_1_FUTURE_MEALS, MEAL_MATCHERS);
+    }
+
+    @Test
+    public void getTodayMeals() throws Exception {
+        getAllEntities(ADMIN_REST_1_MEALS_URL, ADMIN_1, RESTAURANT_1_TODAY_MEALS, MEAL_MATCHERS);
+    }
+
+    @Test
+    public void getOneFuture() throws Exception {
+        getOne(FUTURE_MEAL_1_REST_1, MEAL_MATCHERS);
+    }
+
+    @Test
+    public void createForFuture() throws Exception {
+        Meal newMeal = getNewMeal();
+        newMeal.setDate(LocalDate.of(2020, 6, 15));
+        ResultActions action = perform(doPost(ADMIN_REST_1_FUTURE_MEALS_URL).jsonBody(newMeal).basicAuth(ADMIN_1));
+        getOne(readFromJson(action, Meal.class), MEAL_MATCHERS);
+    }
+
+    @Test
+    public void updateWithSettingOldDate() throws Exception {
+        Meal updated = getUpdatedMeal();
+        updated.setDate(LocalDate.of(2015, 1, 1));
+        expectOldDate(perform(doPut(MEAL_1_ID).jsonBody(updated).basicAuth(ADMIN_1)));
     }
 }

@@ -17,42 +17,38 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-import static ru.topjava.graduation.web.Controller.ADMIN_MEALS_URL;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
 @RestController
-@RequestMapping(value = ADMIN_MEALS_URL, produces = JSON_TYPE)
+@RequestMapping(produces = JSON_TYPE)
 public class AdminMealController implements Controller {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private MealService mealService;
 
-    @GetMapping("/{id}")
-    public Meal get(@PathVariable Integer id,
-                    @PathVariable Integer restaurantId,
-                    @AuthenticationPrincipal User user) {
-        log.info("get meal with id {} of restaurant{} of user {}", id, restaurantId, user.getId());
-        return mealService.get(id, restaurantId, user.getId());
+    @GetMapping(value = ADMIN_MEALS_URL)
+    public List<Meal> getForToday(@PathVariable Integer restaurantId,
+                                  @AuthenticationPrincipal User user) {
+        log.info("get today's meals of restaurant{} of user {}", restaurantId, user.getId());
+        return mealService.getForToday(restaurantId, user.getId());
     }
 
-    @GetMapping("/history")
+    @GetMapping(ADMIN_HISTORY_MEALS_URL)
     public List<Meal> getHistory(@PathVariable Integer restaurantId,
                                  @AuthenticationPrincipal User user) {
         log.info("get all meals history for restaurant {} of user {}", restaurantId, user.getId());
         return mealService.getHistory(restaurantId, user.getId());
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Integer id,
-                       @PathVariable Integer restaurantId,
-                       @AuthenticationPrincipal User user) {
-        log.info("delete meal with id {} of restaurant {} of user {}", id, restaurantId, user.getId());
-        mealService.delete(id, restaurantId, user.getId());
+    @GetMapping(value = ADMIN_FUTURE_MEALS_URL)
+    public List<Meal> getFutureMeals(@PathVariable Integer restaurantId,
+                                     @AuthenticationPrincipal User user) {
+        log.info("get all future meals for restaurant {} of user {}", restaurantId, user.getId());
+        return mealService.getFuture(restaurantId, user.getId());
     }
 
-    @PostMapping(consumes = JSON_TYPE)
+    @PostMapping(value = {ADMIN_MEALS_URL, ADMIN_FUTURE_MEALS_URL}, consumes = JSON_TYPE)
     public ResponseEntity<Meal> create(@Valid @RequestBody Meal meal,
                                        @PathVariable Integer restaurantId,
                                        @AuthenticationPrincipal User user) {
@@ -64,7 +60,24 @@ public class AdminMealController implements Controller {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping("/{id}")
+    @GetMapping(value = {ADMIN_MEALS_URL + "/{id}", ADMIN_FUTURE_MEALS_URL + "/{id}"})
+    public Meal get(@PathVariable Integer id,
+                    @PathVariable Integer restaurantId,
+                    @AuthenticationPrincipal User user) {
+        log.info("get meal with id {} of restaurant{} of user {}", id, restaurantId, user.getId());
+        return mealService.get(id, restaurantId, user.getId());
+    }
+
+    @DeleteMapping(value = {ADMIN_MEALS_URL + "/{id}", ADMIN_FUTURE_MEALS_URL + "/{id}"})
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Integer id,
+                       @PathVariable Integer restaurantId,
+                       @AuthenticationPrincipal User user) {
+        log.info("delete meal with id {} of restaurant {} of user {}", id, restaurantId, user.getId());
+        mealService.delete(id, restaurantId, user.getId());
+    }
+
+    @PutMapping(value = {ADMIN_MEALS_URL + "/{id}", ADMIN_FUTURE_MEALS_URL + "/{id}"})
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@PathVariable Integer id,
                        @PathVariable Integer restaurantId,

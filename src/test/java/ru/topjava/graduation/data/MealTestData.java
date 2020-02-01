@@ -6,7 +6,6 @@ import ru.topjava.graduation.model.Meal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.topjava.graduation.data.RestaurantTestData.RESTAURANT_1;
 import static ru.topjava.graduation.data.RestaurantTestData.REST_1_ID;
 import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
 import static ru.topjava.graduation.data.UserTestData.ADMIN_2;
@@ -37,27 +36,32 @@ public class MealTestData {
     public static final Meal OLD_MEAL_2_REST_1 = new Meal(112, "Lunch2_1", 300, LocalDate.of(2019, 5, 31));
     public static final Meal OLD_MEAL_3_REST_1 = new Meal(113, "Lunch3_1", 300, LocalDate.of(2019, 5, 31));
 
+    public static final Meal FUTURE_MEAL_1_REST_1 = new Meal(211, "Lunch1_1_future", 300, LocalDate.of(2020, 5, 1));
+    public static final Meal FUTURE_MEAL_2_REST_1 = new Meal(212, "Lunch2_1_future", 300, LocalDate.of(2020, 5, 1));
+    public static final Meal FUTURE_MEAL_3_REST_1 = new Meal(213, "Lunch3_1_future", 300, LocalDate.of(2020, 5, 1));
+
     public static final List<Meal> RESTAURANT_1_HISTORY = List.of(OLD_MEAL_1_REST_1, OLD_MEAL_2_REST_1, OLD_MEAL_3_REST_1);
+
+    public static final List<Meal> RESTAURANT_1_FUTURE_MEALS = List.of(FUTURE_MEAL_1_REST_1, FUTURE_MEAL_2_REST_1, FUTURE_MEAL_3_REST_1);
+
+    public static final List<Meal> RESTAURANT_1_TODAY_MEALS = List.of(MEAL_1, MEAL_2, MEAL_3);
 
     public static final String REST_1_MEALS_URL = "/restaurants/" + REST_1_ID + "/meals";
 
     public static final String ADMIN_REST_1_MEALS_URL = "/admin" + REST_1_MEALS_URL;
 
-    public static TestMatchers<Meal> MEAL_MATCHERS = TestMatchers.useFieldsComparator(Meal.class, "restaurant", "user");
+    public static final String ADMIN_REST_1_FUTURE_MEALS_URL = ADMIN_REST_1_MEALS_URL + "/future";
 
-    public static TestMatchers<Meal> MEAL_HISTORY_MATCHERS = TestMatchers.useFieldsComparator(Meal.class, "restaurant", "user", "date");
-
+    public static TestMatchers<Meal> MEAL_MATCHERS = TestMatchers.useFieldsComparator(Meal.class, "id", "restaurant", "user");
 
     public static Meal getNewMeal() {
         return new Meal("Big Mexican Burger", 199);
     }
 
     public static Meal getUpdatedMeal() {
-        Meal updated = new Meal();
-        updated.setId(MEAL_1_ID);
+        Meal updated = new Meal(MEAL_1);
         updated.setName("Today's new burger");
         updated.setPrice(200);
-        updated.setRestaurant(RESTAURANT_1);
         return updated;
     }
 }

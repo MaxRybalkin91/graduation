@@ -1,5 +1,6 @@
 package ru.topjava.graduation.web;
 
+import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,7 @@ import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.web.json.JsonUtil;
 
 import javax.annotation.PostConstruct;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.topjava.graduation.TestUtil.readFromJson;
 import static ru.topjava.graduation.TestUtil.readFromJsonMvcResult;
 import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
+import static ru.topjava.graduation.util.exception.EditDenyException.getEditDenyException;
+import static ru.topjava.graduation.util.exception.ExistsDataException.getExistsDataException;
+import static ru.topjava.graduation.util.exception.NotFoundException.getNotFoundException;
+import static ru.topjava.graduation.util.exception.OldDateException.getOldDateException;
 import static ru.topjava.graduation.web.AbstractControllerTest.RequestWrapper.wrap;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
 
@@ -45,7 +51,12 @@ abstract public class AbstractControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    private final String url;
+    private String url;
+
+    private static final String NOT_FOUND_MESSAGE = getNotFoundException().getMessage();
+    private static final String EXISTS_DATA_MESSAGE = getExistsDataException().getMessage();
+    private static final String EDIT_DENY_MESSAGE = getEditDenyException().getMessage();
+    private static final String OLD_DATE_MESSAGE = getOldDateException().getMessage();
 
     public AbstractControllerTest(String url) {
         this.url = url;
@@ -108,10 +119,17 @@ abstract public class AbstractControllerTest {
 
     protected void expectNotFound(ResultActions perform) throws Exception {
         perform.andDo(print()).andExpect(status().isNotFound());
+        checkExceptionMessage(perform, NOT_FOUND_MESSAGE);
+    }
+
+    protected void expectOldDate(ResultActions perform) throws Exception {
+        perform.andDo(print()).andExpect(status().isUnprocessableEntity());
+        checkExceptionMessage(perform, OLD_DATE_MESSAGE);
     }
 
     protected void expectDuplicated(ResultActions perform) throws Exception {
         perform.andDo(print()).andExpect(status().isUnprocessableEntity());
+        checkExceptionMessage(perform, EXISTS_DATA_MESSAGE);
     }
 
     protected void expectNoContent(ResultActions perform) throws Exception {
@@ -128,10 +146,13 @@ abstract public class AbstractControllerTest {
 
     protected void expectEditDeny(ResultActions perform) throws Exception {
         perform.andDo(print()).andExpect(status().isUnprocessableEntity());
+        checkExceptionMessage(perform, EDIT_DENY_MESSAGE);
     }
 
-    protected void expectInvalidSave(ResultActions perform) throws Exception {
-        perform.andDo(print()).andExpect(status().isUnprocessableEntity());
+    private void checkExceptionMessage(ResultActions perform, String expectedMessage) throws UnsupportedEncodingException {
+        Assert.assertEquals(perform.andReturn()
+                .getResponse()
+                .getContentAsString(), expectedMessage);
     }
 
     public ResultActions perform(RequestWrapper wrapper) throws Exception {
@@ -164,6 +185,10 @@ abstract public class AbstractControllerTest {
 
     protected RequestWrapper doPost() {
         return wrap(MockMvcRequestBuilders.post(url).contentType(JSON_TYPE));
+    }
+
+    protected RequestWrapper doPost(String incomingUrl) {
+        return wrap(MockMvcRequestBuilders.post(incomingUrl).contentType(JSON_TYPE));
     }
 
     protected RequestWrapper doPut() {

@@ -6,11 +6,13 @@ import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.repository.MealRepository;
 import ru.topjava.graduation.repository.RestaurantRepository;
-import ru.topjava.graduation.util.exception.EditDenyException;
 import ru.topjava.graduation.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static ru.topjava.graduation.util.exception.EditDenyException.getEditDenyException;
+import static ru.topjava.graduation.util.exception.OldDateException.getOldDateException;
 
 @Service
 public class MealService {
@@ -21,8 +23,21 @@ public class MealService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    public List<Meal> getForToday(Integer restaurantId, Integer userId) {
+        return mealRepository.findAllByRestaurantIdAndUserIdAndDate(restaurantId, userId, LocalDate.now());
+    }
+
+    public List<Meal> getHistory(Integer restaurantId, Integer userId) {
+        return mealRepository.findAllByRestaurantIdAndUserIdAndDateIsBefore(restaurantId, userId, LocalDate.now());
+    }
+
+    public List<Meal> getFuture(Integer restaurantId, Integer userId) {
+        return mealRepository.findAllByRestaurantIdAndUserIdAndDateIsAfter(restaurantId, userId, LocalDate.now());
+    }
+
     public void update(Integer id, Integer restaurantId, Meal meal, User user) {
         getOrThrowException(id, restaurantId, user.getId());
+        checkDateOrThrow(meal, getOldDateException());
         meal.setId(id);
         create(meal, restaurantId, user);
     }
@@ -42,14 +57,14 @@ public class MealService {
     }
 
     private Meal getOrThrowException(Integer id, Integer restaurantId, Integer userId) {
-        Meal meal = mealRepository.findByIdAndRestaurantIdAndUserId(id, restaurantId, userId).orElseThrow(NotFoundException::new);
-        if (!meal.getDate().equals(LocalDate.now())) {
-            throw new EditDenyException();
-        }
+        Meal meal = mealRepository.findByIdAndRestaurantIdAndUserId(id, restaurantId, userId).orElseThrow(NotFoundException::getNotFoundException);
+        checkDateOrThrow(meal, getEditDenyException());
         return meal;
     }
 
-    public List<Meal> getHistory(Integer restaurantId, Integer userId) {
-        return mealRepository.findAllByRestaurantIdAndUserIdAndDateIsBefore(restaurantId, userId, LocalDate.now());
+    private void checkDateOrThrow(Meal meal, RuntimeException ex) {
+        if (meal.getDate().isBefore(LocalDate.now())) {
+            throw ex;
+        }
     }
 }

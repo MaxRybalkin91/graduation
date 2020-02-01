@@ -23,4 +23,8 @@ public interface MealRepository extends CrudRepository<Meal, Integer> {
     Optional<Meal> findByIdAndRestaurantIdAndUserId(Integer id, Integer restaurantId, Integer userId);
 
     List<Meal> findAllByRestaurantIdAndUserIdAndDateIsBefore(Integer restaurantId, Integer userId, LocalDate date);
+
+    List<Meal> findAllByRestaurantIdAndUserIdAndDateIsAfter(Integer restaurantId, Integer userId, LocalDate date);
+
+    List<Meal> findAllByRestaurantIdAndUserIdAndDate(Integer restaurantId, Integer userId, LocalDate date);
 }

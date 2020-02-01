@@ -2,6 +2,8 @@ package ru.topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
@@ -9,11 +11,12 @@ import ru.topjava.graduation.model.Vote;
 import ru.topjava.graduation.model.dto.VoteToDate;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.repository.VoteRepository;
-import ru.topjava.graduation.util.exception.VoteDenyException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import static ru.topjava.graduation.util.exception.VoteDenyException.getVoteDenyException;
 
 @Service
 public class VoteService {
@@ -24,6 +27,7 @@ public class VoteService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Cacheable("votes")
     public Integer getVotesCount(Integer restaurantId) {
         return voteRepository.countByRestaurantId(restaurantId);
     }
@@ -31,10 +35,12 @@ public class VoteService {
     @Value("${time.vote.deny}")
     private Integer denyHour;
 
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote create(User user, Integer restaurantId, LocalTime time) {
         return checkAndSave(time, user, restaurantId);
     }
 
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote create(User user, Integer restaurantId) {
         return checkAndSave(LocalTime.now(), user, restaurantId);
     }
@@ -44,7 +50,7 @@ public class VoteService {
         Restaurant restaurant = restaurantRepository.getOne(restaurantId);
         if (voteFromRepo != null) {
             if (time.getHour() >= denyHour) {
-                throw new VoteDenyException();
+                throw getVoteDenyException();
             }
             voteFromRepo.setRestaurant(restaurant);
             return voteRepository.save(voteFromRepo);

@@ -1,6 +1,8 @@
 package ru.topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
@@ -22,6 +24,7 @@ public class RestaurantService {
         return restaurantRepository.findAllByUserId(userId);
     }
 
+    @Cacheable("restaurants")
     public List<RestaurantTo> getWithMenu() {
         return restaurantRepository.findByRestaurantMealDate(LocalDate.now())
                 .stream()
@@ -29,12 +32,14 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void update(Integer restaurantId, Restaurant restaurant, User user) {
         getOrThrowException(restaurantId, user.getId());
         restaurant.setId(restaurantId);
         create(restaurant, user);
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public Restaurant create(Restaurant restaurant, User user) {
         restaurant.setUser(user);
         return restaurantRepository.save(restaurant);
@@ -44,11 +49,12 @@ public class RestaurantService {
         return getOrThrowException(restaurantId, userId);
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void delete(Integer restaurantId, Integer userId) {
         restaurantRepository.deleteByIdAndUserId(restaurantId, userId);
     }
 
     private Restaurant getOrThrowException(Integer restaurantId, Integer userId) {
-        return restaurantRepository.findByIdAndUserId(restaurantId, userId).orElseThrow(NotFoundException::new);
+        return restaurantRepository.findByIdAndUserId(restaurantId, userId).orElseThrow(NotFoundException::getNotFoundException);
     }
 }

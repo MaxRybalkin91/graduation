@@ -1,7 +1,6 @@
 package ru.topjava.graduation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,10 +18,8 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     @NotNull(message = "Price must be added")
     private Integer price;
 
-    @JsonIgnore
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date = LocalDate.now();
+    private LocalDate date;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,16 +37,19 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     }
 
     public Meal(String name, Integer price) {
-        this(null, name, price);
+        this(null, name, price, LocalDate.now(), null);
     }
 
     public Meal(Meal m) {
-        this(m.getId(), m.getName(), m.getPrice());
+        this(m.getId(), m.getName(), m.getPrice(), m.getDate(), m.getUser());
     }
 
     public Meal(Integer id, String name, Integer price) {
-        super(id, name);
-        this.price = price;
+        this(id, name, price, LocalDate.now(), null);
+    }
+
+    public Meal(Integer id, String name, Integer price, LocalDate date) {
+        this(id, name, price, date, null);
     }
 
     public Meal(Integer id, String name, Integer price, User user) {
@@ -59,14 +59,8 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     public Meal(Integer id, String name, Integer price, LocalDate date, User user) {
         super(id, name);
         this.price = price;
-        this.date = date;
+        this.date = date != null ? date : LocalDate.now();
         this.user = user;
-    }
-
-    public Meal(Integer id, String name, Integer price, LocalDate date) {
-        super(id, name);
-        this.price = price;
-        this.date = date;
     }
 
     public Integer getPrice() {
@@ -89,6 +83,10 @@ public class Meal extends AbstractNamedEntity implements Serializable {
         return date;
     }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public User getUser() {
         return user;
     }
@@ -103,6 +101,7 @@ public class Meal extends AbstractNamedEntity implements Serializable {
                 "id=" + id +
                 ", name=" + name +
                 ", price=" + price +
+                ", date=" + date +
                 '}';
     }
 }
