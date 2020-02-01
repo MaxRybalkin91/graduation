@@ -71,23 +71,18 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void deleteNotFound() throws Exception {
-        expectNotFound(perform(doDelete(USER.getId()).basicAuth(ADMIN_1)));
-    }
-
-    @Test
     public void get() throws Exception {
         getOne(RESTAURANT_1, RESTAURANTS_MATCHERS);
     }
 
     @Test
-    public void getAll() throws Exception {
-        getAllEntities(null, ADMIN_1, RESTAURANTS, RESTAURANTS_MATCHERS);
+    public void getMy() throws Exception {
+        getAllEntities(null, ADMIN_1, ADMIN_1_RESTAURANTS, RESTAURANTS_MATCHERS);
     }
 
     @Test
-    public void getNotFound() throws Exception {
-        expectNotFound(perform(doGet(USER.getId()).basicAuth(ADMIN_1)));
+    public void getAlien() throws Exception {
+        expectNotFound(perform(doGet(REST_2_ID).basicAuth(ADMIN_1)));
     }
 
     @Test

@@ -27,9 +27,9 @@ public class RestaurantTestData {
 
     public static final Restaurant INVALID_RESTAURANT = new Restaurant(REST_3_ID, null, null);
 
-    public static final List<Restaurant> RESTAURANTS = List.of(RESTAURANT_1, RESTAURANT_2, RESTAURANT_3);
+    public static final List<Restaurant> ADMIN_1_RESTAURANTS = List.of(RESTAURANT_1);
 
-    public static TestMatchers<Restaurant> RESTAURANTS_MATCHERS = TestMatchers.useFieldsComparator(Restaurant.class, "meals");
+    public static TestMatchers<Restaurant> RESTAURANTS_MATCHERS = TestMatchers.useFieldsComparator(Restaurant.class, "meals", "user");
 
     public static TestMatchers<RestaurantTo> RESTAURANTS_TO_MATCHERS = TestMatchers.useFieldsComparator(RestaurantTo.class);
 

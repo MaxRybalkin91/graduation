@@ -1,11 +1,11 @@
-insert into meals (restaurant_id, name, price, user_id)
-values (11, 'ChickenBurger set', '300', 1),
-       (11, 'CheeseBurger set', '400', 1),
-       (11, 'FishBurger set', '500', 1),
-       (12, 'BigMac set', '300', 2),
-       (12, 'Happy Meal set', '400', 2),
-       (13, 'Sanders lunch basket', '300', 3),
-       (13, 'Lunch basket "5 items"', '400', 3);
+insert into meals (id, restaurant_id, name, price, user_id)
+values (21, 11, 'ChickenBurger set', '300', 1),
+       (22, 11, 'CheeseBurger set', '400', 1),
+       (23, 11, 'FishBurger set', '500', 1),
+       (24, 12, 'BigMac set', '300', 2),
+       (25, 12, 'Happy Meal set', '400', 2),
+       (26, 13, 'Sanders lunch basket', '300', 3),
+       (27, 13, 'Lunch basket "5 items"', '400', 3);
 
 /*INSERTING OLD MEALS FOR TESTS*/
 insert into meals (id, restaurant_id, date, name, price, user_id)

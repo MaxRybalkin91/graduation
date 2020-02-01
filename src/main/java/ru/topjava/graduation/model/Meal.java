@@ -19,6 +19,7 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     @NotNull(message = "Price must be added")
     private Integer price;
 
+    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date = LocalDate.now();
@@ -60,6 +61,12 @@ public class Meal extends AbstractNamedEntity implements Serializable {
         this.price = price;
         this.date = date;
         this.user = user;
+    }
+
+    public Meal(Integer id, String name, Integer price, LocalDate date) {
+        super(id, name);
+        this.price = price;
+        this.date = date;
     }
 
     public Integer getPrice() {

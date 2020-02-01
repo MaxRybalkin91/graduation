@@ -53,6 +53,6 @@ public class VoteService {
     }
 
     public List<VoteToDate> getVotesStatistic(Integer restaurantId, Integer userId) {
-        return voteRepository.groupCountByDate(restaurantId, userId, LocalDate.now());
+        return voteRepository.groupCountByDate(restaurantId, userId);
     }
 }

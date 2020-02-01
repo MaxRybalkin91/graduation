@@ -47,7 +47,7 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void getNotOwned() throws Exception {
+    public void getAlien() throws Exception {
         expectNotFound(perform(doGet(MEAL_4_ID).basicAuth(ADMIN_1)));
     }
 
@@ -80,7 +80,7 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getOld() throws Exception {
-        expectEditDeny(perform(doGet(100).basicAuth(ADMIN_1)));
+        expectEditDeny(perform(doGet(OLD_MEAL_1_REST_1.getId()).basicAuth(ADMIN_1)));
     }
 
     @Test
@@ -101,12 +101,12 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void updateNotOwned() throws Exception {
-        expectInvalidSave(perform(doPut(MEAL_4_ID).jsonBody(MEAL_4).basicAuth(ADMIN_1)));
+    public void updateAlien() throws Exception {
+        expectNotFound(perform(doPut(MEAL_4_ID).jsonBody(MEAL_4).basicAuth(ADMIN_1)));
     }
 
     @Test
     public void getHistory() throws Exception {
-        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN_1, RESTAURANT_1_HISTORY, MEAL_MATCHERS);
+        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN_1, RESTAURANT_1_HISTORY, MEAL_HISTORY_MATCHERS);
     }
 }

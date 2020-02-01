@@ -24,6 +24,6 @@ public interface VoteRepository extends CrudRepository<Vote, Integer> {
 
     @Query("select new ru.topjava.graduation.model.dto.VoteToDate(v.date, count(v.id))" +
             " from Vote v where v.restaurant.id = ?1 and v.restaurant.user.id = ?2" +
-            "and v.date < ?3 group by v.date")
-    List<VoteToDate> groupCountByDate(Integer restaurantId, Integer userId, LocalDate date);
+            " group by v.date")
+    List<VoteToDate> groupCountByDate(Integer restaurantId, Integer userId);
 }
