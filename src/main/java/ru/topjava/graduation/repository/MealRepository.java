@@ -18,9 +18,13 @@ public interface MealRepository extends CrudRepository<Meal, Integer> {
     Meal save(Meal item);
 
     @Transactional
-    void deleteByIdAndRestaurantId(Integer id, Integer restaurantId);
+    void deleteByIdAndRestaurantIdAndUserId(Integer id, Integer restaurantId, Integer userId);
 
-    Optional<Meal> findByIdAndRestaurantId(Integer id, Integer restaurantId);
+    Optional<Meal> findByIdAndRestaurantIdAndUserId(Integer id, Integer restaurantId, Integer userId);
 
-    List<Meal> findAllByRestaurantIdAndDateIsBefore(Integer restaurantId, LocalDate date);
+    List<Meal> findAllByRestaurantIdAndUserIdAndDateIsBefore(Integer restaurantId, Integer userId, LocalDate date);
+
+    List<Meal> findAllByRestaurantIdAndUserIdAndDateIsAfter(Integer restaurantId, Integer userId, LocalDate date);
+
+    List<Meal> findAllByRestaurantIdAndUserIdAndDate(Integer restaurantId, Integer userId, LocalDate date);
 }

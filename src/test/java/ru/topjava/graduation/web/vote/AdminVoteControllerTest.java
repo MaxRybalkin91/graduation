@@ -3,7 +3,7 @@ package ru.topjava.graduation.web.vote;
 import org.junit.Test;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
-import static ru.topjava.graduation.data.UserTestData.ADMIN;
+import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
 import static ru.topjava.graduation.data.UserTestData.USER;
 import static ru.topjava.graduation.data.VoteTestData.*;
 
@@ -15,7 +15,7 @@ public class AdminVoteControllerTest extends AbstractControllerTest {
 
     @Test
     public void getStatistic() throws Exception {
-        getAllEntities(null, ADMIN, VOTES_TO_RESTAURANT_1, VOTE_TO_MATCHERS);
+        getAllEntities(null, ADMIN_1, VOTES_TO_RESTAURANT_1, VOTE_TO_MATCHERS);
     }
 
     @Test

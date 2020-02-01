@@ -2,8 +2,6 @@ package ru.topjava.graduation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -13,8 +11,6 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "votes")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Vote extends AbstractBaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 

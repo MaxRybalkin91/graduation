@@ -1,16 +1,11 @@
 package ru.topjava.graduation.model.dto;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.model.Restaurant;
 
-import javax.persistence.Cacheable;
 import java.io.Serializable;
 import java.util.Set;
 
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class RestaurantTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
