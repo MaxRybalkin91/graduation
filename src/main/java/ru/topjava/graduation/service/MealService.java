@@ -37,12 +37,16 @@ public class MealService {
 
     public void update(Integer id, Integer restaurantId, Meal meal, User user) {
         getOrThrowException(id, restaurantId, user.getId());
-        checkDateOrThrow(meal, getOldDateException());
         meal.setId(id);
         create(meal, restaurantId, user);
     }
 
     public Meal create(Meal meal, Integer restaurantId, User user) {
+        if (meal.getDate() == null) {
+            meal.setDate(LocalDate.now());
+        } else {
+            checkDateOrThrow(meal, getOldDateException());
+        }
         meal.setRestaurant(restaurantRepository.getOne(restaurantId));
         meal.setUser(user);
         return mealRepository.save(meal);

@@ -59,7 +59,7 @@ public class Meal extends AbstractNamedEntity implements Serializable {
     public Meal(Integer id, String name, Integer price, LocalDate date, User user) {
         super(id, name);
         this.price = price;
-        this.date = date != null ? date : LocalDate.now();
+        this.date = date;
         this.user = user;
     }
 
