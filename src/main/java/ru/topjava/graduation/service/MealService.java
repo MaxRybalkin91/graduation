@@ -3,6 +3,7 @@ package ru.topjava.graduation.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Meal;
+import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.repository.MealRepository;
 import ru.topjava.graduation.repository.RestaurantRepository;
@@ -42,12 +43,16 @@ public class MealService {
     }
 
     public Meal create(Meal meal, Integer restaurantId, User user) {
+        Restaurant restaurant = restaurantRepository.findByIdAndUserId(restaurantId, user.getId())
+                .orElseThrow(NotFoundException::getNotFoundException);
+
         if (meal.getDate() == null) {
             meal.setDate(LocalDate.now());
         } else {
             checkDateOrThrow(meal, getOldDateException());
         }
-        meal.setRestaurant(restaurantRepository.getOne(restaurantId));
+
+        meal.setRestaurant(restaurant);
         meal.setUser(user);
         return mealRepository.save(meal);
     }
