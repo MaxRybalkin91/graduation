@@ -5,10 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import ru.topjava.graduation.model.Restaurant;
+import ru.topjava.graduation.dto.VoteToDate;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.model.Vote;
-import ru.topjava.graduation.model.dto.VoteToDate;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.repository.VoteRepository;
 
@@ -47,15 +46,14 @@ public class VoteService {
 
     private Vote checkAndSave(LocalTime time, User user, Integer restaurantId) {
         Vote voteFromRepo = voteRepository.findByUserIdAndDate(user.getId(), LocalDate.now());
-        Restaurant restaurant = restaurantRepository.getOne(restaurantId);
         if (voteFromRepo != null) {
             if (time.getHour() >= denyHour) {
                 throw getVoteDenyException();
             }
-            voteFromRepo.setRestaurant(restaurant);
+            voteFromRepo.setRestaurant(restaurantRepository.getOne(restaurantId));
             return voteRepository.save(voteFromRepo);
         }
-        return voteRepository.save(new Vote(user, restaurant));
+        return voteRepository.save(new Vote(user, restaurantRepository.getOne(restaurantId)));
     }
 
     public List<VoteToDate> getVotesStatistic(Integer restaurantId, Integer userId) {

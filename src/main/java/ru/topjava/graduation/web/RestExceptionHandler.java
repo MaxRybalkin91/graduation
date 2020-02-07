@@ -27,34 +27,34 @@ import static ru.topjava.graduation.util.exception.VoteDenyException.getVoteDeny
 public class RestExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    protected ResponseEntity<String> handleNotFoundException() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(getNotFoundException().getMessage());
+    protected ResponseEntity<RuntimeException> handleNotFoundException() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(getNotFoundException());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<String> handleConstraintViolationException(JDBCException e) {
+    protected ResponseEntity<RuntimeException> handleConstraintViolationException(JDBCException e) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
-        String message = getExistsDataException().getMessage();
+        RuntimeException exception = getExistsDataException();
         if (e.getErrorCode() == 23506) {
             status = HttpStatus.NOT_FOUND;
-            message = getNotFoundException().getMessage();
+            exception = getNotFoundException();
         }
-        return ResponseEntity.status(status).body(message);
+        return ResponseEntity.status(status).body(exception);
     }
 
     @ExceptionHandler(VoteDenyException.class)
-    protected ResponseEntity<String> handleVoteDenyException() {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(getVoteDenyException().getMessage());
+    protected ResponseEntity<RuntimeException> handleVoteDenyException() {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(getVoteDenyException());
     }
 
     @ExceptionHandler(EditDenyException.class)
-    protected ResponseEntity<String> handleEditDenyException() {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(getEditDenyException().getMessage());
+    protected ResponseEntity<RuntimeException> handleEditDenyException() {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(getEditDenyException());
     }
 
     @ExceptionHandler(OldDateException.class)
-    protected ResponseEntity<String> handleOldDateException() {
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(getOldDateException().getMessage());
+    protected ResponseEntity<RuntimeException> handleOldDateException() {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(getOldDateException());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -1,4 +1,4 @@
-package ru.topjava.graduation.model.dto;
+package ru.topjava.graduation.dto;
 
 import ru.topjava.graduation.model.Meal;
 import ru.topjava.graduation.model.Restaurant;

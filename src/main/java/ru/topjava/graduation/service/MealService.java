@@ -1,9 +1,9 @@
 package ru.topjava.graduation.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Meal;
-import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.repository.MealRepository;
 import ru.topjava.graduation.repository.RestaurantRepository;
@@ -36,27 +36,27 @@ public class MealService {
         return mealRepository.findAllByRestaurantIdAndUserIdAndDateIsAfter(restaurantId, userId, LocalDate.now());
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void update(Integer id, Integer restaurantId, Meal meal, User user) {
         getOrThrowException(id, restaurantId, user.getId());
         meal.setId(id);
         create(meal, restaurantId, user);
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public Meal create(Meal meal, Integer restaurantId, User user) {
-        Restaurant restaurant = restaurantRepository.findByIdAndUserId(restaurantId, user.getId())
-                .orElseThrow(NotFoundException::getNotFoundException);
-
         if (meal.getDate() == null) {
             meal.setDate(LocalDate.now());
         } else {
             checkDateOrThrow(meal, getOldDateException());
         }
 
-        meal.setRestaurant(restaurant);
+        meal.setRestaurant(restaurantRepository.getByIdAndUserId(restaurantId, user.getId()));
         meal.setUser(user);
         return mealRepository.save(meal);
     }
 
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void delete(Integer id, Integer restaurantId, Integer userId) {
         mealRepository.deleteByIdAndRestaurantIdAndUserId(id, restaurantId, userId);
     }

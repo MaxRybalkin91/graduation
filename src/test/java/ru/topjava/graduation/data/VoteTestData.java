@@ -1,7 +1,7 @@
 package ru.topjava.graduation.data;
 
 import ru.topjava.graduation.TestMatchers;
-import ru.topjava.graduation.model.dto.VoteToDate;
+import ru.topjava.graduation.dto.VoteToDate;
 
 import java.time.LocalDate;
 import java.util.List;

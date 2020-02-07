@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import ru.topjava.graduation.dto.RestaurantTo;
 import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.model.User;
-import ru.topjava.graduation.model.dto.RestaurantTo;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.util.exception.NotFoundException;
 

@@ -1,8 +1,8 @@
 package ru.topjava.graduation.data;
 
 import ru.topjava.graduation.TestMatchers;
+import ru.topjava.graduation.dto.RestaurantTo;
 import ru.topjava.graduation.model.Restaurant;
-import ru.topjava.graduation.model.dto.RestaurantTo;
 
 import java.util.List;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package ru.topjava.graduation.model.dto;
+package ru.topjava.graduation.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

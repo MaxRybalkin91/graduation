@@ -29,7 +29,5 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
 
     Optional<Restaurant> findByIdAndUserId(Integer id, Integer userId);
 
-    /*@Modifying
-    @Query("update Restaurant r set r.name = ?1, r.address = ?2 where r.id = ?3 and r.user.id = ?4")
-    void setRestaurantByIdAndUserId(String name, String address, Integer id, Integer userId);*/
+    Restaurant getByIdAndUserId(Integer id, Integer userId);
 }

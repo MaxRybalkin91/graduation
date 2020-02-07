@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.topjava.graduation.model.dto.RestaurantTo;
+import ru.topjava.graduation.dto.RestaurantTo;
 import ru.topjava.graduation.service.RestaurantService;
 import ru.topjava.graduation.web.Controller;
 

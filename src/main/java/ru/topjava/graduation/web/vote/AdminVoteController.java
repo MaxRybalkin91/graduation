@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.topjava.graduation.dto.VoteToDate;
 import ru.topjava.graduation.model.User;
-import ru.topjava.graduation.model.dto.VoteToDate;
 import ru.topjava.graduation.service.VoteService;
 import ru.topjava.graduation.web.Controller;
 
