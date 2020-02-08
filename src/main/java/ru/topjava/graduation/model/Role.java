@@ -3,7 +3,7 @@ package ru.topjava.graduation.model;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER, ADMIN;
+    USER, OWNER, ADMIN;
 
     @Override
     public String getAuthority() {

@@ -1,0 +1,62 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'maven'
+}
+
+group = 'ru.topjava'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //SPRING BOOT
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    //DATABASE
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core'
+
+    //HIBERNATE
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.4.11.Final'
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '6.0.18.Final'
+
+    //LOGGING
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
+	testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+
+	//JACKSON
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.2'
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.10.0'
+
+    //TEST
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'org.springframework.security:spring-security-test'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+test {
+    useJUnitPlatform()
+    useJUnit()
+    filter {
+        includeTestsMatching "*Test"
+    }
+}
