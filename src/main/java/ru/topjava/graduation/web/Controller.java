@@ -19,6 +19,6 @@ public interface Controller {
     String REGISTER_URL = "/register";
     String PROFILE_URL = "/profile";
 
-    String USER_LIST_URL = "/admin/users";
-    String OWNER_LIST_URL = "/admin/owners";
+    String USER_LIST_URL = "/'owner'/users";
+    String OWNER_LIST_URL = "/'owner'/owners";
 }

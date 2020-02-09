@@ -26,14 +26,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .headers().frameOptions().disable()
                 .and().authorizeRequests()
+                .antMatchers("/register").permitAll()
                 .antMatchers("/my/**/**").hasAuthority("OWNER")
-                .antMatchers("/admin/**/**").hasAuthority("ADMIN")
+                .antMatchers("/'owner'/**/**").hasAuthority("ADMIN")
                 .antMatchers("/h2-console/**/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
-                .and().httpBasic()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().rememberMe()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().logout().permitAll()
+                //SET ANOTHER FORM BEFORE PRODUCTION
+                .and().httpBasic()
+                //ENABLE BEFORE PRODUCTION
                 .and().csrf().disable();
     }
 

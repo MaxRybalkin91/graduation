@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.topjava.graduation.model.Role;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.repository.UserRepository;
-import ru.topjava.graduation.util.exception.NotFoundException;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +21,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByName(username);
@@ -31,15 +34,11 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getUsers() {
-        return userRepo.findAllByRolesIs(Role.USER);
-    }
-
-    public List<User> getOwners() {
-        return userRepo.findAllByRolesContains(Role.OWNER);
+        return userRepo.findAll();
     }
 
     public User getUser(Integer userId) {
-        return userRepo.findById(userId).orElseThrow(NotFoundException::getNotFoundException);
+        return userRepo.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public void update(User user, Integer userId) {
@@ -50,19 +49,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User create(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
         user.setRoles(Set.of(Role.USER));
         return userRepo.save(user);
-    }
-
-    public void setOwner(Integer userId, boolean isOwner) {
-        User user = userRepo.getOne(userId);
-        user.setRoles(Collections.emptySet());
-        if (isOwner) {
-            user.setRoles(Set.of(Role.USER, Role.OWNER));
-        } else {
-            user.setRoles(Set.of(Role.USER));
-        }
-        userRepo.save(user);
     }
 
     public void delete(Integer userId) {
@@ -72,6 +61,13 @@ public class UserService implements UserDetailsService {
     public void setActivity(Integer userId, boolean isActive) {
         User user = userRepo.getOne(userId);
         user.setEnabled(isActive);
+        userRepo.save(user);
+    }
+
+    public void setOwner(Integer userId, boolean isOwner) {
+        User user = userRepo.getOne(userId);
+        user.setRoles(Collections.emptySet());
+        user.setRoles(Set.of(isOwner ? Role.OWNER : Role.USER));
         userRepo.save(user);
     }
 }

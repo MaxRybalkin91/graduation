@@ -51,6 +51,11 @@ dependencies {
     }
     testImplementation 'org.springframework.security:spring-security-test'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    //MAIL
+    compile group: 'javax.mail', name: 'mail', version: '1.4.7'
+    compile group: 'org.springframework', name: 'spring-context-support', version: '5.2.3.RELEASE'
+
 }
 
 test {

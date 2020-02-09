@@ -26,23 +26,17 @@ public class AdminUserController implements Controller {
         return userService.getUsers();
     }
 
-    @GetMapping
-    public List<User> getOwners() {
-        log.info("get all owners");
-        return userService.getOwners();
-    }
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         userService.delete(id);
     }
 
-    @PutMapping("/owner/{id}")
+    @PutMapping("/{id}/owner")
     public void setOwner(@PathVariable Integer id, @RequestParam Boolean isOwner) {
         userService.setOwner(id, isOwner);
     }
 
-    @PutMapping("/active/{id}")
+    @PutMapping("/{id}/active")
     public void setActive(@PathVariable Integer id, @RequestParam Boolean isActive) {
         userService.setActivity(id, isActive);
     }

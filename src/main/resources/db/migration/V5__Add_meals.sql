@@ -1,4 +1,4 @@
-insert into meals (id, restaurant_id, name, price, admin_id)
+insert into meals (id, restaurant_id, name, price, owner_id)
 values (21, 11, 'ChickenBurger set', '300', 1),
        (22, 11, 'CheeseBurger set', '400', 1),
        (23, 11, 'FishBurger set', '500', 1),
@@ -8,7 +8,7 @@ values (21, 11, 'ChickenBurger set', '300', 1),
        (27, 13, 'Lunch basket "5 items"', '400', 3);
 
 /*INSERTING OLD MEALS FOR TESTS*/
-insert into meals (id, restaurant_id, date, name, price, admin_id)
+insert into meals (id, restaurant_id, date, name, price, owner_id)
 values (111, 11, '2019-05-31', 'Lunch1_1', '300', 1),
        (112, 11, '2019-05-31', 'Lunch2_1', '300', 1),
        (113, 11, '2019-05-31', 'Lunch3_1', '300', 1),
@@ -20,7 +20,7 @@ values (111, 11, '2019-05-31', 'Lunch1_1', '300', 1),
        (133, 13, '2019-05-31', 'Lunch3_3', '300', 3);
 
 /*INSERTING FUTURE MEALS FOR TESTS*/
-insert into meals (id, restaurant_id, date, name, price, admin_id)
+insert into meals (id, restaurant_id, date, name, price, owner_id)
 values (211, 11, '2020-05-01', 'Lunch1_1_future', '300', 1),
        (212, 11, '2020-05-01', 'Lunch2_1_future', '300', 1),
        (213, 11, '2020-05-01', 'Lunch3_1_future', '300', 1),
