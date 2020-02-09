@@ -27,28 +27,28 @@ public class AdminMealController implements Controller {
     @Autowired
     private MealService mealService;
 
-    @GetMapping(value = ADMIN_MEALS_URL)
+    @GetMapping(value = OWNER_MEALS_URL)
     public List<Meal> getForToday(@PathVariable Integer restaurantId,
                                   @AuthenticationPrincipal User user) {
         log.info("get today's meals of restaurant{} of user {}", restaurantId, user.getId());
         return mealService.getForToday(restaurantId, user.getId());
     }
 
-    @GetMapping(ADMIN_HISTORY_MEALS_URL)
+    @GetMapping(OWNER_HISTORY_MEALS_URL)
     public List<Meal> getHistory(@PathVariable Integer restaurantId,
                                  @AuthenticationPrincipal User user) {
         log.info("get all meals history for restaurant {} of user {}", restaurantId, user.getId());
         return mealService.getHistory(restaurantId, user.getId());
     }
 
-    @GetMapping(value = ADMIN_FUTURE_MEALS_URL)
+    @GetMapping(value = OWNER_FUTURE_MEALS_URL)
     public List<Meal> getFutureMeals(@PathVariable Integer restaurantId,
                                      @AuthenticationPrincipal User user) {
         log.info("get all future meals for restaurant {} of user {}", restaurantId, user.getId());
         return mealService.getFuture(restaurantId, user.getId());
     }
 
-    @PostMapping(value = {ADMIN_MEALS_URL, ADMIN_FUTURE_MEALS_URL}, consumes = JSON_TYPE)
+    @PostMapping(value = {OWNER_MEALS_URL, OWNER_FUTURE_MEALS_URL}, consumes = JSON_TYPE)
     public ResponseEntity<Meal> create(@Valid @RequestBody Meal meal,
                                        @PathVariable Integer restaurantId,
                                        @AuthenticationPrincipal User user) {
@@ -60,7 +60,7 @@ public class AdminMealController implements Controller {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @GetMapping(value = {ADMIN_MEALS_URL + "/{id}", ADMIN_FUTURE_MEALS_URL + "/{id}"})
+    @GetMapping(value = {OWNER_MEALS_URL + "/{id}", OWNER_FUTURE_MEALS_URL + "/{id}"})
     public Meal get(@PathVariable Integer id,
                     @PathVariable Integer restaurantId,
                     @AuthenticationPrincipal User user) {
@@ -68,7 +68,7 @@ public class AdminMealController implements Controller {
         return mealService.get(id, restaurantId, user.getId());
     }
 
-    @DeleteMapping(value = {ADMIN_MEALS_URL + "/{id}", ADMIN_FUTURE_MEALS_URL + "/{id}"})
+    @DeleteMapping(value = {OWNER_MEALS_URL + "/{id}", OWNER_FUTURE_MEALS_URL + "/{id}"})
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id,
                        @PathVariable Integer restaurantId,
@@ -77,7 +77,7 @@ public class AdminMealController implements Controller {
         mealService.delete(id, restaurantId, user.getId());
     }
 
-    @PutMapping(value = {ADMIN_MEALS_URL + "/{id}", ADMIN_FUTURE_MEALS_URL + "/{id}"})
+    @PutMapping(value = {OWNER_MEALS_URL + "/{id}", OWNER_FUTURE_MEALS_URL + "/{id}"})
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@PathVariable Integer id,
                        @PathVariable Integer restaurantId,

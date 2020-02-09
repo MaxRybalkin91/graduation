@@ -24,7 +24,7 @@ public class VoteTestData {
     public static final String REST_1_VOTES_URL = "/restaurants/" + REST_1_ID + "/votes";
     public static final String REST_2_VOTES_URL = "/restaurants/" + REST_2_ID + "/votes";
 
-    public static final String ADMIN_1_VOTES_URL = "/admin" + REST_1_VOTES_URL;
+    public static final String OWNER_1_VOTES_URL = "/my" + REST_1_VOTES_URL;
 
     public static TestMatchers<VoteToDate> VOTE_TO_MATCHERS = TestMatchers.useEquals(VoteToDate.class);
 }

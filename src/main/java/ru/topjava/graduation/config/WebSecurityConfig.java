@@ -24,9 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
+                .headers().frameOptions().disable()
+                .and().authorizeRequests()
+                .antMatchers("/my/**/**").hasAuthority("OWNER")
                 .antMatchers("/admin/**/**").hasAuthority("ADMIN")
-                .antMatchers("/h2-console/**/**").denyAll()
+                .antMatchers("/h2-console/**/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -17,11 +17,11 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-import static ru.topjava.graduation.web.Controller.ADMIN_RESTAURANTS_URL;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
+import static ru.topjava.graduation.web.Controller.OWNER_RESTAURANTS_URL;
 
 @RestController
-@RequestMapping(value = ADMIN_RESTAURANTS_URL, produces = JSON_TYPE)
+@RequestMapping(value = OWNER_RESTAURANTS_URL, produces = JSON_TYPE)
 public class AdminRestaurantController implements Controller {
     private final Logger log = LoggerFactory.getLogger(getClass());
 

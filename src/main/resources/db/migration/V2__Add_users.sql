@@ -7,11 +7,11 @@ values (1, 'admin1', 'admin'),
        (6, 'user3', 'password');
 
 insert into user_role (user_id, roles)
-values (1, 'ADMIN'),
+values (1, 'OWNER'),
        (1, 'USER'),
-       (2, 'ADMIN'),
+       (2, 'OWNER'),
        (2, 'USER'),
-       (3, 'ADMIN'),
+       (3, 'OWNER'),
        (3, 'USER'),
        (4, 'USER'),
        (5, 'USER'),

@@ -5,7 +5,7 @@ import org.junit.Test;
 import ru.topjava.graduation.model.User;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
-import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
+import static ru.topjava.graduation.data.UserTestData.OWNER_1;
 import static ru.topjava.graduation.data.UserTestData.USER;
 import static ru.topjava.graduation.data.VoteTestData.*;
 
@@ -33,7 +33,7 @@ public class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAllForAdmin() throws Exception {
-        getVotes(ADMIN_1, REST_2_VOTES);
+        getVotes(OWNER_1, REST_2_VOTES);
     }
 
     private void getVotes(User user, Integer votes) throws Exception {

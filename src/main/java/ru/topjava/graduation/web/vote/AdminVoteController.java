@@ -15,11 +15,11 @@ import ru.topjava.graduation.web.Controller;
 
 import java.util.List;
 
-import static ru.topjava.graduation.web.Controller.ADMIN_VOTES_URL;
 import static ru.topjava.graduation.web.Controller.JSON_TYPE;
+import static ru.topjava.graduation.web.Controller.OWNER_VOTES_URL;
 
 @RestController
-@RequestMapping(value = ADMIN_VOTES_URL, produces = JSON_TYPE)
+@RequestMapping(value = OWNER_VOTES_URL, produces = JSON_TYPE)
 public class AdminVoteController implements Controller {
     private final Logger log = LoggerFactory.getLogger(getClass());
 

@@ -11,13 +11,13 @@ import java.time.LocalDate;
 
 import static ru.topjava.graduation.TestUtil.readFromJson;
 import static ru.topjava.graduation.data.MealTestData.*;
-import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
+import static ru.topjava.graduation.data.UserTestData.OWNER_1;
 import static ru.topjava.graduation.data.UserTestData.USER;
 
 public class AdminMealControllerTest extends AbstractControllerTest {
 
     public AdminMealControllerTest() {
-        super(ADMIN_REST_1_MEALS_URL);
+        super(OWNER_REST_1_MEALS_URL);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAlien() throws Exception {
-        expectNotFound(perform(doGet(MEAL_4_ID).basicAuth(ADMIN_1)));
+        expectNotFound(perform(doGet(MEAL_4_ID).basicAuth(OWNER_1)));
     }
 
     @Test
@@ -64,12 +64,12 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     public void createExists() throws Exception {
         Meal duplicated = new Meal(MEAL_1.getName(), MEAL_1.getPrice());
-        expectDuplicated(perform(doPost().jsonBody(duplicated).basicAuth(ADMIN_1)));
+        expectDuplicated(perform(doPost().jsonBody(duplicated).basicAuth(OWNER_1)));
     }
 
     @Test
     public void createInvalid() throws Exception {
-        expectInvalidEntity(perform(doPost().jsonBody(INVALID_MEAL).basicAuth(ADMIN_1)));
+        expectInvalidEntity(perform(doPost().jsonBody(INVALID_MEAL).basicAuth(OWNER_1)));
     }
 
     @Test
@@ -84,12 +84,12 @@ public class AdminMealControllerTest extends AbstractControllerTest {
 
     @Test
     public void getOld() throws Exception {
-        expectEditDeny(perform(doGet(OLD_MEAL_1_REST_1.getId()).basicAuth(ADMIN_1)));
+        expectEditDeny(perform(doGet(OLD_MEAL_1_REST_1.getId()).basicAuth(OWNER_1)));
     }
 
     @Test
     public void getNotFound() throws Exception {
-        expectNotFound(perform(doGet(USER.getId()).basicAuth(ADMIN_1)));
+        expectNotFound(perform(doGet(USER.getId()).basicAuth(OWNER_1)));
     }
 
     @Test
@@ -101,27 +101,27 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     public void updateInvalid() throws Exception {
         Meal updated = new Meal(INVALID_MEAL);
         updated.setId(MEAL_1_ID);
-        expectInvalidEntity(perform(doPut(MEAL_1_ID).jsonBody(INVALID_MEAL).basicAuth(ADMIN_1)));
+        expectInvalidEntity(perform(doPut(MEAL_1_ID).jsonBody(INVALID_MEAL).basicAuth(OWNER_1)));
     }
 
     @Test
     public void updateAlien() throws Exception {
-        expectNotFound(perform(doPut(MEAL_4_ID).jsonBody(MEAL_4).basicAuth(ADMIN_1)));
+        expectNotFound(perform(doPut(MEAL_4_ID).jsonBody(MEAL_4).basicAuth(OWNER_1)));
     }
 
     @Test
     public void getHistory() throws Exception {
-        getAllEntities(ADMIN_REST_1_MEALS_URL + "/history", ADMIN_1, RESTAURANT_1_HISTORY, MEAL_MATCHERS);
+        getAllEntities(OWNER_REST_1_MEALS_URL + "/history", OWNER_1, RESTAURANT_1_HISTORY, MEAL_MATCHERS);
     }
 
     @Test
     public void getFutureMeals() throws Exception {
-        getAllEntities(ADMIN_REST_1_MEALS_URL + "/future", ADMIN_1, RESTAURANT_1_FUTURE_MEALS, MEAL_MATCHERS);
+        getAllEntities(OWNER_REST_1_MEALS_URL + "/future", OWNER_1, RESTAURANT_1_FUTURE_MEALS, MEAL_MATCHERS);
     }
 
     @Test
     public void getTodayMeals() throws Exception {
-        getAllEntities(ADMIN_REST_1_MEALS_URL, ADMIN_1, RESTAURANT_1_TODAY_MEALS, MEAL_MATCHERS);
+        getAllEntities(OWNER_REST_1_MEALS_URL, OWNER_1, RESTAURANT_1_TODAY_MEALS, MEAL_MATCHERS);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     public void createForFuture() throws Exception {
         Meal newMeal = getNewMeal();
         newMeal.setDate(LocalDate.of(2020, 6, 15));
-        ResultActions action = perform(doPost(ADMIN_REST_1_FUTURE_MEALS_URL).jsonBody(newMeal).basicAuth(ADMIN_1));
+        ResultActions action = perform(doPost(OWNER_REST_1_FUTURE_MEALS_URL).jsonBody(newMeal).basicAuth(OWNER_1));
         getOne(readFromJson(action, Meal.class), MEAL_MATCHERS);
     }
 
@@ -141,6 +141,6 @@ public class AdminMealControllerTest extends AbstractControllerTest {
     public void updateWithSettingOldDate() throws Exception {
         Meal updated = getUpdatedMeal();
         updated.setDate(LocalDate.of(2015, 1, 1));
-        expectOldDate(perform(doPut(MEAL_1_ID).jsonBody(updated).basicAuth(ADMIN_1)));
+        expectOldDate(perform(doPut(MEAL_1_ID).jsonBody(updated).basicAuth(OWNER_1)));
     }
 }

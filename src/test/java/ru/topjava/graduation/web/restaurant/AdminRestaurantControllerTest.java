@@ -7,14 +7,14 @@ import ru.topjava.graduation.model.Restaurant;
 import ru.topjava.graduation.web.AbstractControllerTest;
 
 import static ru.topjava.graduation.data.RestaurantTestData.*;
-import static ru.topjava.graduation.data.UserTestData.ADMIN_1;
+import static ru.topjava.graduation.data.UserTestData.OWNER_1;
 import static ru.topjava.graduation.data.UserTestData.USER;
-import static ru.topjava.graduation.web.Controller.ADMIN_RESTAURANTS_URL;
+import static ru.topjava.graduation.web.Controller.OWNER_RESTAURANTS_URL;
 
 public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     public AdminRestaurantControllerTest() {
-        super(ADMIN_RESTAURANTS_URL);
+        super(OWNER_RESTAURANTS_URL);
     }
 
     @Test
@@ -56,13 +56,13 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     public void createExists() throws Exception {
         Restaurant duplicated = new Restaurant(null, RESTAURANT_1.getName(), RESTAURANT_1.getAddress());
-        expectDuplicated(perform(doPost().jsonBody(duplicated).basicAuth(ADMIN_1)));
+        expectDuplicated(perform(doPost().jsonBody(duplicated).basicAuth(OWNER_1)));
     }
 
     @Test
     public void createInvalid() throws Exception {
         Restaurant invalid = new Restaurant(RESTAURANT_1.getName(), null);
-        expectInvalidEntity(perform(doPost().jsonBody(invalid).basicAuth(ADMIN_1)));
+        expectInvalidEntity(perform(doPost().jsonBody(invalid).basicAuth(OWNER_1)));
     }
 
     @Test
@@ -77,12 +77,12 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void getMy() throws Exception {
-        getAllEntities(null, ADMIN_1, ADMIN_1_RESTAURANTS, RESTAURANTS_MATCHERS);
+        getAllEntities(null, OWNER_1, OWNER_1_RESTAURANTS, RESTAURANTS_MATCHERS);
     }
 
     @Test
     public void getAlien() throws Exception {
-        expectNotFound(perform(doGet(REST_2_ID).basicAuth(ADMIN_1)));
+        expectNotFound(perform(doGet(REST_2_ID).basicAuth(OWNER_1)));
     }
 
     @Test
@@ -92,6 +92,6 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     public void updateInvalid() throws Exception {
-        expectInvalidEntity(perform(doPut(REST_3_ID).jsonBody(INVALID_RESTAURANT).basicAuth(ADMIN_1)));
+        expectInvalidEntity(perform(doPut(REST_3_ID).jsonBody(INVALID_RESTAURANT).basicAuth(OWNER_1)));
     }
 }
